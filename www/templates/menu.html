@@ -1,0 +1,64 @@
+<ion-side-menus enable-menu-with-back-views="false">
+  <ion-side-menu-content>
+    <ion-nav-bar class="bar-stable">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+      <ion-nav-buttons side="left ">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+      </ion-nav-buttons>
+      <ion-nav-buttons side="right">
+        <button class="button button-clear ion-android-more-vertical sigupRight" ng-click="popover.show($event)">
+      </button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-nav-view name="menuContent"></ion-nav-view>
+  </ion-side-menu-content>
+  <ion-side-menu side="left" class="menu-header">
+    <ion-header-bar class="bar-stable">
+
+      <div>
+        <label class="menu-displayName" menu-close ui-sref="app.profile" for="">Customer Name</label>
+        <label class="menu-phn" menu-close ui-sref="app.profile" for="">9769977005</label>
+      </div>
+    </ion-header-bar>
+    <ion-content class="hasmenuhead menu-bgcolor">
+
+      <div class="menu-dash" menu-close ui-sref="app.dashboard" >
+        <label class="menu-label" for="">Dashboard</label>
+      </div>
+      <div class="menu-div" menu-close ui-sref="app.orderhistory">
+        <label class="menu-label" for="">Order History</label>
+      </div>
+      <div class="menu-div" menu-close ui-sref="app.help">
+        <label class="menu-label" for="">Account</label>
+      </div>
+      <hr class="menu-hr">
+      <div class="menu-helpdiv" menu-close ui-sref="app.contactus">
+        <label class="menu-label" for="">Help</label>
+      </div>
+      <!-- <div class="menu-div" menu-close ng-click="logout()">
+        <label class="menu-label" for="">Logout</label>
+      </div> -->
+    </ion-content>
+  </ion-side-menu>
+  <ion-side-menu class=" notify-header noti" side="right">
+
+    <ion-header-bar class="bar-stable">
+      <i class="ion ion-android-close" menu-close></i>
+      <h1 class="title ">Notification</h1>
+    </ion-header-bar>
+    <ion-content class="bg-notify">
+      <div class="card notify-card">
+        <label>Alert</label>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tincidunt, orci in interdum tempus, mauris ligula
+          molestie libero, ac commodo lacus est nec mi. </p>
+      </div>
+      <div class="card notify-card">
+        <label>Alert</label>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tincidunt, orci in interdum tempus, mauris ligula
+          molestie libero, ac commodo lacus est nec mi. </p>
+      </div>
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>

@@ -1,0 +1,84 @@
+<ion-view title="Sign up">
+  <ion-nav-bar class="bar-stable nav-height">
+    <ion-nav-buttons side="left">
+      <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
+        </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <form ng-submit="signup()" name="userForm">
+    <ion-content class="has-header signUpForm hasterms t65">
+      <label for="" class="areyou">Are you a?</label>
+      <div class="row signupradio">
+        <div class="col-33 radio33">
+          <label class="item item-icon-left item-radio">
+          <input type="radio" name="group" ng-model="signupForm.you" >
+          <div class="item-content" style="margin-left:0px">
+            Household
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+        </div>
+        <div class="col-33 radio33">
+          <label class="item item-icon-left item-radio">
+          <input type="radio" name="group" ng-model="signupForm.you" >
+          <div class="item-content">
+            Corporate
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+        </div>
+        <div class="col-33 radio33">
+          <label class="item item-icon-left item-radio">
+          <input type="radio" name="group" ng-model="signupForm.you" >
+          <div class="item-content">
+            Other
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+        </div>
+      </div>
+      <div class="pad10 loginform">
+
+        <div>
+          <label class=" item-input ">
+        <input type="text" placeholder="Full Name"  ng-model="signupForm.name" value="{{signupForm.name}}" name="name" required>
+        </label>
+          <p class="error-msg" ng-show="userForm.name.$error.required && userForm.name.$touched">Please Enter Your Full Name.</p>
+        </div>
+        <div>
+          <label class=" item-input ">
+            <input type="email" placeholder="Email ID" ng-model="signupForm.email" value="{{signupForm.email}}" name="email" required>
+          </label>
+          <p class="error-msg" ng-show="userForm.email.$touched && userForm.email.$invalid">Please Enter your Email ID</p>
+        </div>
+        <div>
+          <label class=" item-input ">
+            <input type="number" placeholder="Mobile Number" ng-model="signupForm.mobile" name="mob"  value="{{signupForm.mobile}}"  required limit-to = "10">
+          </label>
+          <p class="error-msg" ng-show="userForm.mob.$error.required && userForm.mob.$touched">Please Enter your Mobile Number</p>
+        </div>
+        <div>
+          <label class=" item-input ">
+            <input limit-to="6"  type="number" placeholder="Pincode"  ng-model="signupForm.pincode" name="pincode" value="{{signupForm.pincode}}" ng-min="100000" ng-max="999999"  required >
+          </label>
+          <p class="error-msg" ng-show="userForm.pincode.$invalid && userForm.pincode.$touched">Please Enter your Pincode.</p>
+        </div>
+      </div>
+    </ion-content>
+    <div>
+      <li class="item item-checkbox noborder checkbox-assertive borderR chkalign mar10">
+        <span class="ihve">I have read &amp; accepted the</span>
+
+        <span class="termscolor" ng-click="terms.show($event)">  Terms &amp; Conditions</span>
+        <label class="checkbox noborder checkboxterms">
+           <input type="checkbox" class="" ng-model="click" ng-init="click=true">
+        </label>
+      </li>
+    </div>
+    <div class="bar bar-footer signUpFooter footer-height" ng-if="click">
+      <button class="button button-block button-positive footer-font" ng-disabled="userForm.$invalid" type="submit" ui-sref="app.browse">
+        Get Started
+      </button>
+    </div>
+  </form>
+</ion-view>

@@ -1,0 +1,64 @@
+<ion-view title="Enter Your Requirement" ng-init="require=true;plan=false">
+  <ion-nav-bar class="bar-stable schedule-bar  nav-height">
+    <ion-nav-buttons side="left">
+      <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
+        </button>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+  <ion-content class="browse-backgrndcolor">
+    <div class="list card requirecard">
+      <div class="item ">
+        <div class="rq-prdctname">Kinley 20L Jar</div>
+        <div class="rq-rupee">
+          <label for="" class="rq-rupee">₹ <span>90</span></label>
+          <i class="ion rq-arrows" ng-click="require=!require" ng-class="require ? 'ion-arrow-up-b' : 'ion-arrow-down-b'"></i>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="require-accordion inputarea" ng-show="require">
+          <input type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" autofocus focusMe ng-model="subscription" placeholder="Enter the Quantity">
+          <div class="bbtm"></div>
+        </div>
+        <div class="avgTxt" ng-if="require">Rs 150 Deposit Per Jar</div>
+
+      </div>
+      <div class="item">
+        <div>
+          <div class="rq-plan">Regular requirement? Buy a plan and save!</div>
+          <div class="item-note">
+            <i class="ion rq-arrows" ng-click="require=!require" ng-class="!require ? 'ion-arrow-up-b' : 'ion-arrow-down-b'"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <flex-slider class="carousel " animation="slide" flex-slide="p in planArray track by $index" animation-loop="true" item-margin="10" slideshow="false" item-width="120" maxItems="2.5" ng-if="!require">
+      <li class=""  ng-click="highlightPlan($index)" ng-init="p.selected=false">
+        <div class="plancard" ng-class="p.selected ? 'borderplan' : ''">
+          <i class="ion ion-checkmark-circled" ng-show="p.selected"></i>
+          <h3>{{p.quantity}}</h3>
+          <label for="">Jar Plan</label>
+          <div class="rq-circle">₹ {{p.price}}/Jar</div>
+        </div>
+      </li>
+
+    </flex-slider>
+
+  </ion-content>
+  <div class="row btmnote">
+    <div class="col">
+      <i class="ion ion-checkmark-circled"></i>
+      <label for="">Lifetime Validity</label>
+    </div>
+    <div class="col">
+      <i class="ion ion-checkmark-circled"></i>
+      <label for="">No Jar Deposit</label>
+    </div>
+  </div>
+  <div class="bar bar-footer nextFooter footer-height">
+
+    <button class="button button-block button-positive footer-font" ui-sref="app.review">
+      Next
+    </button>
+  </div>
+</ion-view>

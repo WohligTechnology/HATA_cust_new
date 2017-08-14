@@ -1,0 +1,25 @@
+<ion-view>
+  <ion-pane>
+    <div class="landlogo">
+      <div class="logo">
+        <img src="img/logo.png" alt="">
+      </div>
+      <h3>Welcome to HaTa!</h3>
+    </div>
+  </ion-pane>
+  <div class="bar bar-footer phnFooter">
+    <div class="row ">
+      <div class="col-67 ">
+        <div class="spanTextDiv">
+          <span class="phnSpan">+91</span>
+          <input class="phnText" type="number" ng-model="loginInfo.mobile" ng-min="1000000000" ng-max="9999999999" limit-to="10" placeholder="Enter your contact no">
+        </div>
+      </div>
+      <div class="col-33 ">
+        <button class="button button-royal joinBtn" ng-disabled="!loginInfo.mobile" ui-sref="verify">
+          Join us
+        </button>
+      </div>
+    </div>
+  </div>
+</ion-view>

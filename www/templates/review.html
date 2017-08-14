@@ -1,0 +1,62 @@
+<ion-view title="Review &amp; Checkout">
+  <ion-nav-bar class="bar-stable schedule-bar  nav-height">
+    <ion-nav-buttons side="left">
+      <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
+        </button>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="bg-prdct hasfooter t52">
+    <div class="prod-det">
+      <div class="card" ng-repeat="p in product">
+        <div class="item item-text-wrap pad0">
+          <div class="row">
+            <i class="button button-icon icon ion-ios-close-outline review-cancel"></i>
+            <div class="col-33">
+              <div class="prdcticon">
+                <img ng-src="{{p.img}}" alt="">
+              </div>
+
+            </div>
+
+            <div class="col-66">
+              <div class="details-div">
+                <h2>{{p.name}} </h2>
+                <div for="" class="desc" ng-if="!p.plan"><span class="qty">{{p.quantity}} {{p.unit}}s</span><span>Rs. {{p.price}} <span ng-if="p.deposit">+ {{p.deposit}}</span> / {{p.unit}}</span></div>
+                <div for="" class="desc" ng-if="p.plan"><span class="qty">{{p.quantity}} {{p.unit}} plan</span><span>Rs. {{p.price}}/ {{p.unit}}</span></div>
+                <div for="" class="total"><span class="">Total: </span><label for="">Rs.{{p.quantity*(p.price + p.deposit)}}</label></div>
+                <div for="" class="deposit" ng-if="p.deposit">Existing Deposit (<label for="">- Rs.150</label>)</div>
+              </div>
+
+            </div>
+          </div>
+          <div class=" btmrow">
+            <div class="btmorder " ng-if="p.date">Estimated Delivery: <span>{{p.date}}</span></div>
+            <div class="btmorder" ng-if="!p.date">Schedule delivery from dashboard</div>
+          </div>
+
+        </div>
+      </div>
+      <div class="row chkoutcoupon">
+        <div class="col-50">
+          <label for="">Enter coupon code</label>
+        </div>
+        <div class="col-50 chkpadip">
+          <input type="text" placeholder="Type coupon code here">
+        </div>
+      </div>
+
+
+    </div>
+  </ion-content>
+  <div class="bar bar-footer row review-foot">
+    <div class="col addmore" ui-sref="app.browse">
+      <div>Add More</div>
+    </div>
+    <div class="col pay" ui-sref="app.delivery">
+      <div>Pay Rs. 51100 <i class="ion ion-chevron-right"></i></div>
+
+    </div>
+  </div>
+</ion-view>

@@ -1,0 +1,51 @@
+<ion-view title="Browse">
+    <ion-nav-bar class="bar-stable schedule-bar  nav-height">
+        <ion-nav-buttons side="left">
+            <button class="button button-icon button-clear  ion-android-arrow-back  sigupIconLeft " ng-click="goBackHandler()">
+      </button>
+        </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+            <div class="cartbtn" ui-sref="app.review">
+                <img src="img/9.png" alt="">
+            </div>
+            <span class="cartbadge">0</span>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-content class="has-header browse-backgrndcolor">
+        <div class="">
+            <ion-slide-box options="homeSlider.sliderOptions" slider="homeSlider.sliderDelegate" does-continue="true" animation='fade'
+                auto-play="true" effect='fade' slide-interval="{{interval}}" show-pager="true" pager-click="changeSlide(index)"
+                on-slide-changed="slideHasChanged(index)">
+                <ion-slide ng-if="feaprods.length>0" ng-repeat="data in feaprods" [options]="{pager:true}">
+                    <div class="box box1">
+                        <div class=" browse-sliderRow">
+                            <div class="">
+                                <div class="browse-slideImgDiv">
+                                    <img class="browse-sliderImg " ng-src="{{data.bigImage}}" alt="">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </ion-slide>
+            </ion-slide-box>
+            <div class="browse-grid">
+
+                <label for="" class="browse-text">Our Products</label>
+
+                <div class="row" ng-if="product.length>0" ng-repeat="data1 in product" ng-init="outerIndex=$index">
+                    <div class="col-50" ng-repeat="data in data1" ng-init="innerIndex=$index" ui-sref="app.browse-more({category:data.category})">
+                        <div class="browse-card1 card">
+                            <div class="icondiv">
+                                <img ng-src="{{data.catImage }}" alt="">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </ion-content>
+</ion-view>
