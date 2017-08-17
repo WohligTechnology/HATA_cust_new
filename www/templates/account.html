@@ -1,0 +1,78 @@
+<ion-view title="Account">
+  <ion-nav-bar class="bar-stable nav-height">
+    <ion-nav-buttons side="left">
+      <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
+        </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <form  name="userForm">
+    <ion-content class="has-header signUpForm has-footer t52">
+
+      <div class="pad10 loginform">
+
+        <div>
+          <label class=" item-input ">
+        <input type="text" placeholder="Full Name"  ng-model="signupForm.name" value="{{signupForm.name}}" name="name" required>
+        </label>
+          <p class="error-msg" ng-show="userForm.name.$error.required && userForm.name.$touched">Please Enter Your Full Name.</p>
+        </div>
+
+        <div>
+          <label class=" item-input ">
+            <input type="email" placeholder="Email ID" ng-model="signupForm.email" value="{{signupForm.email}}" name="email" required>
+          </label>
+          <p class="error-msg" ng-show="userForm.email.$touched && userForm.email.$invalid">Please Enter your Email ID</p>
+        </div>
+
+        <div>
+          <label class=" item-input ">
+            <input type="number" placeholder="Landline Number" ng-model="signupForm.landline" name="landline"  value="{{signupForm.landline}}"  required limit-to = "11">
+          </label>
+          <p class="error-msg" ng-show="userForm.landline.$error.required && userForm.landline.$touched">Please Enter your Landline Number</p>
+        </div>
+
+        <div>
+          <label class=" item-input ">
+            <input type="number" placeholder="Mobile Number" ng-model="signupForm.mobile" name="mob"  value="{{signupForm.mobile}}"  required limit-to = "10">
+          </label>
+          <p class="error-msg" ng-show="userForm.mob.$error.required && userForm.mob.$touched">Please Enter your Mobile Number</p>
+        </div>
+
+        <div>
+          <label class=" item-input ">
+            <input type="text" placeholder="Delivery Address " ng-model="signupForm.deliveryadd" name="deliveryadd"  value="{{signupForm.deliveryadd}}"  required>
+          </label>
+          <p class="error-msg" ng-show="userForm.deliveryadd.$error.required && userForm.deliveryadd.$touched">Please Enter your Delivery Address </p>
+        </div>
+
+        <div>
+          <label class=" item-input ">
+            <input limit-to="6"  type="number" placeholder="Pincode"  ng-model="signupForm.pincode" name="pincode" value="{{signupForm.pincode}}" ng-min="100000" ng-max="999999"  required >
+          </label>
+          <p class="error-msg" ng-show="userForm.pincode.$invalid && userForm.pincode.$touched">Please Enter your Pincode.</p>
+        </div>
+
+        <div>
+          <label class=" item-input ">
+            <input  type="text" placeholder="GST Number" class="text-uppercase" ng-model="signupForm.gst" name="gst" value="{{signupForm.gst}}" minlength="15" maxlength="15"  required >
+          </label>
+          <p class="error-msg" ng-show="userForm.gst.$invalid && userForm.gst.$touched">Please Enter your GST Number.</p>
+        </div>
+
+        <div>
+          <label class=" item-input ">
+            <input type="text" placeholder="Registered Address" ng-model="signupForm.regstredAdd" name="regstredAdd"  value="{{signupForm.regstredAdd}}" required >
+          </label>
+          <p class="error-msg" ng-show="userForm.regstredAdd.$error.required && userForm.regstredAdd.$touched">Please Enter your Registered Address</p>
+        </div>
+
+      </div>
+    </ion-content>
+
+    <div class="bar bar-footer signUpFooter footer-height" >
+      <button class="button button-block button-positive footer-font" ng-disabled="userForm.$invalid" type="submit" ui-sref="app.payment">
+        Save
+      </button>
+    </div>
+  </form>
+</ion-view>

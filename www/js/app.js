@@ -118,33 +118,83 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
         }
       })
       .state('app.orderhistory', {
-          url: '/orderhistory',
+        url: '/orderhistory',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/orderhistory.html',
+            controller: 'OrderhistoryCtrl'
+          }
+        }
+      })
+      .state('app.order-detail', {
+        url: '/order-detail/:orderId',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/order-detail.html',
+            controller: 'OrderDetailCtrl'
+          }
+        }
+      })
+      .state('app.deliveryhistory', {
+        url: '/deliveryhistory/:orderId',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/deliveryhistory.html',
+            controller: 'DeliveryHistoryCtrl'
+          }
+        }
+      })
+      .state('app.dashboard', {
+        cache: false,
+        url: '/dashboard',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/dashboard.html',
+            controller: 'DashboardCtrl'
+          }
+        }
+      })
+      .state('app.schedule', {
+          url: '/schedule',
+          cache: false,
           views: {
               'menuContent': {
-                  templateUrl: 'templates/orderhistory.html',
-                  controller: 'OrderhistoryCtrl'
+                  templateUrl: 'templates/schedule.html',
+                  controller: 'ScheduleCtrl'
               }
           }
       })
-      .state('app.order-detail', {
-           url: '/order-detail/:orderId',
-           views: {
-               'menuContent': {
-                   templateUrl: 'templates/order-detail.html',
-                   controller: 'OrderDetailCtrl'
-               }
-           }
-       })
-      .state('app.deliveryhistory', {
-           url: '/deliveryhistory/:orderId',
-           views: {
-               'menuContent': {
-                   templateUrl: 'templates/deliveryhistory.html',
-                   controller: 'DeliveryHistoryCtrl'
-               }
-           }
-       })
-    // if none of the above states are matched, use this as the fallback
+      .state('app.thankyou', {
+        cache: false,
+        url: '/thankyou',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/thankyou.html',
+            controller: 'ThankyouCtrl'
+          }
+        }
+      })
+      .state('app.help', {
+        cache: false,
+        url: '/help',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/help.html',
+            controller: 'HelpCtrl'
+          }
+        }
+      })
+      .state('app.account', {
+        cache: false,
+        url: '/account',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/account.html',
+            controller: 'AccountCtrl'
+          }
+        }
+      })
+      // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/landing');
   })
   .directive('focusMe', function($timeout) {

@@ -1,0 +1,62 @@
+<ion-view title="Dashboard">
+  <ion-nav-bar class="bar-stable nav-height">
+    <ion-nav-buttons side="left">
+      <button class="button button-icon button-clear ion-navicon sigupIconLeft disblock" menu-toggle="left">
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+      <button class="button button-clear ion-ios-bell header-bellFont disblock" menu-toggle="right">
+        </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content class="has-header bg-dashboard">
+
+    <div class="dashslider">
+      <flex-slider class=" " animation="slide" flex-slide="p in dasharray track by $index" animation-loop="false" item-margin="37" item-width="{{flexwidth}}" slideshow="false" maxItems="">
+        <li class="">
+          <div class="card">
+            <label for="" class="prod-name">{{p.name}} {{p.unit}} Balance</label>
+            <label class="baltxt" >{{p.balance}}</label>
+            <button class="button del-his-btn ">
+               Delivery History
+            </button>
+          </div>
+        </li>
+      </flex-slider>
+    </div>
+    <div class="card jarcard">
+      <div class="row">
+        <div class="col-66">
+          <div class="datediv">
+
+            <!-- <label class="card-label" for="" >Schedule your first Delivery</label> -->
+            <label class="date-text" for="">We'll be in your area on</label>
+            <!-- <label class="card-label" for="" >Delivery Scheduled for</label> -->
+            <!-- <span class="cardDayspan" >{{lastJarBal.deliverdate2 | date :'EEEE'}} </span> -->
+            <!-- <span class="cardDate" >{{lastJarBal.deliverdate2 | date :'MMMM dd,'}}</span> -->
+            <span class="cardDayspan">Wednesday,</span>
+            <span class="cardDate"> March 29.</span>
+          </div>
+
+          <button class="button card-schedule" ui-sref="app.schedule">
+             Schedule delivery
+          </button>
+          <!-- <button class="button card-schedule" ng-click="cancelJarDelivery()">
+             Cancel delivery
+          </button> -->
+        </div>
+        <div class="col-33">
+          <div class="card-imgDiv">
+            <img class="card-img img-responsive" src="img/bisleri.png" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card bmore">
+      <div class="item item-text-wrap" ui-sref='app.browse'>
+        Browse More Products
+      </div>
+    </div>
+  </ion-content>
+
+</ion-view>

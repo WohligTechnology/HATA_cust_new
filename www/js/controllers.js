@@ -1,6 +1,6 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['starter.services'])
 
-.controller('AppCtrl', function($scope, $stateParams, $ionicPopover) {
+.controller('AppCtrl', function($scope, $stateParams, $ionicPopover, $ionicSideMenuDelegate) {
     $scope.goBackHandler = function() {
       window.history.back(); //This works
     };
@@ -15,6 +15,12 @@ angular.module('starter.controllers', [])
     $scope.closePopover = function() {
       $scope.terms.hide();
     };
+    $scope.$on('$ionicView.enter', function() {
+      $ionicSideMenuDelegate.canDragContent(false);
+    });
+    $scope.$on('$ionicView.leave', function() {
+      $ionicSideMenuDelegate.canDragContent(true);
+    });
   })
   .controller('LandingCtrl', function($scope, $stateParams) {})
   .controller('VerifyCtrl', function($scope, $stateParams) {})
@@ -207,7 +213,7 @@ angular.module('starter.controllers', [])
     }];
   })
   .controller('DeliveryHistoryCtrl', function($scope, $stateParams) {
-    var jarBalance=4;
+    var jarBalance = 4;
     $scope.delivery = [{
       name: "Kinley 20L Jar",
       date: "February 21, 2017",
@@ -230,7 +236,7 @@ angular.module('starter.controllers', [])
         jarBalance = jarBalance + value.productQuantity;
         value.balance = jarBalance;
 
-      } else  {
+      } else {
 
         jarBalance = jarBalance - value.QuantityDelivered;
         value.balance = jarBalance;
@@ -238,4 +244,33 @@ angular.module('starter.controllers', [])
       }
 
     });
-  });
+  })
+  .controller('DashboardCtrl', function($scope, $window, $stateParams) {
+    $scope.dasharray = [{
+      name: "20L Kinley",
+      unit: "Jar",
+      balance: 40
+    }, {
+      name: "Kinley (1 Liter)",
+      unit: "Carton",
+      balance: 40
+    }];
+    $scope.flexwidth = $window.innerWidth - 45;
+
+  })
+  .controller('ScheduleCtrl', function($scope, $window,$stateParams) {
+    $scope.flexwidth = $window.innerWidth;
+    $scope.CurrentDate = new Date();
+    $scope.getDateArry = [];
+    for (var i = 1; i <= 30; i++) {
+      $scope.newDate=$scope.CurrentDate.setDate($scope.CurrentDate.getDate() + 1);
+      if(new Date($scope.newDate).getDay!=0){
+        $scope.getDateArry.push($scope.newDate);
+      }
+    }
+    $scope.getDateArry = _.chunk($scope.getDateArry, 7);
+    console.log("$scope.getDateArry",$scope.getDateArry);
+  })
+  .controller('ThankyouCtrl', function($scope, $stateParams) {})
+  .controller('HelpCtrl', function($scope, $stateParams) {})
+  .controller('AccountCtrl', function($scope, $stateParams) {});

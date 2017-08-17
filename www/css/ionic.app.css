@@ -9818,6 +9818,9 @@ a.button {
 .hasfooter {
   bottom: 50px !important; }
 
+.text-uppercase {
+  text-transform: uppercase; }
+
 .landlogo {
   height: auto;
   width: 60%;
@@ -10597,7 +10600,7 @@ a.button {
 .conirfmline {
   display: block;
   color: #6d797e;
-  font-size: 20px; }
+  font-size: 18px; }
 
 .menu-header .menu .bar-header {
   height: 200px;
@@ -10743,12 +10746,12 @@ a.button {
 
 .hasorder-foot {
   margin-bottom: 30px !important;
-  margin-top: 15px; }
+  margin-top: 15px !important; }
 
 .earning-Date {
   font-size: 12px;
   display: block;
-  padding: 3px 20px; }
+  padding: 10px 20px; }
 
 .jarpahistory {
   padding: 15px 25px; }
@@ -10772,3 +10775,385 @@ a.button {
 
 .brorder {
   border-right: 1px solid #abb1b5; }
+
+.bg-dashboard {
+  background: #f2f4f5;
+  top: 54px; }
+
+.jarcard {
+  height: auto; }
+  .jarcard row {
+    padding: 10px; }
+
+.date-text {
+  font-size: 16px;
+  margin-top: 15px;
+  display: block;
+  font-weight: 400;
+  color: #515050; }
+
+.cardDayspan {
+  font-size: 18px;
+  font-weight: 500; }
+
+.cardDate {
+  font-size: 18px;
+  color: #ff414d;
+  font-weight: 500; }
+
+.card-imgDiv {
+  width: 100%;
+  padding: 15px; }
+  .card-imgDiv img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-clip: padding-box;
+    display: block; }
+
+.card-schedule {
+  min-height: 30px;
+  line-height: 20px;
+  margin: 15px 0 20px 10px;
+  border-radius: 50px;
+  background: #223c48;
+  font-weight: 600;
+  color: white;
+  font-size: 14px; }
+
+.datediv {
+  margin-left: 10px; }
+
+.bmore {
+  display: block;
+  margin: 10% 15%;
+  text-align: center;
+  padding: 8px; }
+  .bmore .item {
+    font-weight: 600; }
+
+.header-bellFont {
+  color: #091b27 !important;
+  font-size: 32px !important;
+  padding: 0 12px 0 0 !important;
+  display: block; }
+
+.dashslider .card {
+  margin: 10px !important;
+  text-align: center;
+  padding: 40px 20px 20px;
+  border-radius: 10px; }
+  .dashslider .card .baltxt {
+    color: #223c4d;
+    font-size: 76px;
+    display: block;
+    font-weight: 600;
+    line-height: 76px; }
+  .dashslider .card .prod-name {
+    color: #223c4d;
+    font-size: 16px; }
+
+.dashslider ul {
+  margin-left: 20px; }
+
+.dashslider li {
+  margin-right: 0 !important; }
+
+.dashslider li + li .card {
+  margin-left: 0 !important; }
+
+.dashslider .flexslider {
+  padding: 0;
+  margin-bottom: 40px;
+  background: transparent !important;
+  border: transparent !important; }
+
+.dashslider .flex-control-nav {
+  display: block;
+  bottom: -30px !important; }
+
+.dashslider .flex-direction-nav {
+  display: block !important; }
+
+.dashslider .flex-active {
+  background: #bcbcbc !important; }
+
+.dashslider .flex-control-paging li a {
+  background: #d8d8d8; }
+
+.dashslider .flex-direction-nav a:before {
+  font-size: 18px; }
+
+.dashslider .flex-prev {
+  left: 10px !important;
+  top: 45% !important; }
+
+.dashslider .flex-next {
+  right: -7px !important;
+  top: 45% !important; }
+
+.dashslider .flex-direction-nav a.flex-prev:before {
+  content: "" !important;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid black; }
+
+.dashslider .flex-direction-nav a.flex-next:before {
+  content: "" !important;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid black; }
+
+.mainslide {
+  height: 500px; }
+
+.del-his-btn {
+  min-height: 30px;
+  line-height: 20px;
+  border-radius: 50px;
+  background: #ff414d;
+  font-weight: 600;
+  color: white;
+  font-size: 14px; }
+
+.ionic_Calendar {
+  background: white; }
+
+.ionic_Calendar .calendar_Date .row.Daysheading {
+  text-align: center;
+  margin: 0;
+  padding: 0 28px; }
+
+.ionic_Calendar .txtCenter {
+  text-align: center; }
+
+.ionic_Calendar .col.selMonth {
+  background-color: white;
+  color: black; }
+
+.ionic_Calendar .col.selDate {
+  background-color: #ff414d;
+  color: white; }
+
+.ionic_Calendar .col.selYear {
+  background-color: white;
+  color: black; }
+
+.col.fadeYear,
+.ionic_Calendar .col.fadeDateDisp {
+  background-color: white;
+  color: white;
+  visibility: hidden; }
+
+.ionic_Calendar .DaysDisplay .col {
+  border: 1px solid transparent;
+  font-weight: 400;
+  font-size: 22px;
+  text-align: center; }
+
+.ionic_Calendar .DaysDisplay.row {
+  padding-left: 0;
+  padding-right: 0; }
+
+.ionic_Calendar .MonthsDisplay.row {
+  padding-left: 0;
+  padding-right: 0; }
+
+.ionic_Calendar .MonthsDisplay .col {
+  border: 1px solid transparent;
+  padding-top: 30px;
+  font-size: 18px;
+  height: 80px; }
+
+.ionic_Calendar .YearsDisplay.row {
+  padding-left: 0;
+  padding-right: 0; }
+
+.ionic_Calendar .YearsDisplay .col {
+  border: 1px solid transparent;
+  padding-top: 30px;
+  font-size: 18px;
+  height: 80px; }
+
+.ionic_Calendar .marginTop0 {
+  margin-top: 0 !important; }
+
+.ionic_Calendar .paddingBottom0 {
+  padding-bottom: 0 !important; }
+
+.ionic_Calendar .Daysheading_Label .col {
+  padding-bottom: 0 !important; }
+
+.arrowcal {
+  font-size: 24px;
+  padding: 16px 0; }
+
+.txtleft {
+  text-align: left; }
+
+.txtright {
+  text-align: right; }
+
+.monthtext {
+  font-size: 28px;
+  padding: 18px 0;
+  color: #ff414d; }
+
+.redsun {
+  color: #ff414d; }
+
+.timeslot .row {
+  padding: 0; }
+  .timeslot .row .col {
+    padding: 20px;
+    text-align: center; }
+
+.deliverday {
+  border-bottom: 1px solid #ff414d !important; }
+
+.time-highlight {
+  background: #ff414d;
+  color: white; }
+
+.cal-div {
+  padding: 15px; }
+  .cal-div h2 {
+    font-size: 32px;
+    font-weight: 500;
+    text-align: center;
+    display: block;
+    color: #ff414d; }
+
+.sun {
+  color: #ff414d; }
+
+.selected {
+  background: #ff414d;
+  border: none;
+  color: white; }
+
+.dates {
+  text-align: center;
+  display: block;
+  font-size: 13px; }
+
+.date-under {
+  border-bottom: 1px solid #ff414d; }
+
+.datenote {
+  font-size: 11px !important;
+  margin-right: 12px; }
+
+.schedule-head {
+  text-align: center;
+  display: block;
+  margin-top: 20px;
+  color: #213133;
+  font-size: 20px;
+  font-weight: 600; }
+
+.jars-card {
+  text-align: center;
+  box-shadow: none;
+  padding: 0 !important; }
+  .jars-card .card .item:last-child,
+  .jars-card .list-inset .item:last-child {
+    padding: 10px !important; }
+
+.jar-label {
+  font-size: 18px;
+  font-weight: 500; }
+
+.jarcount {
+  font-size: 28px;
+  vertical-align: middle; }
+
+.jars-button {
+  display: inline-block;
+  font-size: 38px;
+  color: #ff414d;
+  vertical-align: middle;
+  background: transparent;
+  border: none; }
+
+.jarsch-button {
+  display: block;
+  text-align: center;
+  margin: 20px auto 50px;
+  line-height: 20px;
+  min-height: 40px;
+  min-width: 115px;
+  border-radius: 0; }
+
+.calflex li {
+  margin-right: 0 !important; }
+
+.calflex li + li .card {
+  margin-left: 0 !important; }
+
+.calflex .flexslider {
+  padding: 0;
+  margin-bottom: 10px;
+  background: transparent !important;
+  border: transparent !important; }
+
+.calflex .flex-direction-nav {
+  display: block !important; }
+
+.calflex .flex-direction-nav a:before {
+  font-size: 18px; }
+
+.calflex .flex-prev {
+  left: 10px !important;
+  top: 20% !important; }
+
+.calflex .flex-next {
+  right: -7px !important;
+  top: 20% !important; }
+
+.col-16 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 16%;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 16%;
+  -ms-flex: 0 0 16%;
+  flex: 0 0 16%;
+  max-width: 16%; }
+
+.contact-card {
+  padding: 7%;
+  box-shadow: none;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translate(0, -50%); }
+
+.contact-hata-btn a {
+  width: 90%;
+  height: 30px;
+  border-radius: 0;
+  line-height: 35px;
+  min-height: 40px;
+  margin: 10px; }
+
+.contact-hata-btn .icon-left:before {
+  float: none;
+  padding-right: 0.5em;
+  line-height: 30px; }
+
+.contact-bg {
+  background: #f2f4f5; }
+
+.or-contact {
+  color: grey;
+  font-size: 12px;
+  margin: 10px; }
+
+.helpmail {
+  text-decoration: none;
+  font-size: 16px; }
