@@ -14,7 +14,7 @@
           <flex-slider class=" " animation="slide" flex-slide="rowVal in getDateArry  track by $index" animation-loop="false" item-margin="" item-width="{{flexwidth}}" slideshow="false" maxItems="7">
             <li class="">
               <div class="row Daysheading DaysDisplay" ng-class="{'marginTop0':$first}">
-                <div class="col-16" ng-repeat="colVal in rowVal  track by $index" ng-init="dateIndex = $index" ng-class="{'fadeDateDisp':(colVal.type == 'oldMonth' || colVal.type == 'newMonth'), 'redsun':(dateIndex == 0), 'deliverday':(days[dateIndex].value == true && getDateStatus(colVal.fullDate) ),'notavailDate':(days[dateIndex].value == false || !getDateStatus(colVal.fullDate)),'selDate':(colVal.date == displayDate && colVal.type == 'currentMonth'  && getDateStatus(colVal.fullDate)) }">
+                <div class="col-14" ng-repeat="colVal in rowVal  track by $index" ng-init="dateIndex = $index" ng-class="{'fadeDateDisp':(colVal.type == 'oldMonth' || colVal.type == 'newMonth'), 'redsun':(dateIndex == 0), 'deliverday':(days[dateIndex].value == true && getDateStatus(colVal.fullDate) ),'notavailDate':(days[dateIndex].value == false || !getDateStatus(colVal.fullDate)),'selDate':(colVal.date == displayDate && colVal.type == 'currentMonth'  && getDateStatus(colVal.fullDate)) }">
                   <div class="" ng-if="days[dateIndex].value " ng-click="selectedDateClick(colVal)">
                     {{colVal | date:'MMM'}} <br> {{colVal | date:'dd'}}
                   </div>
@@ -28,7 +28,7 @@
         </div>
 
         <div class="row Daysheading Daysheading_Label" style="background-color: transparent;  color: black">
-          <!-- <div class="col redsun">Sun</div> -->
+          <div class="col redsun">Sun</div>
           <div class="col">Mon</div>
           <div class="col">Tue</div>
           <div class="col">Wed</div>

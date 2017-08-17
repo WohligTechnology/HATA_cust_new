@@ -261,10 +261,15 @@ angular.module('starter.controllers', ['starter.services'])
   .controller('ScheduleCtrl', function($scope, $window,$stateParams) {
     $scope.flexwidth = $window.innerWidth;
     $scope.CurrentDate = new Date();
+    $scope.CurrentDay = new Date().getDay();
+    console.log("$scope.CurrentDay",$scope.CurrentDay);
     $scope.getDateArry = [];
+    for (var j = 1; j < $scope.CurrentDay; j++) {
+        $scope.getDateArry.push("");
+    }
     for (var i = 1; i <= 30; i++) {
       $scope.newDate=$scope.CurrentDate.setDate($scope.CurrentDate.getDate() + 1);
-      if(new Date($scope.newDate).getDay!=0){
+      if(new Date($scope.newDate).getDay!=7){
         $scope.getDateArry.push($scope.newDate);
       }
     }
