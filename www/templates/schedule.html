@@ -1,25 +1,43 @@
 <ion-view title="Schedule Delivery">
   <ion-nav-bar class="bar-stable nav-height">
     <ion-nav-buttons side="left">
-      <button class="button button-icon button-clear ion-navicon sigupIconLeft disblock" menu-toggle="left">
+      <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
         </button>
     </ion-nav-buttons>
 
   </ion-nav-bar>
-  <ion-content class="has-header ion-contentcolor">
+  <ion-content class="has-header schedule-bg">
+    <div class="card jars-card list ">
+      <div class="item " ng-repeat="pr in productArray track by $index">
+          <label class="jar-label" for="">{{pr.name}} {{pr.unit}}</label>
+        <div class="add-div" ng-if="pr.unit=='Jar'">
+          <button class="ion ion-minus-circled jars-button" ng-click="pr.quantity=pr.quantity-1" ng-disabled="pr.quantity<=0"></button>
+          <label class="jarcount" >{{pr.quantity}}</label>
+          <button class="ion  ion-plus-circled jars-button" ng-click="pr.quantity=pr.quantity+1" ng-disabled="pr.quantity>=pr.limit"></button>
+        </div>
+        <div class="add-div" ng-if="pr.unit!='Jar'">
+          <button class="ion ion-minus-circled jars-button" ng-click="pr.quantity=pr.quantity-1" ng-hide="pr.quantity<=0"></button>
+          <label class="jarcount" ng-if="pr.quantity>0">{{pr.quantity}}</label>
+          <button class="ion  ion-plus-circled jars-button" ng-click="pr.quantity=pr.quantity+1" ng-disabled="pr.quantity>=pr.limit"></button>
+        </div>
+      </div>
+    </div>
     <div class="ionic_Calendar card">
       <div class="calendar_Date">
         <label for="" class="schedule-head">Select a Date &amp; Time</label>
         <div class="calflex">
-          <flex-slider class=" " animation="slide" flex-slide="rowVal in getDateArry  track by $index" animation-loop="false" item-margin="" item-width="{{flexwidth}}" slideshow="false" maxItems="7">
+          <flex-slider class=" " animation="slide" flex-slide="rowVal in getDateArray  track by $index" animation-loop="false" item-margin=""
+            item-width="{{flexwidth}}" slideshow="false" maxItems="7">
             <li class="">
               <div class="row Daysheading DaysDisplay" ng-class="{'marginTop0':$first}">
-                <div class="col-14" ng-repeat="colVal in rowVal  track by $index" ng-init="dateIndex = $index" ng-class="{'fadeDateDisp':(colVal.type == 'oldMonth' || colVal.type == 'newMonth'), 'redsun':(dateIndex == 0), 'deliverday':(days[dateIndex].value == true && getDateStatus(colVal.fullDate) ),'notavailDate':(days[dateIndex].value == false || !getDateStatus(colVal.fullDate)),'selDate':(colVal.date == displayDate && colVal.type == 'currentMonth'  && getDateStatus(colVal.fullDate)) }">
-                  <div class="" ng-if="days[dateIndex].value " ng-click="selectedDateClick(colVal)">
-                    {{colVal | date:'MMM'}} <br> {{colVal | date:'dd'}}
+                <div class="col-14" ng-repeat="colVal in rowVal  track by $index" ng-init="dateIndex = $index" ng-class="{ 'redsun':(dateIndex == 0), 'deliverday':(days[dateIndex].value == true && getDateStatus(colVal.fullDate) ),'notavailDate':(colVal.available == false || colVal.status==false) }">
+                  <div class="" ng-if="colVal.available" ng-click="selectDate(colVal.date)">
+                    <span>{{colVal.date | date:'MMM'}}</span> <br> <span class="calDate" ng-class="{'selDate':(colVal.selected == true) }">{{colVal.date | date:'dd'}}</span>
+                    <br><span class="calDay">{{colVal.date | date:'EEE'}}</span>
                   </div>
-                  <div class="" ng-if="!days[dateIndex].value">
-                    {{colVal | date:'MMM'}} <br> {{colVal | date:'dd'}}
+                  <div class="" ng-if="!colVal.available">
+                    <span>{{colVal.date | date:'MMM'}}</span> <br> <span class="calDate">{{colVal.date | date:'dd'}}</span>
+                    <br><span class="calDay">{{colVal.date | date:'EEE'}}</span>
                   </div>
                 </div>
               </div>
@@ -27,7 +45,7 @@
           </flex-slider>
         </div>
 
-        <div class="row Daysheading Daysheading_Label" style="background-color: transparent;  color: black">
+        <!-- <div class="row Daysheading Daysheading_Label" style="background-color: transparent;  color: black">
           <div class="col redsun">Sun</div>
           <div class="col">Mon</div>
           <div class="col">Tue</div>
@@ -35,11 +53,11 @@
           <div class="col">Thu</div>
           <div class="col">Fri</div>
           <div class="col">Sat</div>
-        </div>
+        </div> -->
 
       </div>
-      <div class="m10 time-row rel timeslot">
-        <div class="row no-pad " ng-init="calendarData.delivertime='8 AM to 1 PM'" >
+      <div class=" time-row rel timeslot">
+        <div class="row no-pad " ng-init="calendarData.delivertime='8 AM to 1 PM'">
           <div class="col " ng-click="calendarData.delivertime = '8 AM to 1 PM' " ng-class="{'time-highlight' : calendarData.delivertime == '8 AM to 1 PM'}">
             8 AM to 1 PM
           </div>
@@ -49,27 +67,11 @@
           </div>
         </div>
       </div>
-      <!-- <p class="item-note datenote">*we're available on highlighted days only </p> -->
 
     </div>
 
-    <div class="card m10 time-row rel timeslot">
 
-
-    </div>
-    <div class="card jars-card ">
-      <div class="item ">
-        <div>
-          <label class="jar-label" for="">How many jars do you need? </label>
-        </div>
-        <div ng-init="calendarData.Quantity=0">
-          <button class="ion ion-minus-circled jars-button" ng-click="calendarData.Quantity=calendarData.Quantity-1" ng-disabled="calendarData.Quantity<=0"></button>
-          <span class="jarcount">{{calendarData.Quantity}}</span>
-          <button class="ion  ion-plus-circled jars-button" ng-click="calendarData.Quantity=calendarData.Quantity+1" ng-disabled="calendarData.Quantity>=limitQuantity"></button>
-        </div>
-      </div>
-    </div>
-    <button class="button button-positive jarsch-button" ng-click="scheduleDelivery(calendarData)" ng-disabled="calendarData.Quantity==0 ">
+    <button class="button button-positive jarsch-button" ui-sref="app.thankyou">
         <!-- <button class="button button-positive jarsch-button" ui-sref='app.confirmation'> -->
       Schedule
     </button>

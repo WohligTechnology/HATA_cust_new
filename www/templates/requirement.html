@@ -8,32 +8,33 @@
   </ion-nav-bar>
   <ion-content class="browse-backgrndcolor">
     <div class="list card requirecard">
-      <div class="item ">
+      <div class="item bbnone" ng-click="require=!require">
         <div class="rq-prdctname">Kinley 20L Jar</div>
         <div class="rq-rupee">
-          <label for="" class="rq-rupee">₹ <span>90</span></label>
-          <i class="ion rq-arrows" ng-click="require=!require" ng-class="require ? 'ion-arrow-up-b' : 'ion-arrow-down-b'"></i>
+          <label for="" class="rq-rupee" ng-if="require">₹ <span>90</span></label>
+          <i class="ion rq-arrows" ng-class="require ? 'ion-arrow-up-b' : 'ion-arrow-down-b'"></i>
         </div>
-        <div class="clearfix"></div>
-
-        <div class="require-accordion inputarea" ng-show="require">
-          <input type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" autofocus focusMe ng-model="subscription" placeholder="Enter the Quantity">
+      </div>
+      <div ng-if="require" class="inputcard">
+        <div class="require-accordion inputarea" >
+          <input type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+            ng-model="subscription" placeholder="Enter the Quantity">
           <div class="bbtm"></div>
         </div>
         <div class="avgTxt" ng-if="require">Rs 150 Deposit Per Jar</div>
-
       </div>
-      <div class="item">
+      <div class="item" ng-click="require=!require">
         <div>
-          <div class="rq-plan">Regular requirement? Buy a plan and save!</div>
+          <div class="rq-plan"> Buy a plan and save!</div>
           <div class="item-note">
-            <i class="ion rq-arrows" ng-click="require=!require" ng-class="!require ? 'ion-arrow-up-b' : 'ion-arrow-down-b'"></i>
+            <i class="ion rq-arrows" ng-class="!require ? 'ion-arrow-up-b' : 'ion-arrow-down-b'"></i>
           </div>
         </div>
       </div>
     </div>
-    <flex-slider class="carousel " animation="slide" flex-slide="p in planArray track by $index" animation-loop="true" item-margin="10" slideshow="false" item-width="120" maxItems="2.5" ng-if="!require">
-      <li class=""  ng-click="highlightPlan($index)" ng-init="p.selected=false">
+    <flex-slider class="carousel " animation="slide" flex-slide="p in planArray track by $index" animation-loop="true" item-margin="10"
+      slideshow="false" item-width="120" maxItems="2.5" ng-if="!require">
+      <li class="" ng-click="highlightPlan($index)" ng-init="p.selected=false">
         <div class="plancard" ng-class="p.selected ? 'borderplan' : ''">
           <i class="ion ion-checkmark-circled" ng-show="p.selected"></i>
           <h3>{{p.quantity}}</h3>

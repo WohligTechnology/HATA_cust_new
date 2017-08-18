@@ -5,13 +5,13 @@
         </button>
     </ion-nav-buttons>
   </ion-nav-bar>
-  <form ng-submit="signup()" name="userForm">
+  <form ng-submit="saveUser(signupForm)" name="userForm">
     <ion-content class="has-header signUpForm hasterms t65">
       <label for="" class="areyou">Are you a?</label>
       <div class="row signupradio">
         <div class="col-33 radio33">
           <label class="item item-icon-left item-radio">
-          <input type="radio" name="group" ng-model="signupForm.you" >
+          <input type="radio" name="group" ng-model="signupForm.you" value="Household">
           <div class="item-content" style="margin-left:0px">
             Household
           </div>
@@ -20,7 +20,7 @@
         </div>
         <div class="col-33 radio33">
           <label class="item item-icon-left item-radio">
-          <input type="radio" name="group" ng-model="signupForm.you" >
+          <input type="radio" name="group" ng-model="signupForm.you" value="Corporate">
           <div class="item-content">
             Corporate
           </div>
@@ -29,7 +29,7 @@
         </div>
         <div class="col-33 radio33">
           <label class="item item-icon-left item-radio">
-          <input type="radio" name="group" ng-model="signupForm.you" >
+          <input type="radio" name="group" ng-model="signupForm.you" value="Other">
           <div class="item-content">
             Other
           </div>
@@ -76,7 +76,7 @@
       </li>
     </div>
     <div class="bar bar-footer signUpFooter footer-height" ng-if="click">
-      <button class="button button-block button-positive footer-font" ng-disabled="userForm.$invalid" type="submit" ui-sref="app.browse">
+      <button class="button button-block button-positive footer-font" ng-disabled="userForm.$invalid" type="submit" >
         Get Started
       </button>
     </div>

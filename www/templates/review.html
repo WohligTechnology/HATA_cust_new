@@ -9,10 +9,10 @@
 
   <ion-content class="bg-prdct hasfooter t52">
     <div class="prod-det">
-      <div class="card" ng-repeat="p in product">
+      <div class="card" ng-repeat="p in product" ng-if="product.length!=0">
         <div class="item item-text-wrap pad0">
           <div class="row">
-            <i class="button button-icon icon ion-ios-close-outline review-cancel"></i>
+            <i class="button button-icon icon ion-ios-close-outline review-cancel" ng-click="removeProduct(p)"></i>
             <div class="col-33">
               <div class="prdcticon">
                 <img ng-src="{{p.img}}" alt="">
@@ -23,7 +23,8 @@
             <div class="col-66">
               <div class="details-div">
                 <h2>{{p.name}} </h2>
-                <div for="" class="desc" ng-if="!p.plan"><span class="qty">{{p.quantity}} {{p.unit}}s</span><span>Rs. {{p.price}} <span ng-if="p.deposit">+ {{p.deposit}}</span> / {{p.unit}}</span></div>
+                <div for="" class="desc" ng-if="!p.plan"><span class="qty">{{p.quantity}} {{p.unit}}s</span><span>Rs. {{p.price}} <span ng-if="p.deposit">+ {{p.deposit}}</span> / {{p.unit}}</span>
+                </div>
                 <div for="" class="desc" ng-if="p.plan"><span class="qty">{{p.quantity}} {{p.unit}} plan</span><span>Rs. {{p.price}}/ {{p.unit}}</span></div>
                 <div for="" class="total"><span class="">Total: </span><label for="">Rs.{{p.quantity*(p.price + p.deposit)}}</label></div>
                 <div for="" class="deposit" ng-if="p.deposit">Existing Deposit (<label for="">- Rs.150</label>)</div>
@@ -38,7 +39,10 @@
 
         </div>
       </div>
-      <div class="row chkoutcoupon">
+      <div class="card no-product"  ng-if="product.length==0">
+        There is no product
+      </div>
+      <div class="row chkoutcoupon" ng-if="product.length!=0">
         <div class="col-50">
           <label for="">Enter coupon code</label>
         </div>
@@ -54,8 +58,8 @@
     <div class="col addmore" ui-sref="app.browse">
       <div>Add More</div>
     </div>
-    <div class="col pay" ui-sref="app.delivery">
-      <div>Pay Rs. 51100 <i class="ion ion-chevron-right"></i></div>
+    <div class="col pay" ui-sref="app.delivery" ng-if="product.length!=0">
+      <div>Pay Rs. {{getTotal()}} <i class="ion ion-chevron-right"></i></div>
 
     </div>
   </div>

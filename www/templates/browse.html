@@ -16,7 +16,7 @@
             <ion-slide-box options="homeSlider.sliderOptions" slider="homeSlider.sliderDelegate" does-continue="true" animation='fade'
                 auto-play="true" effect='fade' slide-interval="{{interval}}" show-pager="true" pager-click="changeSlide(index)"
                 on-slide-changed="slideHasChanged(index)">
-                <ion-slide ng-if="feaprods.length>0" ng-repeat="data in feaprods" [options]="{pager:true}">
+                <ion-slide ng-if="feaprods.length>0" ng-repeat="data in feaprods" [options]="{pager:true}" ui-sref="app.requirement">
                     <div class="box box1">
                         <div class=" browse-sliderRow">
                             <div class="">
