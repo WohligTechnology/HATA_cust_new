@@ -311,7 +311,7 @@ angular.module('starter.controllers', ['starter.services'])
     $scope.CurrentDate = new Date();
     $scope.getDateArray = [];
     $scope.CurrentDay = new Date().getDay();
-    if ($scope.CurrentDay != 1) {
+    console.log($scope.CurrentDay);
       for (var j = $scope.CurrentDay; j >= 1; j--) {
         $scope.getDateArray.push({
           date: new Date().setDate(new Date().getDate() - j),
@@ -320,7 +320,7 @@ angular.module('starter.controllers', ['starter.services'])
           available: false
         });
       }
-    }
+    
     $scope.getDateArray.push({
       date: new Date().setDate(new Date().getDate()),
       status: true,

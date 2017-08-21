@@ -10,12 +10,8 @@
     <div class="card jars-card list ">
       <div class="item " ng-repeat="pr in productArray track by $index">
           <label class="jar-label" for="">{{pr.name}} {{pr.unit}}</label>
-        <div class="add-div" ng-if="pr.unit=='Jar'">
-          <button class="ion ion-minus-circled jars-button" ng-click="pr.quantity=pr.quantity-1" ng-disabled="pr.quantity<=0"></button>
-          <label class="jarcount" >{{pr.quantity}}</label>
-          <button class="ion  ion-plus-circled jars-button" ng-click="pr.quantity=pr.quantity+1" ng-disabled="pr.quantity>=pr.limit"></button>
-        </div>
-        <div class="add-div" ng-if="pr.unit!='Jar'">
+ 
+        <div class="add-div">
           <button class="ion ion-minus-circled jars-button" ng-click="pr.quantity=pr.quantity-1" ng-hide="pr.quantity<=0"></button>
           <label class="jarcount" ng-if="pr.quantity>0">{{pr.quantity}}</label>
           <button class="ion  ion-plus-circled jars-button" ng-click="pr.quantity=pr.quantity+1" ng-disabled="pr.quantity>=pr.limit"></button>

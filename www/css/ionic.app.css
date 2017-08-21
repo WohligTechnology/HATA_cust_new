@@ -9880,7 +9880,7 @@ a.button {
 
 .spanTextDiv {
   width: 100%;
-  margin-top: 10px; }
+  margin-top: 6px; }
   .spanTextDiv .phnSpan {
     width: 20%;
     vertical-align: middle;
@@ -9892,7 +9892,7 @@ a.button {
     background: #f2f4f5;
     width: 80%;
     padding: 0 !important;
-    font-size: 16px !important;
+    font-size: 17px !important;
     height: 100%; }
 
 .joinBtn {
@@ -10376,12 +10376,12 @@ a.button {
 .rq-prdctname {
   float: left;
   font-size: 18px;
-  color: #9ba3a9; }
+  color: #223c4d; }
 
 .rq-plan {
   float: left;
-  font-size: 18px;
-  color: #7a8a94; }
+  font-size: 14px;
+  color: #223c4d; }
 
 .rq-rupee {
   font-size: 18px;
@@ -10559,11 +10559,8 @@ a.button {
     font-size: 14px; }
   .details-div .total {
     font-size: 14px; }
-    .details-div .total span {
+    .details-div .total span, .details-div .total label {
       color: #7a7f82;
-      font-weight: 600; }
-    .details-div .total label {
-      color: #223c4d;
       font-weight: 600; }
   .details-div .desc {
     color: #7a7f82;
@@ -10572,7 +10569,7 @@ a.button {
       border-right: 1px solid #e0e0e0;
       padding-right: 10px;
       margin-right: 10px;
-      font-weight: 600; }
+      font-weight: 500; }
   .details-div .deposit {
     color: #7a7f82;
     font-size: 14px; }
@@ -10638,7 +10635,8 @@ a.button {
   margin: 15px;
   text-align: center; }
   .paymenthead span {
-    color: #ff414d; }
+    color: #ff414d;
+    font-weight: 600; }
 
 .paymentlist .item {
   margin: 0 !important;
@@ -10771,7 +10769,7 @@ a.button {
   font-size: 14px;
   color: black;
   float: left;
-  margin: 5px;
+  margin: 5px 5px 5px 15px;
   color: #919191; }
 
 .orderDate .deliver {
@@ -10792,9 +10790,9 @@ a.button {
     padding: 0 5px;
     font-weight: 600; }
   .ordertotal label {
-    color: #616161;
+    color: #223c4d;
     font-size: 24px;
-    font-weight: 600; }
+    font-weight: 500; }
 
 .rel {
   position: relative; }
@@ -10857,7 +10855,8 @@ a.button {
   display: flex; }
 
 .jarcard {
-  height: auto; }
+  height: auto;
+  margin: 10px !important; }
   .jarcard row {
     padding: 10px; }
 
@@ -10940,13 +10939,9 @@ a.button {
 
 .dashslider .flexslider {
   padding: 0;
-  margin-bottom: 40px;
+  margin-bottom: 0px;
   background: #f2f4f5;
   border: transparent !important; }
-
-.dashslider .flex-control-nav {
-  display: block;
-  bottom: -30px !important; }
 
 .dashslider .flex-direction-nav {
   display: block !important; }
@@ -11085,9 +11080,9 @@ a.button {
   color: #ff414d; }
 
 .redsun {
-  color: #ff414d !important; }
+  color: #ff414d; }
   .redsun span {
-    color: #ff414d !important; }
+    color: #ff414d; }
 
 .timeslot .row {
   padding: 0; }
@@ -11261,3 +11256,6 @@ a.button {
 .helpmail {
   text-decoration: none;
   font-size: 16px; }
+
+.top-0 {
+  margin-top: 0px !important; }

@@ -112,7 +112,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
 
 .spanTextDiv {
   width: 100%;
-  margin-top: 10px;
+  margin-top: 6px;
   .phnSpan {
     width: 20%;
     vertical-align: middle;
@@ -125,7 +125,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
     background: #f2f4f5;
     width: 80%;
     padding: 0 !important;
-    font-size: 16px!important;
+    font-size: 17px!important;
     height: 100%;
   }
 }
@@ -720,13 +720,13 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
 .rq-prdctname {
   float: left;
   font-size: 18px;
-  color: #9ba3a9;
+  color: #223c4d;
 }
 
 .rq-plan {
   float: left;
-  font-size: 18px;
-  color: #7a8a94;
+  font-size: 14px;
+  color: #223c4d;
 }
 
 .rq-rupee {
@@ -953,12 +953,8 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
   }
   .total {
     font-size: 14px;
-    span {
+    span ,    label{
       color: #7a7f82;
-      font-weight: 600;
-    }
-    label {
-      color: #223c4d;
       font-weight: 600;
     }
   }
@@ -969,7 +965,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
       border-right: 1px solid #e0e0e0;
       padding-right: 10px;
       margin-right: 10px;
-      font-weight: 600;
+      font-weight: 500;
     }
   }
   .deposit {
@@ -1055,6 +1051,8 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
   text-align: center;
   span {
     color: $positive;
+    font-weight: 600;
+    
   }
 }
 
@@ -1226,7 +1224,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
     font-size: 14px;
     color: black;
     float: left;
-    margin: 5px;
+    margin: 5px 5px 5px 15px;
     color: #919191;
   }
   .deliver {
@@ -1251,9 +1249,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
     font-weight: 600;
   }
   label {
-    color: #616161;
+    color: #223c4d;
     font-size: 24px;
-    font-weight: 600;
+    font-weight: 500;
   }
 }
 
@@ -1336,6 +1334,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
 
 .jarcard {
   height: auto;
+      margin: 10px !important;
   row {
     padding: 10px;
   }
@@ -1435,14 +1434,11 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
   }
   .flexslider {
     padding: 0;
-    margin-bottom: 40px;
+    margin-bottom: 0px;
     background: #f2f4f5;
     border: transparent!important;
   }
-  .flex-control-nav {
-    display: block;
-    bottom: -30px !important;
-  }
+
   .flex-direction-nav {
     display: block!important;
   }
@@ -1607,9 +1603,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
 }
 
 .redsun {
-  color: #ff414d!important;
+  color: #ff414d;
   span {
-    color: #ff414d!important;
+    color: #ff414d;
   }
 }
 
@@ -1830,5 +1826,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
   text-decoration: none;
   font-size: 16px;
 }
-
+.top-0{
+  margin-top:0px !important;
+}
 //help.html end

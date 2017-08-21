@@ -25,7 +25,7 @@
       </div>
       <div class="item" ng-click="require=!require">
         <div>
-          <div class="rq-plan"> Buy a plan and save!</div>
+          <div class="rq-plan">Regular requirement? Buy a plan and save!</div>
           <div class="item-note">
             <i class="ion rq-arrows" ng-class="!require ? 'ion-arrow-up-b' : 'ion-arrow-down-b'"></i>
           </div>
@@ -34,7 +34,7 @@
     </div>
     <flex-slider class="carousel " animation="slide" flex-slide="p in planArray track by $index" animation-loop="true" item-margin="10"
       slideshow="false" item-width="120" maxItems="2.5" ng-if="!require">
-      <li class="" ng-click="highlightPlan($index)" ng-init="p.selected=false">
+      <li class="" ng-click="highlightPlan($index)" ng-ineit="p.selected=false">
         <div class="plancard" ng-class="p.selected ? 'borderplan' : ''">
           <i class="ion ion-checkmark-circled" ng-show="p.selected"></i>
           <h3>{{p.quantity}}</h3>
