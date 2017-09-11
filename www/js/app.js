@@ -6,34 +6,34 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider'])
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
+  .run(function ($ionicPlatform) {
+    $ionicPlatform.ready(function () {
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if (window.cordova && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        cordova.plugins.Keyboard.disableScroll(true);
 
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
-  });
-})
+      }
+      if (window.StatusBar) {
+        // org.apache.cordova.statusbar required
+        StatusBar.styleDefault();
+      }
+    });
+  })
 
-.config(function($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
 
       .state('app', {
-      url: '/app',
-      abstract: true,
-      templateUrl: 'templates/menu.html',
-      controller: 'AppCtrl'
-    })
+        url: '/app',
+        abstract: true,
+        templateUrl: 'templates/menu.html',
+        controller: 'AppCtrl'
+      })
 
 
-    .state('landing', {
+      .state('landing', {
         url: '/landing',
         templateUrl: 'templates/landing.html',
         controller: 'LandingCtrl'
@@ -59,7 +59,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
       })
       .state('app.browse-more', {
         cache: false,
-        url: '/browse-more/:category',
+        url: '/browse-more/:catId',
         views: {
           'menuContent': {
             templateUrl: 'templates/browse-more.html',
@@ -155,14 +155,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
         }
       })
       .state('app.schedule', {
-          url: '/schedule',
-          cache: false,
-          views: {
-              'menuContent': {
-                  templateUrl: 'templates/schedule.html',
-                  controller: 'ScheduleCtrl'
-              }
+        url: '/schedule',
+        cache: false,
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/schedule.html',
+            controller: 'ScheduleCtrl'
           }
+        }
       })
       .state('app.thankyou', {
         cache: false,
@@ -194,15 +194,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
           }
         }
       })
-      // if none of the above states are matched, use this as the fallback
+    // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/landing');
   })
-  .directive('focusMe', function($timeout) {
+  .directive('focusMe', function ($timeout) {
     return {
-      link: function(scope, element, attrs) {
+      link: function (scope, element, attrs) {
         function inputValue(val) {
           if (val) {
-            $timeout(function() {
+            $timeout(function () {
               element[0].focus();
             });
           }
@@ -212,79 +212,79 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
     };
   })
 
-.directive('onlyDigits', function() {
-  return {
-    require: 'ngModel',
-    restrict: 'A',
-    link: function(scope, element, attr, ctrl) {
-      var digits;
+  .directive('onlyDigits', function () {
+    return {
+      require: 'ngModel',
+      restrict: 'A',
+      link: function (scope, element, attr, ctrl) {
+        var digits;
 
-      function inputValue(val) {
-        if (val) {
-          if (attr.type == "tel") {
-            digits = val.replace(/[^0-9\+\\]/g, '');
-          } else {
-            digits = val.replace(/[^0-9\-\\]/g, '');
+        function inputValue(val) {
+          if (val) {
+            if (attr.type == "tel") {
+              digits = val.replace(/[^0-9\+\\]/g, '');
+            } else {
+              digits = val.replace(/[^0-9\-\\]/g, '');
+            }
+
+
+            if (digits !== val) {
+              ctrl.$setViewValue(digits);
+              ctrl.$render();
+            }
+            return parseInt(digits, 10);
           }
-
-
-          if (digits !== val) {
-            ctrl.$setViewValue(digits);
-            ctrl.$render();
-          }
-          return parseInt(digits, 10);
+          return undefined;
         }
-        return undefined;
+        ctrl.$parsers.push(inputValue);
       }
-      ctrl.$parsers.push(inputValue);
-    }
-  };
-})
+    };
+  })
 
-.filter('uploadpath', function() {
-  return function(input, width, height, style) {
-    var other = "";
-    if (width && width != "") {
-      other += "&width=" + width;
-    }
-    if (height && height != "") {
-      other += "&height=" + height;
-    }
-    if (style && style != "") {
-      other += "&style=" + style;
-    }
-    if (input) {
-      if (input.indexOf('https://') == -1) {
-        return imgpath + input + other;
+  .filter('uploadpath', function () {
+    return function (input, width, height, style) {
+      var other = "";
+      if (width && width != "") {
+        other += "&width=" + width;
+      }
+      if (height && height != "") {
+        other += "&height=" + height;
+      }
+      if (style && style != "") {
+        other += "&style=" + style;
+      }
+      if (input) {
+        if (input.indexOf('https://') == -1) {
+          return imgpath + input + other;
 
-      } else {
-        return input;
+        } else {
+          return input;
+        }
       }
     }
-  }
 
-})
+  })
 
-.filter('rangecal', function() {
-  return function(input, total) {
-    total = parseInt(total);
+  .filter('rangecal', function () {
+    return function (input, total) {
+      total = parseInt(total);
 
-    for (var i = 0; i < total; i++) {
-      input.push(i);
+      for (var i = 0; i < total; i++) {
+        input.push(i);
+      }
+
+      return input;
+    };
+  })
+
+  .directive("limitTo", [function () {
+    return {
+      restrict: "A",
+      link: function (scope, elem, attrs) {
+        var limit = parseInt(attrs.limitTo);
+        angular.element(elem).on("keypress", function (e) {
+          if (this.value.length == limit) e.preventDefault();
+        });
+      }
     }
-
-    return input;
-  };
-})
-
-.directive("limitTo", [function() {
-  return {
-    restrict: "A",
-    link: function(scope, elem, attrs) {
-      var limit = parseInt(attrs.limitTo);
-      angular.element(elem).on("keypress", function(e) {
-        if (this.value.length == limit) e.preventDefault();
-      });
-    }
-  }
-}]);
+  }]);

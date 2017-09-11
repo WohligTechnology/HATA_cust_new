@@ -9993,8 +9993,11 @@ a.button {
   border: transparent;
   border-bottom: 1px solid lightgrey; }
 
-.t65 {
-  top: 65px !important; }
+.t54 {
+  top: 54px !important; }
+
+.signuppad {
+  padding: 0 10px 10px 10px; }
 
 .signUpForm .loginform label {
   border: none;
@@ -10024,83 +10027,40 @@ a.button {
 .ihve {
   color: #223c48; }
 
-.radio33 label {
-  margin: 5px !important;
-  background-color: transparent !important;
-  border: 1px solid transparent; }
-
 .pad10 {
   padding: 10px; }
-
-.signupradio {
-  padding: 0 10px;
-  background: #f2f4f5;
-  margin-top: 5px; }
-  .signupradio .item-content {
-    padding-right: 0; }
-
-.areyou {
-  margin: 20px;
-  font-size: 16px;
-  color: #6d797e; }
 
 .mt-10 {
   margin-top: 10px !important; }
 
 .hasterms {
-  bottom: 100px; }
+  bottom: 90px; }
 
 .error-msg {
   margin: 10px;
   color: red !important; }
 
-.noborder {
-  border: none !important; }
-
-.borderR .checkbox input:before,
-.borderR .checkbox-icon:before {
-  display: table;
-  width: 60%;
-  height: 60%;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 0px !important;
-  margin-left: 10px !important;
-  content: ' ';
-  -webkit-transition: background-color 20ms ease-in-out;
-  transition: background-color 20ms ease-in-out; }
-
-.checkbox input:after,
-.checkbox-icon:after {
-  -webkit-transition: opacity 0.05s ease-in-out;
-  transition: opacity 0.05s ease-in-out;
-  -webkit-transform: rotate(-45deg);
-  transform: rotate(-45deg);
+.termscheck {
   position: absolute;
-  top: 12%;
-  left: 40%;
-  display: table;
-  width: 14px;
-  height: 6px;
-  border: 2px solid #fff;
-  border-top: 0;
-  border-right: 0;
-  content: ' ';
-  opacity: 0; }
-
-.item-checkbox .checkbox {
-  position: absolute;
-  top: 61% !important;
-  right: 42%;
-  left: 5% !important;
-  z-index: 3;
-  margin-top: -21px; }
-
-.chkalign {
-  position: absolute;
-  bottom: 8%;
-  width: 100%;
-  font-size: 12px; }
+  bottom: 52px;
+  border: none;
+  font-size: 12px;
+  width: 100%; }
+  .termscheck .ioncheck {
+    position: relative;
+    border: none;
+    font-size: 12px;
+    padding: 10px 10px 10px 50px; }
+  .termscheck .termsline {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    margin-left: 190px;
+    padding: 7px; }
+  .termscheck .checkbox {
+    width: 100%;
+    left: 0;
+    margin-left: 10px; }
 
 .termspopover {
   opacity: 1;
@@ -10163,35 +10123,35 @@ a.button {
 .termscolor {
   color: #ff414d; }
 
-.item-icon-left .item-content {
-  padding-left: 22px !important;
-  padding-top: 5px;
-  padding-bottom: 5px !important;
-  background-color: transparent !important;
-  color: #6d797e;
-  font-weight: 400; }
+.radiocheck {
+  margin: 0;
+  padding: 0; }
+  .radiocheck .col {
+    padding: 7px;
+    padding-left: 35px;
+    border: none;
+    background: #f3f5f5;
+    font-size: 14px; }
+    .radiocheck .col .checkbox {
+      top: 0px;
+      right: 0px;
+      left: 0;
+      margin-top: 0; }
+      .radiocheck .col .checkbox i {
+        height: 25px;
+        width: 25px; }
+    .radiocheck .col .item-content {
+      margin-top: 3px;
+      color: #6d797e; }
 
-.item-icon-left i {
-  left: 0;
-  padding-top: 2px !important;
-  padding-bottom: 5px !important;
-  right: auto;
-  color: black !important;
-  font-size: 20px !important; }
+.areyou {
+  margin: 10px;
+  font-size: 14px;
+  color: #223c4d; }
 
-.item-radio input ~ .radio-icon {
-  visibility: visible !important; }
-
-.item-radio > .radio-icon:before {
-  content: "\f3a6" !important;
-  /*deselected - Ionic class = ion-android-radio-button-off */ }
-
-.item-radio > input[type=radio]:checked ~ .radio-icon:before {
-  content: "\f3a7" !important;
-  /*selected Ionic class = ion-android-radio-button-on */ }
-
-.item-radio .radio-icon {
-  padding: 14px 0; }
+.radiodiv {
+  background: #f2f4f5;
+  padding: 5px; }
 
 .cartbtn {
   height: 35px;
@@ -10559,17 +10519,17 @@ a.button {
     font-size: 14px; }
   .details-div .total {
     font-size: 14px; }
-    .details-div .total span, .details-div .total label {
+    .details-div .total span,
+    .details-div .total label {
       color: #7a7f82;
       font-weight: 600; }
   .details-div .desc {
-    color: #7a7f82;
+    color: #7a8a94;
     font-size: 14px; }
     .details-div .desc .qty {
       border-right: 1px solid #e0e0e0;
       padding-right: 10px;
-      margin-right: 10px;
-      font-weight: 500; }
+      margin-right: 10px; }
   .details-div .deposit {
     color: #7a7f82;
     font-size: 14px; }

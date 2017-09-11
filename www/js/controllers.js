@@ -4,27 +4,20 @@ angular.module('starter.controllers', ['starter.services'])
     $scope.goBackHandler = function () {
       window.history.back(); //This works
     };
-    $ionicPopover.fromTemplateUrl('templates/modal/terms.html', {
-      scope: $scope,
-      cssClass: 'menupop',
 
-    }).then(function (terms) {
-      $scope.terms = terms;
-    });
+
     $scope.logout = function () {
       $.jStorage.set('profile', {});
       $.jStorage.flush();
       $state.go('landing');
 
     };
-    $scope.closePopover = function () {
-      $scope.terms.hide();
-    };
+
     $scope.$on('$ionicView.enter', function () {
       $ionicSideMenuDelegate.canDragContent(false);
     });
     $scope.$on('$ionicView.leave', function () {
-      $ionicSideMenuDelegate.canDragContent(true);
+      $ionicSideMenuDelegate.canDragContent(false);
     });
 
   })
@@ -34,15 +27,31 @@ angular.module('starter.controllers', ['starter.services'])
     }
   })
   .controller('VerifyCtrl', function ($scope, $stateParams) {})
-  .controller('SignupCtrl', function ($scope, $stateParams, $state) {
+  .controller('SignupCtrl', function ($scope, $stateParams, $state, $ionicPopover) {
+    $ionicPopover.fromTemplateUrl('templates/modal/terms.html', {
+      scope: $scope,
+      cssClass: 'menupop',
+
+    }).then(function (terms) {
+      $scope.terms = terms;
+    });
+    $scope.closePopover = function () {
+      $scope.terms.hide();
+    };
+    $scope.userType = {
+      'Household': 'Household',
+      'Corporate': 'Corporate',
+      'Other': 'Other'
+    };
     $scope.signupForm = {};
     $scope.saveUser = function (user) {
       console.log("in save", user);
       $.jStorage.set('profile', user);
       $state.go('app.browse');
-    }
+    };
+
   })
-  .controller('BrowseCtrl', function ($scope, $stateParams) {
+  .controller('BrowseCtrl', function ($scope, $stateParams, MyServices) {
     $scope.feaprods = [{
       bigImage: "img/feature.png"
     }, {
@@ -67,9 +76,22 @@ angular.module('starter.controllers', ['starter.services'])
       category: "Others"
     }];
     $scope.product = _.chunk($scope.product, 2);
+    MyServices.getAllFeaturedProduct(function (data) {
+      if (data.value) {
+        $scope.allFeaturedProduct = data.data;
+      }
+    });
+    MyServices.getAllSubcategory(function (data) {
+      if (data.value) {
+        $scope.allSubcategory = data.data;
+        $scope.allSubcategory = _.chunk($scope.allSubcategory, 2);
+      }
+    });
+
+
 
   })
-  .controller('BrowseMoreCtrl', function ($scope, $stateParams) {
+  .controller('BrowseMoreCtrl', function ($scope, $stateParams, MyServices) {
     $scope.title = $stateParams.category;
     $scope.products = [{
       smallImage: "img/bisleriaquacan.png",
@@ -87,6 +109,13 @@ angular.module('starter.controllers', ['starter.services'])
       tag: "Purified water",
       price: "90"
     }];
+    $scope.categoryData = {};
+    $scope.categoryData.category = $stateParams.catId;
+    MyServices.getAllProductbyCategory($scope.categoryData, function (data) {
+      if (data.value) {
+        $scope.products = data.data;
+      }
+    });
   })
   .controller('RequirementCtrl', function ($scope, $stateParams) {
 
@@ -312,15 +341,15 @@ angular.module('starter.controllers', ['starter.services'])
     $scope.getDateArray = [];
     $scope.CurrentDay = new Date().getDay();
     console.log($scope.CurrentDay);
-      for (var j = $scope.CurrentDay; j >= 1; j--) {
-        $scope.getDateArray.push({
-          date: new Date().setDate(new Date().getDate() - j),
-          status: false,
-          selected: false,
-          available: false
-        });
-      }
-    
+    for (var j = $scope.CurrentDay; j >= 1; j--) {
+      $scope.getDateArray.push({
+        date: new Date().setDate(new Date().getDate() - j),
+        status: false,
+        selected: false,
+        available: false
+      });
+    }
+
     $scope.getDateArray.push({
       date: new Date().setDate(new Date().getDate()),
       status: true,

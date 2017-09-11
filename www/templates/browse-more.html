@@ -1,20 +1,20 @@
-<ion-view title="{{title}}">
-    <ion-nav-bar class="bar-stable schedule-bar  nav-height">
-        <ion-nav-buttons side="left">
-            <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
+<ion-view title="{{products[0].category.name}}">
+  <ion-nav-bar class="bar-stable schedule-bar  nav-height">
+    <ion-nav-buttons side="left">
+      <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
         </button>
-        </ion-nav-buttons>
-    </ion-nav-bar>
-    <ion-content class="browsemorebg">
-        <div class="mbt">
-            <div class="browse-moredivalign"  ng-repeat="product in products" ui-sref="app.requirement">
-                <div class="browse-moreImgDiv">
-                    <img class="browse-moreImg " ng-src="{{product.smallImage}}" alt="">
-                </div>
-                <div class="browse-aqualbl" for="">{{product.name}}</div>
-                <div for="" class="colorpure">{{product.tag}} <i class="ion ion-information-circled"></i></div>
-                <label class="browse-morerupee" for="">₹ {{product.price}}</label>
-            </div>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content class="browsemorebg">
+    <div class="mbt">
+      <div class="browse-moredivalign" ng-repeat="product in products" ui-sref="app.requirement">
+        <div class="browse-moreImgDiv">
+          <img class="browse-moreImg " ng-src="{{product.smallImage | uploadpath}}" alt="">
         </div>
-    </ion-content>
+        <div class="browse-aqualbl" for="">{{product.name}}</div>
+        <div for="" class="colorpure">{{product.tag}} <i class="ion ion-information-circled"></i></div>
+        <label class="browse-morerupee" for="">₹ {{product.price}}</label>
+      </div>
+    </div>
+  </ion-content>
 </ion-view>

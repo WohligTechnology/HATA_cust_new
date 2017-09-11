@@ -6,39 +6,23 @@
     </ion-nav-buttons>
   </ion-nav-bar>
   <form ng-submit="saveUser(signupForm)" name="userForm">
-    <ion-content class="has-header signUpForm hasterms t65">
-      <label for="" class="areyou">Are you a?</label>
-      <div class="row signupradio">
-        <div class="col-33 radio33">
-          <label class="item item-icon-left item-radio">
-          <input type="radio" name="group" ng-model="signupForm.you" value="Household">
-          <div class="item-content" style="margin-left:0px">
-            Household
-          </div>
-          <i class="radio-icon ion-checkmark"></i>
-        </label>
-        </div>
-        <div class="col-33 radio33">
-          <label class="item item-icon-left item-radio">
-          <input type="radio" name="group" ng-model="signupForm.you" value="Corporate">
-          <div class="item-content">
-            Corporate
-          </div>
-          <i class="radio-icon ion-checkmark"></i>
-        </label>
-        </div>
-        <div class="col-33 radio33">
-          <label class="item item-icon-left item-radio">
-          <input type="radio" name="group" ng-model="signupForm.you" value="Other">
-          <div class="item-content">
-            Other
-          </div>
-          <i class="radio-icon ion-checkmark"></i>
-        </label>
+    <ion-content class="has-header signUpForm hasterms t54">
+      <div class="radiodiv">
+        <label for="" class="areyou">Please select one:</label>
+        <div class="row radiocheck" type="radio">
+          <ion-checkbox class="col" ng-repeat="(key,value) in userType" ng-model="signupForm.userType" ng-true-value="'{{key}}'" ng-false-value="">
+            {{value}}
+          </ion-checkbox>
         </div>
       </div>
-      <div class="pad10 loginform">
 
+      <div class="signuppad loginform">
+        <div>
+          <label class=" item-input " ng-if="signupForm.userType == 'Corporate' || signupForm.userType == 'Other'">
+        <input type="text" placeholder="Institution Name"  ng-model="signupForm.institutionName" value="{{signupForm.institutionName}}" name="institutionName" required>
+        </label>
+          <p class="error-msg" ng-show="userForm.institutionName.$error.required && userForm.institutionName.$touched">Please Enter Your Institution Name.</p>
+        </div>
         <div>
           <label class=" item-input ">
         <input type="text" placeholder="Full Name"  ng-model="signupForm.name" value="{{signupForm.name}}" name="name" required>
@@ -59,24 +43,31 @@
         </div>
         <div>
           <label class=" item-input ">
-            <input limit-to="6"  type="number" placeholder="Pincode"  ng-model="signupForm.pincode" name="pincode" value="{{signupForm.pincode}}" ng-min="100000" ng-max="999999"  required >
+            <input type="text" placeholder="Address" ng-model="signupForm.deliveryAddress" name="deliveryAddress"  value="{{signupForm.deliveryAddress}}"  required>
           </label>
-          <p class="error-msg" ng-show="userForm.pincode.$invalid && userForm.pincode.$touched">Please Enter your Pincode.</p>
+          <p class="error-msg" ng-show="userForm.deliveryAddress.$error.required && userForm.deliveryAddress.$touched">Please Enter your Address </p>
+        </div>
+        <div>
+          <label class=" item-input ">
+            <input limit-to="6"  type="number" placeholder="Pincode"  ng-model="signupForm.pinCode" name="pinCode" value="{{signupForm.pinCode}}" ng-min="100000" ng-max="999999"  required >
+          </label>
+          <p class="error-msg" ng-show="userForm.pinCode.$invalid && userForm.pinCode.$touched">Please Enter your Pincode.</p>
         </div>
       </div>
     </ion-content>
-    <div>
-      <li class="item item-checkbox noborder checkbox-assertive borderR chkalign mar10">
-        <span class="ihve">I have read &amp; accepted the</span>
 
-        <span class="termscolor" ng-click="terms.show($event)">  Terms &amp; Conditions</span>
-        <label class="checkbox noborder checkboxterms">
-           <input type="checkbox" class="" ng-model="click" ng-init="click=true">
-        </label>
-      </li>
+    <div class="termscheck ">
+      <ion-checkbox ng-model="click" ng-init="click=true" class="ioncheck">
+        <span class="ihve">I have read &amp; accepted the</span>
+      </ion-checkbox>
+      <div class="termsline" ng-click="terms.show($event)">
+        <span class="termscolor">  Terms &amp; Conditions</span>
+      </div>
     </div>
+
+
     <div class="bar bar-footer signUpFooter footer-height" ng-if="click">
-      <button class="button button-block button-positive footer-font" ng-disabled="userForm.$invalid" type="submit" >
+      <button class="button button-block button-positive footer-font" ng-disabled="userForm.$invalid" type="submit">
         Get Started
       </button>
     </div>
