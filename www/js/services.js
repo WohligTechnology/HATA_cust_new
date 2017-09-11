@@ -17,29 +17,20 @@ angular.module('starter.services', [])
           data: data
         }).success(callback);
       },
-      getAllSubcategory: function (callback) {
-        $http({
-          url: adminurl + 'Subcategory/getAll',
-          method: 'POST',
-          withCredentials: true
-        }).success(callback);
+
+      apiCallWithData: function (url, formData, callback) {
+        $http.post(adminurl + url, formData).then(function (data) {
+          data = data.data;
+          callback(data);
+        });
       },
-      getAllFeaturedProduct: function (callback) {
-        $http({
-          url: adminurl + 'Product/getAllFeaturedProduct',
-          method: 'POST',
-          withCredentials: true
-        }).success(callback);
+
+      apiCallWithoutData: function (url, callback) {
+        $http.post(adminurl + url).then(function (data) {
+          data = data.data;
+          callback(data);
+        });
       },
-      getAllProductbyCategory: function (data, callback) {
-        console.log(data);
-        $http({
-          url: adminurl + 'Product/getAllProductbyCategory',
-          method: 'POST',
-          withCredentials: true,
-          data: data
-        }).success(callback);
-      }
 
     };
   });

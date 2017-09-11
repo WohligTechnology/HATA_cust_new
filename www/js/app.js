@@ -39,11 +39,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
         controller: 'LandingCtrl'
       })
       .state('verify', {
-        url: '/verify',
+        url: '/verify/:mobNo',
         templateUrl: 'templates/verify.html',
         controller: 'VerifyCtrl'
       })
       .state('signup', {
+        cache: false,
         url: '/signup',
         templateUrl: 'templates/signup.html',
         controller: 'SignupCtrl'

@@ -5,7 +5,6 @@ angular.module('starter.controllers', ['starter.services'])
       window.history.back(); //This works
     };
 
-
     $scope.logout = function () {
       $.jStorage.set('profile', {});
       $.jStorage.flush();
@@ -26,8 +25,47 @@ angular.module('starter.controllers', ['starter.services'])
       $state.go('app.dashboard');
     }
   })
-  .controller('VerifyCtrl', function ($scope, $stateParams) {})
-  .controller('SignupCtrl', function ($scope, $stateParams, $state, $ionicPopover) {
+  .controller('VerifyCtrl', function ($scope, $stateParams, MyServices, $timeout, $ionicPopup, $state) {
+    var mobileData = {};
+    mobileData.mobile = $stateParams.mobNo;
+    $scope.resend = false;
+    MyServices.apiCallWithData('User/createUser', mobileData, function (data) {
+      if (data.value) {
+        $scope.getOtpData = data.data;
+        $timeout(function () {
+          $scope.resend = true;
+        }, 10000);
+      }
+    });
+    $scope.verifyOtp = function (otp) {
+      var otpData = {};
+      otpData.otp = otp;
+      otpData.mobile = $stateParams.mobNo;
+      otpData._id = $scope.getOtpData._id;
+      MyServices.apiCallWithData('User/verifyOtp', otpData, function (data) {
+        if (data.value) {
+          $.jStorage.set('profile', data.data);
+          $state.go('signup');
+        } else {
+          $ionicPopup.alert({
+            title: "OTP verification failed",
+            template: data.error
+          });
+        }
+      });
+    };
+    $scope.resenOtp = function () {
+      MyServices.apiCallWithData('User/sendOtp', mobileData, function (data) {
+        if (data.value) {
+          $scope.getOtpData = data.data;
+          $timeout(function () {
+            $scope.resend = true;
+          }, 10000);
+        }
+      });
+    };
+  })
+  .controller('SignupCtrl', function ($scope, $stateParams, $state, $ionicPopover, $ionicPopup, MyServices) {
     $ionicPopover.fromTemplateUrl('templates/modal/terms.html', {
       scope: $scope,
       cssClass: 'menupop',
@@ -44,10 +82,60 @@ angular.module('starter.controllers', ['starter.services'])
       'Other': 'Other'
     };
     $scope.signupForm = {};
-    $scope.saveUser = function (user) {
-      console.log("in save", user);
-      $.jStorage.set('profile', user);
-      $state.go('app.browse');
+    $scope.lockData = false;
+    $scope.getUserData = function () {
+      if ($.jStorage.get('profile')._id) {
+        if ($.jStorage.get('profile').pincode) {
+          $scope.lockData = true;
+        }
+        var userData = {};
+        userData._id = $.jStorage.get('profile')._id;
+        MyServices.apiCallWithData('User/getOne', userData, function (data) {
+          if (data.value) {
+            $scope.signupForm = data.data;
+            _.forEach($scope.signupForm.mobile, function (value) {
+              if (value.accessLevel == 'Registered Mobile') {
+                $scope.signupForm.registerMobile = value.mobileNo;
+              }
+            });
+          }
+        });
+      }
+    };
+
+    $scope.getUserData();
+    $scope.saveUser = function () {
+      _.forEach($scope.signupForm.mobile, function (value) {
+        if (value.accessLevel == 'Registered Mobile') {
+          value.mobileNo = $scope.signupForm.registerMobile;
+          value.name = $scope.signupForm.name;
+        }
+      });
+      MyServices.apiCallWithData('User/saveUserData', $scope.signupForm, function (data) {
+        if (data.value) {
+          $scope.signupForm = data.data;
+          $scope.getUserData();
+          var pinData = {
+            pinCode: $scope.signupForm.pinCode
+          };
+          MyServices.apiCallWithData("pincode/checkPinCode", pinData, function (data) {
+            if (data.value) {
+              var userInfo = {};
+              userInfo = $.jStorage.get('profile');
+              userInfo.pincode = data.data[0].pincode;
+              $.jStorage.set('profile', userInfo);
+              $state.go('app.browse');
+            } else {
+              $ionicPopup.alert({
+                title: "Pincode Error",
+                template: "We dont deliver to your pin-code."
+              });
+              $scope.getUserData();
+            }
+          });
+
+        }
+      });
     };
 
   })
@@ -76,12 +164,12 @@ angular.module('starter.controllers', ['starter.services'])
       category: "Others"
     }];
     $scope.product = _.chunk($scope.product, 2);
-    MyServices.getAllFeaturedProduct(function (data) {
+    MyServices.apiCallWithoutData('Product/getAllFeaturedProduct', function (data) {
       if (data.value) {
         $scope.allFeaturedProduct = data.data;
       }
     });
-    MyServices.getAllSubcategory(function (data) {
+    MyServices.apiCallWithoutData('Subcategory/getAll', function (data) {
       if (data.value) {
         $scope.allSubcategory = data.data;
         $scope.allSubcategory = _.chunk($scope.allSubcategory, 2);
@@ -111,7 +199,7 @@ angular.module('starter.controllers', ['starter.services'])
     }];
     $scope.categoryData = {};
     $scope.categoryData.category = $stateParams.catId;
-    MyServices.getAllProductbyCategory($scope.categoryData, function (data) {
+    MyServices.apiCallWithData('Product/getAllProductbyCategory', $scope.categoryData, function (data) {
       if (data.value) {
         $scope.products = data.data;
       }
