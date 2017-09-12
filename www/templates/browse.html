@@ -8,30 +8,23 @@
       <div class="cartbtn" ui-sref="app.review">
         <img src="img/9.png" alt="">
       </div>
-      <span class="cartbadge">0</span>
+      <span class="cartbadge">{{cartData.length || 0}}</span>
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content class="has-header browse-backgrndcolor">
     <div class="">
-      <!--<ion-slide-box options="homeSlider.sliderOptions" slider="homeSlider.sliderDelegate" does-continue="true" animation='fade'
-        auto-play="true" effect='fade' slide-interval="{{interval}}" show-pager="true" pager-click="changeSlide(index)" on-slide-changed="slideHasChanged(index)">
-        <ion-slide ng-repeat="data in allFeaturedProduct" [options]="{pager:true}" ui-sref="app.requirement">
-          <div class="box box1">
-            <div class=" browse-sliderRow">
-              <div class="">
-                <div class="browse-slideImgDiv">
-                  <img class="browse-sliderImg " ng-src="{{data.bigImage |uploadpath}}" alt="">
-                </div>
-              </div>
 
+      <ion-slides options="sliderData.sliderOptions" slider="sliderData.sliderDelegate">
+        <ion-slide-page ng-repeat="data in sliderData.allFeaturedProduct" ui-sref="app.requirement({productId:data._id})">
+          <div class=" browse-sliderRow">
+            <div class="browse-slideImgDiv">
+              <img class="" ng-src="{{data.bigImage |uploadpath}}" alt="">
             </div>
           </div>
-        </ion-slide>
-      </ion-slide-box>-->
+        </ion-slide-page>
+      </ion-slides>
       <div class="browse-grid">
-
         <label for="" class="browse-text">Our Products</label>
-
         <div class="row" ng-if="allSubcategory.length>0" ng-repeat="category in allSubcategory" ng-init="outerIndex=$index">
           <div class="col-50" ng-repeat="cat in category" ng-init="innerIndex=$index" ui-sref="app.browse-more({catId:cat._id})">
             <div class="browse-card1 card">

@@ -1,4 +1,4 @@
-<ion-view title="Enter Your Requirement" ng-init="require=true;plan=false">
+<ion-view title="Enter Your Requirement">
   <ion-nav-bar class="bar-stable schedule-bar  nav-height">
     <ion-nav-buttons side="left">
       <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
@@ -8,22 +8,22 @@
   </ion-nav-bar>
   <ion-content class="browse-backgrndcolor">
     <div class="list card requirecard">
-      <div class="item bbnone" ng-click="require=!require">
-        <div class="rq-prdctname">Kinley 20L Jar</div>
+      <div class="item bbnone" ng-click="toggleCard()">
+        <div class="rq-prdctname">{{product.name}} {{product.unit}}</div>
         <div class="rq-rupee">
-          <label for="" class="rq-rupee" ng-if="require">₹ <span>90</span></label>
+          <label for="" class="rq-rupee" ng-show="require">₹ <span>{{product.price}}</span></label>
           <i class="ion rq-arrows" ng-class="require ? 'ion-arrow-up-b' : 'ion-arrow-down-b'"></i>
         </div>
       </div>
-      <div ng-if="require" class="inputcard">
-        <div class="require-accordion inputarea" >
+      <div ng-show="require" class="inputcard">
+        <div class="require-accordion inputarea">
           <input type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
-            ng-model="subscription" placeholder="Enter the Quantity">
+            ng-model="quantity" placeholder="Enter the Quantity" ng-change="getQuantity(null,quantity);">
           <div class="bbtm"></div>
         </div>
-        <div class="avgTxt" ng-if="require">Rs 150 Deposit Per Jar</div>
+        <div class="avgTxt" ng-show="require && product.returnable">Rs {{product.depositAmount}} Deposit Per {{product.unit}}</div>
       </div>
-      <div class="item" ng-click="require=!require">
+      <div class="item" ng-show="product.planBased" ng-click="toggleCard()">
         <div>
           <div class="rq-plan">Regular requirement? Buy a plan and save!</div>
           <div class="item-note">
@@ -32,14 +32,14 @@
         </div>
       </div>
     </div>
-    <flex-slider class="carousel " animation="slide" flex-slide="p in planArray track by $index" animation-loop="true" item-margin="10"
-      slideshow="false" item-width="120" maxItems="2.5" ng-if="!require">
-      <li class="" ng-click="highlightPlan($index)" ng-ineit="p.selected=false">
-        <div class="plancard" ng-class="p.selected ? 'borderplan' : ''">
-          <i class="ion ion-checkmark-circled" ng-show="p.selected"></i>
-          <h3>{{p.quantity}}</h3>
-          <label for="">Jar Plan</label>
-          <div class="rq-circle">₹ {{p.price}}/Jar</div>
+    <flex-slider class="carousel " animation="slide" flex-slide="plan in product.plans track by $index" animation-loop="true"
+      item-margin="10" slideshow="false" item-width="120" maxItems="2.5" ng-if="!require">
+      <li class="" ng-click="highlightPlan($index ,plan);">
+        <div class="plancard" ng-class="plan.selected ? 'borderplan' : ''">
+          <i class="ion ion-checkmark-circled" ng-show="plan.selected"></i>
+          <h3>{{plan.quantity}}</h3>
+          <label for="">{{product.unit}} Plan</label>
+          <div class="rq-circle">₹ {{plan.price}}/Jar</div>
         </div>
       </li>
 
@@ -53,12 +53,11 @@
     </div>
     <div class="col">
       <i class="ion ion-checkmark-circled"></i>
-      <label for="">No Jar Deposit</label>
+      <label for="">No Jar Deposit {{planQuantity}}</label>
     </div>
   </div>
   <div class="bar bar-footer nextFooter footer-height">
-
-    <button class="button button-block button-positive footer-font" ui-sref="app.review">
+    <button class="button button-block button-positive footer-font" ng-click="addToCart(activePlan)" ng-disabled="activePlan==null">
       Next
     </button>
   </div>

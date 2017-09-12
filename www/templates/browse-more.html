@@ -7,7 +7,7 @@
   </ion-nav-bar>
   <ion-content class="browsemorebg">
     <div class="mbt">
-      <div class="browse-moredivalign" ng-repeat="product in products" ui-sref="app.requirement">
+      <div class="browse-moredivalign" ng-repeat="product in products" ui-sref="app.requirement({productId:product._id})">
         <div class="browse-moreImgDiv">
           <img class="browse-moreImg " ng-src="{{product.smallImage | uploadpath}}" alt="">
         </div>

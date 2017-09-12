@@ -70,7 +70,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
       })
       .state('app.requirement', {
         cache: false,
-        url: '/requirement',
+        url: '/requirement/:productId',
         views: {
           'menuContent': {
             templateUrl: 'templates/requirement.html',

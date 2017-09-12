@@ -10180,15 +10180,23 @@ a.button {
   font-size: 10px !important; }
 
 .browse-sliderRow {
-  height: 100%;
-  background: #f2f4f5; }
+  height: 200px;
+  background: white;
+  width: 100%; }
+
+ion-slides {
+  height: 200px !important; }
+
+.box {
+  height: 100%; }
 
 .browse-slideImgDiv {
   height: 100%;
-  text-align: center; }
+  text-align: center;
+  width: 100%; }
   .browse-slideImgDiv img {
     height: 100%;
-    width: 100%; }
+    width: auto; }
 
 .browse-grid {
   padding: 20px 0 0;
@@ -10204,7 +10212,7 @@ a.button {
 .browse-card1 {
   padding: 1.5px;
   margin: 3px;
-  height: 215px; }
+  height: 230px; }
   .browse-card1 .icondiv {
     height: auto;
     width: 100%;
@@ -10491,12 +10499,13 @@ a.button {
 .pad0 {
   padding: 0; }
 
-.prdcticon {
+.producticon {
   height: 120px;
+  margin: 10px 0;
   text-align: center;
   padding-right: 10px;
   position: relative; }
-  .prdcticon img {
+  .producticon img {
     max-width: 100%;
     max-height: 100%;
     position: absolute;
@@ -10516,7 +10525,8 @@ a.button {
   margin-top: 30px; }
   .details-div h2 {
     color: #7a8a94;
-    font-size: 14px; }
+    font-size: 14px;
+    text-transform: capitalize; }
   .details-div .total {
     font-size: 14px; }
     .details-div .total span,
@@ -10525,7 +10535,8 @@ a.button {
       font-weight: 600; }
   .details-div .desc {
     color: #7a8a94;
-    font-size: 14px; }
+    font-size: 14px;
+    text-transform: capitalize; }
     .details-div .desc .qty {
       border-right: 1px solid #e0e0e0;
       padding-right: 10px;
@@ -10585,6 +10596,17 @@ a.button {
   padding: 0;
   font-size: 16px;
   font-weight: 600; }
+
+.chat-item.ng-enter {
+  -webkit-animation: fadeInLeft 1s;
+  animation: fadeInLeft 1s; }
+
+.chat-item.ng-enter-stagger {
+  -webkit-animation-delay: 200ms;
+  animation-delay: 200ms;
+  /* override to make sure it's not inherited from other styles */
+  -webkit-animation-duration: 0;
+  animation-duration: 0; }
 
 .t52 {
   top: 52px !important; }

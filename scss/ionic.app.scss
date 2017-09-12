@@ -478,16 +478,26 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
 }
 
 .browse-sliderRow {
+  height: 200px;
+  background: white;
+  width: 100%;
+}
+
+ion-slides {
+  height: 200px !important;
+}
+
+.box {
   height: 100%;
-  background: #f2f4f5;
 }
 
 .browse-slideImgDiv {
   height: 100%;
   text-align: center;
+  width: 100%;
   img {
     height: 100%;
-    width: 100%;
+    width: auto;
   }
 }
 
@@ -507,7 +517,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
 .browse-card1 {
   padding: 1.5px;
   margin: 3px;
-  height: 215px;
+  height: 230px;
   .icondiv {
     height: auto;
     width: 100%; // padding: 15px 0;
@@ -874,8 +884,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
   padding: 0;
 }
 
-.prdcticon {
+.producticon {
   height: 120px;
+  margin: 10px 0;
   text-align: center;
   padding-right: 10px;
   position: relative;
@@ -904,6 +915,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
   h2 {
     color: #7a8a94;
     font-size: 14px;
+    text-transform: capitalize;
   }
   .total {
     font-size: 14px;
@@ -916,6 +928,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
   .desc {
     color: #7a8a94;
     font-size: 14px;
+    text-transform: capitalize;
     .qty {
       border-right: 1px solid #e0e0e0;
       padding-right: 10px;
@@ -988,6 +1001,20 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
   padding: 0;
   font-size: 16px;
   font-weight: 600;
+}
+
+//animation
+.chat-item.ng-enter {
+  -webkit-animation: fadeInLeft 1s;
+  animation: fadeInLeft 1s;
+}
+
+.chat-item.ng-enter-stagger {
+  -webkit-animation-delay: 200ms;
+  animation-delay: 200ms;
+  /* override to make sure it's not inherited from other styles */
+  -webkit-animation-duration: 0;
+  animation-duration: 0;
 }
 
 //review.html end

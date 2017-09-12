@@ -140,63 +140,58 @@ angular.module('starter.controllers', ['starter.services'])
 
   })
   .controller('BrowseCtrl', function ($scope, $stateParams, MyServices) {
-    $scope.feaprods = [{
-      bigImage: "img/feature.png"
-    }, {
-      bigImage: "img/feature.png"
-    }, {
-      bigImage: "img/feature.png"
-    }];
-    $scope.product = [{
-      catImage: "img/20liter.jpeg",
-      category: "20 Liter"
-    }, {
-      catImage: "img/1liter.jpeg",
-      category: "20 Liter"
-    }, {
-      catImage: "img/500ml.jpeg",
-      category: "500 ml"
-    }, {
-      catImage: "img/500ml.jpeg",
-      category: "250 ml"
-    }, {
-      catImage: "img/others.jpeg",
-      category: "Others"
-    }];
-    $scope.product = _.chunk($scope.product, 2);
+    // home slider start
+    $scope.sliderData = {};
+    var setupSlider = function () {
+      //some options to pass to our slider
+      $scope.sliderData.sliderOptions = {
+        initialSlide: 0,
+        direction: 'horizontal', //or vertical
+        speed: 300, //0.3s transition
+        autoplay: 5000
+      };
+
+      //create delegate reference to link with slider
+      $scope.sliderData.sliderDelegate = null;
+      //watch our sliderDelegate reference, and use it when it becomes available
+      $scope.$watch('data.sliderDelegate', function (newVal, oldVal) {
+        if (newVal != null) {
+          $scope.sliderData.sliderDelegate.on('slideChangeEnd', function () {
+            $scope.sliderData.currentPage = $scope.sliderData.sliderDelegate.activeIndex;
+            //use $scope.$apply() to refresh any content external to the slider
+            $scope.$apply();
+          });
+        }
+      });
+    };
+
+    setupSlider();
+
+    // get all Featured Product Api 
     MyServices.apiCallWithoutData('Product/getAllFeaturedProduct', function (data) {
       if (data.value) {
-        $scope.allFeaturedProduct = data.data;
+        $scope.sliderData.allFeaturedProduct = data.data;
       }
     });
+    // home slider end
     MyServices.apiCallWithoutData('Subcategory/getAll', function (data) {
       if (data.value) {
         $scope.allSubcategory = data.data;
         $scope.allSubcategory = _.chunk($scope.allSubcategory, 2);
       }
     });
-
+    var userData = {};
+    userData._id = $.jStorage.get('profile')._id;
+    MyServices.apiCallWithData("user/getCartForCustomer", userData, function (data) {
+      if (data.value) {
+        $scope.cartData = data.data.cart;
+      }
+    });
 
 
   })
   .controller('BrowseMoreCtrl', function ($scope, $stateParams, MyServices) {
-    $scope.title = $stateParams.category;
-    $scope.products = [{
-      smallImage: "img/bisleriaquacan.png",
-      name: "Aquafina",
-      tag: "Purified water",
-      price: "90"
-    }, {
-      smallImage: "img/greenbottle.png",
-      name: "Bisleri",
-      tag: "Purified water",
-      price: "90"
-    }, {
-      smallImage: "img/bisleriaquacan.png",
-      name: "Aquafina",
-      tag: "Purified water",
-      price: "90"
-    }];
+
     $scope.categoryData = {};
     $scope.categoryData.category = $stateParams.catId;
     MyServices.apiCallWithData('Product/getAllProductbyCategory', $scope.categoryData, function (data) {
@@ -205,50 +200,100 @@ angular.module('starter.controllers', ['starter.services'])
       }
     });
   })
-  .controller('RequirementCtrl', function ($scope, $stateParams) {
+  .controller('RequirementCtrl', function ($scope, $stateParams, MyServices, $ionicPopup, $state) {
+    $scope.productData = {};
 
-    $scope.planArray = [{
-      quantity: "10",
-      price: "90",
-      selected: false
-    }, {
-      quantity: "20",
-      price: "90",
-      selected: false
-    }, {
-      quantity: "30",
-      price: "90",
-      selected: false
-    }, {
-      quantity: "40",
-      price: "90",
-      selected: false
-    }, {
-      quantity: "50",
-      price: "90",
-      selected: false
-    }, {
-      quantity: "60",
-      price: "90",
-      selected: false
-    }, {
-      quantity: "70",
-      price: "90",
-      selected: false
-    }];
+    $scope.productData._id = $stateParams.productId;
+    $scope.userInfo = $.jStorage.get('profile');
+    MyServices.apiCallWithData('Product/getOne', $scope.productData, function (data) {
+      $scope.require = false;
+      if (data.value) {
+        $scope.product = data.data;
+        $scope.toggleCard();
+      }
+    });
+    $scope.toggleCard = function () {
+      $scope.require = !$scope.require;
+      $scope.activePlan = null;
+      _.forEach($scope.product.plans, function (value) {
+        value.selected = false;
+      });
 
+    }
     $scope.highlightPlan = function (index) {
-      $scope.findQuantity = $scope.planArray[index].quantity;
-      _.forEach($scope.planArray, function (value) {
+      $scope.findQuantity = $scope.product.plans[index].quantity;
+      _.forEach($scope.product.plans, function (value) {
         if (value.quantity == $scope.findQuantity) {
+          $scope.activePlan = {};
+          $scope.activePlan.plan = value;
           value.selected = true;
         } else {
           value.selected = false;
         }
       });
     }
+    $scope.getQuantity = function (index, quantity) {
+      $scope.activePlan = {};
+      $scope.activePlan.quantity = quantity;
+      $scope.activePlan.plan = 'One Time';
+    }
+    $scope.addToCart = function (data) {
+      var warehouseQuantity = {};
+      warehouseQuantity.product = $scope.product;
+      warehouseQuantity.product.plan = data.plan;
+      warehouseQuantity.pinCode = $scope.userInfo.pincode;
+      if ($scope.userInfo.warehouseId) {
+        warehouseQuantity.warehouseId = $scope.warehouseId;
+      }
+
+      if (data.plan == 'One Time') {
+        warehouseQuantity.product.quantity = data.quantity;
+      } else {
+        // if (typeof data.plan == 'string') {
+        //   data.plan = JSON.parse(data.plan);
+        // }
+        warehouseQuantity.product.quantity = data.plan.quantity;
+      }
+      MyServices.apiCallWithData("warehouse/checkProductAvailability", warehouseQuantity, function (warehouseData) {
+        if (warehouseData.value) {
+          if (warehouseData.data) {
+
+            $scope.userInfo.warehouseId = warehouseData.data._id;
+            $scope.userInfo = $.jStorage.set('profile', $scope.userInfo);
+          }
+          var cartData = {};
+          cartData._id = $scope.userInfo._id;
+          cartData.productId = $stateParams.productId;
+          cartData.plan = $scope.activePlan.plan;
+          if (cartData.plan.selected) {
+            delete cartData.plan.selected;
+          }
+          if ($scope.activePlan.quantity) {
+            cartData.quantity = $scope.activePlan.quantity;
+          }
+          MyServices.apiCallWithData("user/addUpdateCart", cartData, function (cartResponse) {
+            if (cartResponse.value) {
+              $state.go('app.review');
+            } else {
+              $ionicPopup.alert({
+                title: "Failed",
+                template: 'error occure in add to cart'
+              });
+            }
+
+          });
+
+        } else {
+          $ionicPopup.alert({
+            title: "Failed",
+            template: warehouseData.error
+          });
+        }
+      });
+
+    };
   })
-  .controller('ReviewCtrl', function ($scope, $stateParams, $ionicPopup) {
+  .controller('ReviewCtrl', function ($scope, $stateParams, $ionicPopup, MyServices) {
     $scope.product = [{
       name: "Kinley 1L Carton",
       unit: "Carton",
@@ -277,22 +322,45 @@ angular.module('starter.controllers', ['starter.services'])
       plan: false,
       id: 3
     }];
-    $scope.removeProduct = function (product) {
-      $ionicPopup.alert({
-        cssClass: 'removedpopup',
-        title: '<img src="img/tick.png">',
-        template: "Products Removed Successfully!"
-      });
-      _.remove($scope.product, function (n) {
-        return n.id == product.id;
+    var userData = {};
+    userData._id = $.jStorage.get('profile')._id;
+    MyServices.apiCallWithData("user/getCartForCustomer", userData, function (data) {
+      if (data.value) {
+        $scope.cartData = data.data.cart;
+        $scope.getTotal();
+      }
+    });
+
+
+    $scope.removeProduct = function (cart) {
+      userData.cartId = cart._id;
+      MyServices.apiCallWithData("user/deleteFromCart", userData, function (data) {
+        if (data.value) {
+          $scope.cartData = data.data.cart;
+          $scope.getTotal();
+          $ionicPopup.alert({
+            cssClass: 'removedpopup',
+            title: '<img src="img/tick.png">',
+            template: "Products Removed Successfully!"
+          });
+        } else {
+          $ionicPopup.alert({
+            cssClass: 'productspopup',
+            title: '<img src="img/linkexpire.png">',
+            template: "Error Occured while Removing Products to Cart"
+          });
+        }
       });
     }
     $scope.getTotal = function () {
-      var total = 0;
-      _.forEach($scope.product, function (value) {
-        total = total + (value.quantity * value.price);
+      $scope.total = 0;
+      _.forEach($scope.cartData, function (value) {
+        if (value.plan == 'One Time') {
+          $scope.total = $scope.total + (value.quantity * value.productId.price);
+        } else {
+          $scope.total = $scope.total + (value.plan.quantity * value.plan.price);
+        }
       });
-      return total;
     }
   })
   .controller('DeliveryCtrl', function ($scope, $stateParams) {})
