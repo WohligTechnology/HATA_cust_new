@@ -226,6 +226,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
 .nav-height .bar.bar-stable .title {
   line-height: 52px!important;
   font-size: 22px!important;
+  font-weight: 600;
 }
 
 //navigation end
@@ -864,6 +865,11 @@ ion-slides {
   }
 }
 
+.outOfStock {
+  font-size: 14px;
+  color: #ff414d;
+}
+
 .no-product {
   padding: 20px;
   font-size: 18px;
@@ -919,10 +925,13 @@ ion-slides {
   }
   .total {
     font-size: 14px;
-    span,
-    label {
+    span {
       color: #7a7f82;
+      font-weight: 500;
+    }
+    label {
       font-weight: 600;
+      color: black;
     }
   }
   .desc {
@@ -979,14 +988,18 @@ ion-slides {
 }
 
 .pay {
-  width: 100;
+  width: 100%;
   height: 100%;
   text-align: center;
-  padding-top: 15px;
+  padding-top: 8px!important;
   background: $positive;
   color: white;
-  i {
-    margin: 0 5px;
+  margin: 0;
+  .paydiv {
+    font-size: 18px;
+    i {
+      margin: 0 5px;
+    }
   }
 }
 
@@ -1187,7 +1200,7 @@ ion-slides {
 .ordersname {
   border-right: 1px solid #d2d2d2;
   margin: 0 10px 0 0;
-  height: 40%;
+  height: 30px;
   h4 {
     font-size: 16px;
     margin: 5px 0;

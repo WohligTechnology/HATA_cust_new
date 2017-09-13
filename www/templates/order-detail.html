@@ -1,4 +1,4 @@
-<ion-view title="Order {{orderId}}">
+<ion-view title="Order #{{orderDetail.orderId}}">
   <ion-nav-bar class="bar-stable schedule-bar  nav-height">
     <ion-nav-buttons side="left">
       <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
@@ -9,38 +9,40 @@
 
   <ion-content class="bg-prdct  t52">
     <div class="prod-det">
-      <div class="card" ng-repeat="p in product">
+      <div class="card" ng-repeat="p in orderDetail.products">
         <div class="item item-text-wrap pad0">
           <div class="row">
             <div class="col-33">
-              <div class="prdcticon">
-                <img ng-src="{{p.img}}" alt="">
+              <div class="producticon">
+                <img ng-src="{{p.product.smallImage | uploadpath}}" alt="">
               </div>
 
             </div>
 
             <div class="col-66">
               <div class="details-div">
-                <h2>{{p.name}} </h2>
-                <div for="" class="desc" ng-if="!p.plan"><span class="qty">{{p.quantity}} {{p.unit}}s</span><span>Rs. {{p.price}} <span ng-if="p.deposit">+ {{p.deposit}}</span> / {{p.unit}}</span></div>
-                <div for="" class="desc" ng-if="p.plan"><span class="qty">{{p.quantity}} {{p.unit}} plan</span><span>Rs. {{p.price}}/ {{p.unit}}</span></div>
-                <div for="" class="total"><span class="">Total: </span><label for="">Rs.{{p.quantity*(p.price + p.deposit)}}</label></div>
-                <div for="" class="deposit" ng-if="p.deposit">Existing Deposit (<label for="">- Rs.150</label>)</div>
+                <h2>{{p.product.name}} </h2>
+                <div for="" class="desc" ng-if="p.plan == 'One Time'"><span class="qty">{{p.quantity}} {{p.product.unit}}s</span><span>Rs. {{p.product.price}} <span ng-if="p.product.returnable">+ {{p.product.depositAmount}}</span>                  / {{p.product.unit}}</span>
+                </div>
+                <div for="" class="desc" ng-if="p.plan!='One Time'"><span class="qty">{{p.plan.quantity}} {{p.product.unit}} plan</span><span>Rs. {{p.plan.price}}/ {{p.product.unit}}</span></div>
+                <div for="" class="deposit" ng-if="p.depositStatus =='Deducted'">Existing Deposit (<label for="">- Rs.{{p.prevDeposit}}</label>)</div>
+                <div for="" class="total" ng-if="p.plan=='One Time'"><span class="">Total: </span><label for="">Rs.{{(p.quantity * p.product.price)+p.deposit}}</label></div>
+                <div for="" class="total" ng-if="p.plan!='One Time'"><span class="">Total: </span ><label for="" >Rs.{{p.plan.quantity*p.plan.price}}</label></div>
               </div>
 
             </div>
           </div>
           <div class=" btmrow">
-            <div class="btmorder" ng-if="p.date">Delivery Date: <span>{{p.date}}</span></div>
-            <div class="btmorder positive" ng-if="!p.date" ui-sref="app.deliveryhistory">SEE DELIVERY HISTORY</div>
+            <div class="btmorder" ng-if="p.plan == 'One Time'">Delivery Date: <span>{{p.date}}</span></div>
+                <div class="btmorder positive" ng-if="p.plan != 'One Time'" ui-sref="app.deliveryhistory">SEE DELIVERY HISTORY</div>
+              </div>
+
+            </div>
           </div>
 
+
+
         </div>
-      </div>
-
-
-
-    </div>
   </ion-content>
 
 </ion-view>

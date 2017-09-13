@@ -180,8 +180,11 @@ angular.module('starter.controllers', ['starter.services'])
         $scope.allSubcategory = _.chunk($scope.allSubcategory, 2);
       }
     });
+    $scope.userInfo = $.jStorage.get('profile');
     var userData = {};
-    userData._id = $.jStorage.get('profile')._id;
+    userData._id = $scope.userInfo._id;
+    userData.pincode = $scope.userInfo.pincode;
+    userData.warehouseId = $scope.userInfo.warehouseId;
     MyServices.apiCallWithData("user/getCartForCustomer", userData, function (data) {
       if (data.value) {
         $scope.cartData = data.data.cart;
@@ -202,7 +205,6 @@ angular.module('starter.controllers', ['starter.services'])
   })
   .controller('RequirementCtrl', function ($scope, $stateParams, MyServices, $ionicPopup, $state) {
     $scope.productData = {};
-
     $scope.productData._id = $stateParams.productId;
     $scope.userInfo = $.jStorage.get('profile');
     MyServices.apiCallWithData('Product/getOne', $scope.productData, function (data) {
@@ -233,31 +235,34 @@ angular.module('starter.controllers', ['starter.services'])
       });
     }
     $scope.getQuantity = function (index, quantity) {
-      $scope.activePlan = {};
-      $scope.activePlan.quantity = quantity;
-      $scope.activePlan.plan = 'One Time';
+      if (_.isEmpty(quantity) && quantity > 0) {
+        $scope.activePlan = {};
+        $scope.activePlan.quantity = quantity;
+        $scope.activePlan.plan = 'One Time';
+      } else {
+        $scope.activePlan = null;
+      }
     }
     $scope.addToCart = function (data) {
       var warehouseQuantity = {};
       warehouseQuantity.product = $scope.product;
       warehouseQuantity.product.plan = data.plan;
       warehouseQuantity.pinCode = $scope.userInfo.pincode;
-      if ($scope.userInfo.warehouseId) {
-        warehouseQuantity.warehouseId = $scope.warehouseId;
+      if ($.jStorage.get('profile').warehouseId) {
+        warehouseQuantity._id = $.jStorage.get('profile').warehouseId;
       }
 
       if (data.plan == 'One Time') {
         warehouseQuantity.product.quantity = data.quantity;
       } else {
-        // if (typeof data.plan == 'string') {
-        //   data.plan = JSON.parse(data.plan);
-        // }
+        if (typeof data.plan == 'string') {
+          data.plan = JSON.parse(data.plan);
+        }
         warehouseQuantity.product.quantity = data.plan.quantity;
       }
       MyServices.apiCallWithData("warehouse/checkProductAvailability", warehouseQuantity, function (warehouseData) {
         if (warehouseData.value) {
           if (warehouseData.data) {
-
             $scope.userInfo.warehouseId = warehouseData.data._id;
             $scope.userInfo = $.jStorage.set('profile', $scope.userInfo);
           }
@@ -294,50 +299,33 @@ angular.module('starter.controllers', ['starter.services'])
     };
   })
   .controller('ReviewCtrl', function ($scope, $stateParams, $ionicPopup, MyServices) {
-    $scope.product = [{
-      name: "Kinley 1L Carton",
-      unit: "Carton",
-      quantity: 10,
-      price: 240,
-      img: "img/1l_carton.jpeg",
-      date: "14 March 2017",
-      plan: false,
-      id: 1
-    }, {
-      name: "Kinley 20L Jar",
-      unit: "Jar",
-      quantity: 30,
-      price: 90,
-      img: "img/20l_jar.jpeg",
-      plan: true,
-      id: 2
-    }, {
-      name: "Kinley 20L Jar",
-      unit: "Jar",
-      quantity: 4,
-      price: 90,
-      img: "img/20l_jar.jpeg",
-      date: "14 March 2017",
-      deposit: 150,
-      plan: false,
-      id: 3
-    }];
+    $scope.userInfo = $.jStorage.get('profile');
+
     var userData = {};
-    userData._id = $.jStorage.get('profile')._id;
+    userData._id = $scope.userInfo._id;
+    userData.pincode = $scope.userInfo.pincode;
+    userData.warehouseId = $scope.userInfo.warehouseId;
+    $scope.outOfStock = false;
+
     MyServices.apiCallWithData("user/getCartForCustomer", userData, function (data) {
       if (data.value) {
+        $scope.outOfStock = false;
         $scope.cartData = data.data.cart;
         $scope.getTotal();
       }
     });
-
-
     $scope.removeProduct = function (cart) {
       userData.cartId = cart._id;
       MyServices.apiCallWithData("user/deleteFromCart", userData, function (data) {
+        console.log(data);
         if (data.value) {
           $scope.cartData = data.data.cart;
+          $scope.outOfStock = false;
           $scope.getTotal();
+          if (!data.data.cart || $scope.cartData.length == 0) {
+            delete $scope.userInfo.warehouseId;
+            $.jStorage.set('profile', $scope.userInfo);
+          }
           $ionicPopup.alert({
             cssClass: 'removedpopup',
             title: '<img src="img/tick.png">',
@@ -355,7 +343,13 @@ angular.module('starter.controllers', ['starter.services'])
     $scope.getTotal = function () {
       $scope.total = 0;
       _.forEach($scope.cartData, function (value) {
+        if (value.outOfStock) {
+          $scope.outOfStock = true;
+        }
         if (value.plan == 'One Time') {
+          if (value.deposit > 0) {
+            $scope.total = $scope.total + value.deposit;
+          }
           $scope.total = $scope.total + (value.quantity * value.productId.price);
         } else {
           $scope.total = $scope.total + (value.plan.quantity * value.plan.price);
@@ -364,7 +358,9 @@ angular.module('starter.controllers', ['starter.services'])
     }
   })
   .controller('DeliveryCtrl', function ($scope, $stateParams) {})
-  .controller('PaymentCtrl', function ($scope, $stateParams) {
+  .controller('PaymentCtrl', function ($scope, $stateParams, $state, MyServices, $ionicPopup) {
+    $scope.total = $stateParams.total;
+    $scope.userInfo = $.jStorage.get('profile');
 
     $scope.payment = [{
       name: "Credit Card",
@@ -376,6 +372,7 @@ angular.module('starter.controllers', ['starter.services'])
       name: "Net Banking",
       status: false
     }, {
+      name: "Paytm",
       img: "img/Paytm_logo.png",
       status: false
     }, {
@@ -395,44 +392,49 @@ angular.module('starter.controllers', ['starter.services'])
         }
       });
     }
+    $scope.createOrder = function () {
+      var userData = {};
+      userData._id = $scope.userInfo._id;
+      userData.paymentMethod = $scope.findPayment;
+      MyServices.apiCallWithData("user/generateUserOrder", userData, function (data) {
+        console.log(data);
+        if (data.value) {
+          delete $scope.userInfo.warehouseId;
+          $.jStorage.set('profile', $scope.userInfo);
+          $state.go('app.confirm');
+        } else {
+          $ionicPopup.alert({
+            cssClass: 'productspopup',
+            title: '<img src="img/linkexpire.png">',
+            template: "Error Occured while creating order"
+          });
+        }
+      });
+    }
   })
   .controller('ConfirmCtrl', function ($scope, $stateParams) {})
-  .controller('OrderhistoryCtrl', function ($scope, $stateParams) {
-    $scope.history = [{
-      orderId: "#170631",
-      product: [{
-        quantity: 10,
-        unit: "Carton",
-        name: "Kinley 1L",
-        plan: false
-      }, {
-        quantity: 30,
-        unit: "Jar",
-        name: "Kinley 20L",
-        plan: true
-      }],
-      total: 5100,
-      date: "13/04/17"
-    }]
+  .controller('OrderhistoryCtrl', function ($scope, $stateParams, MyServices) {
+
+    var userData = {};
+    userData._id = $.jStorage.get('profile')._id;
+    MyServices.apiCallWithData("Order/getOrdersForUser", userData, function (data) {
+      if (data.value) {
+        $scope.orderList = data.data.results;
+      }
+    });
+
+
   })
-  .controller('OrderDetailCtrl', function ($scope, $stateParams) {
-    $scope.orderId = $stateParams.orderId;
-    $scope.product = [{
-      name: "Kinley 20L Jar",
-      unit: "Jar",
-      quantity: 30,
-      price: 90,
-      img: "img/20l_jar.jpeg",
-      plan: true
-    }, {
-      name: "Kinley 1L Carton",
-      unit: "Carton",
-      quantity: 10,
-      price: 240,
-      img: "img/1l_carton.jpeg",
-      date: "13/04/17",
-      plan: false
-    }];
+  .controller('OrderDetailCtrl', function ($scope, $stateParams, MyServices) {
+    var orderData = {};
+    orderData._id = $stateParams.orderId;
+    MyServices.apiCallWithData("order/getOneOrder", orderData, function (data) {
+      if (data.value) {
+        $scope.orderDetail = data.data.order;
+      }
+    });
+
+
   })
   .controller('DeliveryHistoryCtrl', function ($scope, $stateParams) {
     var jarBalance = 4;

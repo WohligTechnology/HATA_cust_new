@@ -1,18 +1,18 @@
 <ion-view title="Order Details">
-    <ion-nav-bar class="bar-stable nav-height">
-      <ion-nav-buttons side="left">
-        <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
+  <ion-nav-bar class="bar-stable nav-height">
+    <ion-nav-buttons side="left">
+      <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
           </button>
-      </ion-nav-buttons>
+    </ion-nav-buttons>
 
-    </ion-nav-bar>
-
-
+  </ion-nav-bar>
 
 
-    <ion-content class="has-header bgearn  t52" >
 
-      <!-- <div class="hasorder-foot" ng-if="show==0">
+
+  <ion-content class="has-header bgearn  t52">
+
+    <!-- <div class="hasorder-foot" ng-if="show==0">
         <div class="" ng-repeat="order in OrderWithDelivery" ng-if="order.balance ">
             <label class="earning-Date" for="" ng-if="order.Order">{{order.deliverdate | date:'LLLL dd,yyyy'}}</label>
             <label class="earning-Date" for="" ng-if="!order.Order">{{order.orderDate | date:'LLLL dd,yyyy'}}</label>
@@ -40,40 +40,40 @@
             </div>
         </div>
       </div> -->
-      <div class="hasorder-foot orhistory">
-        <div class="" ng-repeat="order in history">
-            <div class="whtback">
-                <div class="row orderdiv">
-                    <div class="col-40 rel">
-                        <div class="ordersname">
-                            <h4>Order {{order.orderId}}</h4>
-                        </div>
-                    </div>
-                    <div class="col-30 rel">
-                        <div ng-repeat=" pro in order.product">
-                            <label for="" class="history-refils">{{pro.quantity}} {{pro.unit}}</label>
-                            <label for="" class="bottlename">{{pro.name}}</label>
-                        </div>
-                    </div>
-                    <div class="col-30 rel">
-                        <div class="ordertotal">
-                            <span>₹</span>
-                            <label for="">{{order.total}}</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="orderDate clearfix">
-                    <label for="" class="order">Order Date:{{order.date}}</label>
-                    <span class="deliver" ui-sref="app.order-detail({orderId:order.orderId})">More Info<i class="ion ion-chevron-right " > </i></span>
-                    <!-- <label for="" class="deliver" ng-if="order.plan">see Jar History</label>
-                    <label for="" class="deliver" ng-if="!order.plan "></label> -->
-                </div>
+    <div class="hasorder-foot orhistory">
+      <div class="" ng-repeat="order in orderList">
+        <div class="whtback">
+          <div class="row orderdiv">
+            <div class="col-40 rel">
+              <div class="ordersname">
+                <h4>Order {{order.orderId}}</h4>
+              </div>
             </div>
+            <div class="col-30 rel">
+              <div ng-repeat=" pro in order.products">
+                <label for="" class="history-refils">{{pro.quantity}} {{pro.product.unit}}</label>
+                <label for="" class="bottlename">{{pro.product.name}}</label>
+              </div>
+            </div>
+            <div class="col-30 rel">
+              <div class="ordertotal">
+                <span>₹</span>
+                <label for="">{{order.totalAmount}}</label>
+              </div>
+            </div>
+          </div>
+          <div class="orderDate clearfix">
+            <label for="" class="order">Order Date:{{order.createdAt | date : 'dd/MM/yy'}}</label>
+            <span class="deliver" ui-sref="app.order-detail({orderId:order._id})">More Info<i class="ion ion-chevron-right " > </i></span>
+            <!-- <label for="" class="deliver" ng-if="order.plan">see Jar History</label>
+                    <label for="" class="deliver" ng-if="!order.plan "></label> -->
+          </div>
         </div>
-        </div>
+      </div>
+    </div>
 
 
-    </ion-content>
+  </ion-content>
 
 
 </ion-view>

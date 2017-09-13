@@ -1,4 +1,4 @@
-<ion-view title="Choose Payment" >
+<ion-view title="Choose Payment">
   <ion-nav-bar class="bar-stable schedule-bar  nav-height">
     <ion-nav-buttons side="left">
       <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
@@ -7,7 +7,7 @@
 
   </ion-nav-bar>
   <ion-content class="browse-backgrndcolor">
-    <div class="paymenthead">Total Amount Payable <span>Rs.2420</span></div>
+    <div class="paymenthead">Total Amount Payable <span>Rs.{{total}}</span></div>
     <div class="list card paymentlist">
       <a class="item item-icon-left" ng-repeat="p in payment track by $index" ng-click="selectPayment($index)" ng-class="p.status ? 'pborder' : ''">
         <i class="icon" ng-class="p.status ? 'ion-android-radio-button-on' : 'ion-android-radio-button-off'"></i>
@@ -19,7 +19,7 @@
 
   <div class="bar bar-footer nextFooter footer-height">
 
-    <button class="button button-block button-positive footer-font" ui-sref="app.confirm" ng-disabled="!findPayment">
+    <button class="button button-block button-positive footer-font" ng-click="createOrder()" ng-disabled="!findPayment">
       Next
     </button>
   </div>

@@ -18,7 +18,7 @@
       <div ng-show="require" class="inputcard">
         <div class="require-accordion inputarea">
           <input type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
-            ng-model="quantity" placeholder="Enter the Quantity" ng-change="getQuantity(null,quantity);">
+            ng-model="quantity" placeholder="Enter the Quantity" ng-change="getQuantity(null,quantity);" required>
           <div class="bbtm"></div>
         </div>
         <div class="avgTxt" ng-show="require && product.returnable">Rs {{product.depositAmount}} Deposit Per {{product.unit}}</div>
@@ -33,7 +33,7 @@
       </div>
     </div>
     <flex-slider class="carousel " animation="slide" flex-slide="plan in product.plans track by $index" animation-loop="true"
-      item-margin="10" slideshow="false" item-width="120" maxItems="2.5" ng-if="!require">
+      item-margin="10" slideshow="false" item-width="120" maxItems="3" ng-if="!require">
       <li class="" ng-click="highlightPlan($index ,plan);">
         <div class="plancard" ng-class="plan.selected ? 'borderplan' : ''">
           <i class="ion ion-checkmark-circled" ng-show="plan.selected"></i>
@@ -46,7 +46,7 @@
     </flex-slider>
 
   </ion-content>
-  <div class="row btmnote">
+  <div class="row btmnote" ng-if="!require">
     <div class="col">
       <i class="ion ion-checkmark-circled"></i>
       <label for="">Lifetime Validity</label>

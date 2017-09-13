@@ -7,9 +7,9 @@
 
   </ion-nav-bar>
 
-  <ion-content class="bg-prdct hasfooter t52 ">
+  <ion-content class="bg-prdct hasfooter t52 " ng-init="remove=null">
     <div class="prod-det">
-      <div class="card chat-item" ng-repeat="cart in cartData" ng-if="product.length!=0">
+      <div class="card " ng-repeat="cart in cartData" ng-if="product.length!=0">
         <div class="item item-text-wrap pad0 ">
           <div class="row">
             <i class="button button-icon icon ion-ios-close-outline review-cancel" ng-click="removeProduct(cart);remove=cart"></i>
@@ -23,29 +23,30 @@
             <div class="col-66">
               <div class="details-div">
                 <h2>{{cart.productId.name}} {{cart.productId.unit}}</h2>
-                <div for="" class="desc" ng-if="cart.plan=='One Time'"><span class="qty">{{cart.quantity}} {{cart.productId.unit}}s</span><span>Rs. {{cart.productId.price}} <span ng-if="p.deposit">+ {{cart.productId.deposit}}</span>                  /{{cart.productId.unit}}
+                <div for="" class="desc" ng-if="cart.plan=='One Time'"><span class="qty">{{cart.quantity}} {{cart.productId.unit}}s</span><span>Rs. {{cart.productId.price}} <span ng-if="cart.productId.returnable">+ {{cart.productId.depositAmount}} Deposit</span>                  /{{cart.productId.unit}}
                   </span>
                 </div>
                 <div for="" class="desc" ng-if="cart.plan!='One Time'"><span class="qty">{{cart.plan.quantity}} {{cart.productId.unit}} plan</span><span>Rs. {{cart.plan.price}}/ {{cart.productId.unit}}</span></div>
-                <div for="" class="total" ng-if="cart.plan=='One Time'"><span class="">Total: </span><label for="">Rs.{{cart.quantity*cart.productId.price}}</label></div>
-                <div for="" class="total" ng-if="cart.plan!='One Time'"><span class="">Total: </span><label for="">Rs.{{cart.plan.quantity*cart.plan.price}}</label></div>
-                <div for="" class="deposit" ng-if="cart.deposit">Existing Deposit (<label for="">- Rs.150</label>)</div>
+                <div for="" class="deposit" ng-if="cart.depositStatus =='Deducted'">Existing Deposit (<label for="">- Rs.{{cart.prevDeposit}}</label>)</div>
+                <div for="" class="total" ng-if="cart.plan=='One Time'"><span class="">Total: </span><label for="">Rs.{{(cart.quantity * cart.productId.price)+cart.deposit}}</label></div>
+                <div for="" class="total" ng-if="cart.plan!='One Time'"><span class="">Total: </span ><label for="" >Rs.{{cart.plan.quantity*cart.plan.price}}</label></div>
+                <div for="" class="outOfStock" ng-if="cart.outOfStock">Proudct Out of Stock</div>
               </div>
 
             </div>
           </div>
           <div class=" btmrow">
             <div class="btmorder " ng-if="cart.plan=='One Time'">Estimated Delivery: <span>{{cart.date}}</span></div>
-            <div class="btmorder" ng-if="cart.plan!='One Time'">Schedule delivery from dashboard</div>
+                <div class="btmorder" ng-if="cart.plan!='One Time'">Schedule delivery from dashboard</div>
+              </div>
+
+            </div>
           </div>
 
-        </div>
-      </div>
-
-      <div class="card no-product" ng-if="cartData.length==0">
-        There is no product
-      </div>
-      <!--<div class="row chkoutcoupon" ng-if="product.length!=0">
+          <div class="card no-product" ng-if="!cartData || cartData.length==0 ">
+            There is no product
+          </div>
+          <!--<div class="row chkoutcoupon" ng-if="product.length!=0">
         <div class="col-50">
           <label for="">Enter coupon code</label>
         </div>
@@ -55,14 +56,14 @@
       </div>-->
 
 
-    </div>
+        </div>
   </ion-content>
   <div class="bar bar-footer row review-foot">
     <div class="col addmore" ui-sref="app.browse">
       <div>Add More</div>
     </div>
-    <div class="col pay" ui-sref="app.payment" ng-if="cartData.length!=0">
-      <div>Pay Rs. {{total}} <i class="ion ion-chevron-right"></i></div>
+    <div class="col pay button" ui-sref="app.payment({total:total})" ng-if="cartData.length!=0 " ng-disabled="outOfStock">
+      <div class="paydiv">Pay Rs. {{total}} <i class="ion ion-chevron-right"></i></div>
 
     </div>
   </div>

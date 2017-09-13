@@ -100,7 +100,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
       })
       .state('app.payment', {
         cache: false,
-        url: '/payment',
+        url: '/payment/:total',
         views: {
           'menuContent': {
             templateUrl: 'templates/payment.html',
