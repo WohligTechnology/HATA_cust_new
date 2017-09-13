@@ -14,17 +14,17 @@
     </ion-nav-bar>
     <ion-nav-view name="menuContent"></ion-nav-view>
   </ion-side-menu-content>
-  <ion-side-menu side="left" class="menu-header" drag-content="false" >
+  <ion-side-menu side="left" class="menu-header" drag-content="false">
     <ion-header-bar class="bar-stable">
 
       <div>
-        <label class="menu-displayName" menu-close ui-sref="app.profile" for="">Customer Name</label>
+        <label class="menu-displayName" menu-close ui-sref="app.profile" for="">{{userData.name}}</label>
         <label class="menu-phn" menu-close ui-sref="app.profile" for="">9769977005</label>
       </div>
     </ion-header-bar>
     <ion-content class="hasmenuhead menu-bgcolor">
 
-      <div class="menu-dash" menu-close ui-sref="app.dashboard" >
+      <div class="menu-dash" menu-close ui-sref="app.dashboard">
         <label class="menu-label" for="">Dashboard</label>
       </div>
       <div class="menu-div" menu-close ui-sref="app.orderhistory">
@@ -37,12 +37,12 @@
       <div class="menu-helpdiv" menu-close ui-sref="app.help">
         <label class="menu-label" for="">Help</label>
       </div>
-       <div class="menu-div" menu-close ng-click="logout()">
+      <div class="menu-div" menu-close ng-click="logout()">
         <label class="menu-label" for="">Logout</label>
-      </div> 
+      </div>
     </ion-content>
   </ion-side-menu>
-  <ion-side-menu class=" notify-header noti" side="right" drag-content="false" >
+  <ion-side-menu class=" notify-header noti" side="right" drag-content="false">
 
     <ion-header-bar class="bar-stable">
       <i class="ion ion-android-close" menu-close></i>

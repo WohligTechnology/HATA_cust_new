@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['starter.services'])
 
-  .controller('AppCtrl', function ($scope, $stateParams, $state, $ionicPopover, $ionicSideMenuDelegate) {
+  .controller('AppCtrl', function ($scope, $stateParams, $state, $ionicPopover, $ionicSideMenuDelegate, MyServices) {
     $scope.goBackHandler = function () {
       window.history.back(); //This works
     };
@@ -11,6 +11,21 @@ angular.module('starter.controllers', ['starter.services'])
       $state.go('landing');
 
     };
+    $scope.userInfo = $.jStorage.get('profile');
+    var userData = {};
+    userData._id = $.jStorage.get('profile')._id;
+    $scope.$watch(function () {
+        return $ionicSideMenuDelegate.isOpenLeft();
+      },
+      function (isOpen) {
+        if (isOpen) {
+          MyServices.apiCallWithData('user/getOne', userData, function (data) {
+            if (data.value) {
+              $scope.userData = data.data;
+            }
+          });
+        }
+      });
 
     $scope.$on('$ionicView.enter', function () {
       $ionicSideMenuDelegate.canDragContent(false);
