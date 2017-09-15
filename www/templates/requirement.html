@@ -33,7 +33,7 @@
       </div>
     </div>
     <flex-slider class="carousel " animation="slide" flex-slide="plan in product.plans track by $index" animation-loop="true"
-      item-margin="10" slideshow="false" item-width="120" maxItems="3" ng-if="!require">
+      item-margin="10" slideshow="false" item-width="120" maxItems="" ng-if="!require">
       <li class="" ng-click="highlightPlan($index ,plan);">
         <div class="plancard" ng-class="plan.selected ? 'borderplan' : ''">
           <i class="ion ion-checkmark-circled" ng-show="plan.selected"></i>

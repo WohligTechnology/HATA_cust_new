@@ -10266,16 +10266,27 @@ ion-slides {
 
 .browse-aqualbl {
   font-size: 16px;
-  font-weight: 500; }
+  font-weight: 500;
+  text-transform: capitalize; }
 
 .colorpure {
-  color: #3d619b; }
+  color: #3d619b;
+  text-transform: capitalize; }
 
 .mbt {
   margin-bottom: 30px; }
 
 .browse-morerupee {
   color: #a2a9ad; }
+
+.notAvail {
+  color: #223c4d;
+  position: absolute;
+  top: 40%;
+  width: 100%;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600; }
 
 .mainmar25-50 {
   text-align: center;
@@ -10287,9 +10298,6 @@ ion-slides {
     font-size: 18px;
     font-weight: 500;
     color: #ff414d; }
-
-.activated {
-  background: transparent !important; }
 
 .bbnone {
   border-bottom: 1px solid transparent; }
@@ -10341,16 +10349,20 @@ ion-slides {
 .requirecard {
   box-shadow: none;
   margin-bottom: 5px; }
+  .requirecard .activated {
+    background: transparent !important; }
 
 .rq-prdctname {
   float: left;
   font-size: 18px;
-  color: #223c4d; }
+  color: #223c4d;
+  text-transform: capitalize; }
 
 .rq-plan {
   float: left;
-  font-size: 14px;
-  color: #223c4d; }
+  font-size: 12px;
+  color: #223c4d;
+  text-transform: capitalize; }
 
 .rq-rupee {
   font-size: 18px;
@@ -10456,38 +10468,48 @@ ion-slides {
     color: #7a8a94; }
 
 .removedpopup h3 img {
-  max-width: 50px;
-  max-height: 50px; }
+  max-width: 35px;
+  max-height: 35px; }
+
+.removedpopup .popup {
+  border-radius: 5px; }
 
 .removedpopup .popup-body {
-  background: white; }
+  background: white;
+  color: #223c4d;
+  text-align: center;
+  font-weight: 600;
+  padding-bottom: 30px;
+  font-size: 14px; }
+  .removedpopup .popup-body h4 {
+    margin: 0;
+    font-size: 20px;
+    color: #223c4d;
+    font-weight: 600; }
+  .removedpopup .popup-body label {
+    font-size: 12px; }
 
 .removedpopup .popup-head {
-  padding: 15px 10px;
+  padding-top: 30px;
+  padding-bottom: 0;
   border-bottom: none !important;
   text-align: center;
-  background: white; }
+  background: white;
+  border-radius: 5px; }
 
 .removedpopup .popup-buttons {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-direction: normal;
-  -webkit-box-orient: horizontal;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  padding: 10px;
-  min-height: 65px;
-  background: white; }
+  padding: 0;
+  min-height: 40px;
+  background: white;
+  border: none; }
+  .removedpopup .popup-buttons button {
+    border: none;
+    min-height: 35px; }
 
 .outOfStock {
   font-size: 14px;
-  color: #ff414d; }
+  color: #ff414d;
+  text-align: center; }
 
 .no-product {
   padding: 20px;
@@ -10557,10 +10579,9 @@ ion-slides {
 .btmrow {
   background: #fbfbfb;
   color: #7a7f82;
-  padding: 10px 0 !important;
+  padding: 10px !important;
   font-size: 14px;
-  text-align: right;
-  margin-right: 10px; }
+  text-align: right; }
   .btmrow span {
     color: #223c4d; }
 
@@ -10841,6 +10862,64 @@ ion-slides {
 .brorder {
   border-right: 1px solid #abb1b5; }
 
+.productspopup .popup-sub-title {
+  margin: 5px 0 0;
+  padding: 0;
+  font-weight: normal;
+  font-size: 15px; }
+
+.productspopup h3 img {
+  max-width: 50px;
+  max-height: 50px; }
+
+.productspopup .popup-head {
+  padding: 15px 10px;
+  border-bottom: none !important;
+  text-align: center;
+  background: white; }
+
+.productspopup .popup-buttons {
+  padding: 0;
+  min-height: 45px; }
+
+.productspopup .popup-buttons .button {
+  height: 20px;
+  background: #fafafa;
+  position: absolute;
+  position: absolute;
+  bottom: 0;
+  width: 50%;
+  border-radius: 0;
+  font-size: 14px; }
+
+.productspopup .popup-buttons .button:last-child {
+  height: 20px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50%;
+  border-radius: 0;
+  background: #ff414d;
+  font-size: 14px; }
+
+.notPlan {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #223c4d;
+  position: absolute; }
+  .notPlan h4 {
+    font-size: 18px;
+    color: #223c4d;
+    font-weight: 600; }
+  .notPlan label {
+    display: block;
+    padding: 10px;
+    padding-bottom: 30px; }
+  .notPlan button {
+    text-align: center;
+    padding: 0 40px; }
+
 .bg-dashboard {
   background: #f2f4f5;
   top: 54px;
@@ -10918,7 +10997,8 @@ ion-slides {
     line-height: 76px; }
   .dashslider .card .prod-name {
     color: #223c4d;
-    font-size: 16px; }
+    font-size: 16px;
+    text-transform: capitalize; }
 
 .dashslider ul {
   margin-left: 20px; }
@@ -11251,3 +11331,11 @@ ion-slides {
 
 .top-0 {
   margin-top: 0px !important; }
+
+.lockIcon {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  background: lightgrey;
+  padding: 5px;
+  font-size: 12px; }

@@ -10,52 +10,62 @@
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content class="has-header bg-dashboard">
-
-    <div class="dashslider">
-      <flex-slider class=" " animation="slide" flex-slide="p in dasharray track by $index" animation-loop="false" item-margin="37" item-width="{{flexwidth}}" slideshow="false" maxItems="">
-        <li class="">
-          <div class="card">
-            <label for="" class="prod-name">{{p.name}} {{p.unit}} Balance</label>
-            <label class="baltxt" >{{p.balance}}</label>
-            <button class="button del-his-btn " ui-sref="app.deliveryhistory">
+    <div ng-if="plans.length > 0">
+      <div class="dashslider">
+        <flex-slider class=" " animation="slide" flex-slide="p in plans track by $index" animation-loop="false" item-margin="37"
+          item-width="{{flexwidth}}" slideshow="false" maxItems="">
+          <li class="">
+            <div class="card">
+              <label for="" class="prod-name">{{p.product.name}} {{p.product.unit}} Balance</label>
+              <label class="baltxt">{{p.quantity}}</label>
+              <button class="button del-his-btn " ui-sref="app.deliveryhistory">
                Delivery History
             </button>
-          </div>
-        </li>
-      </flex-slider>
-    </div>
-    <div class="card jarcard">
-      <div class="row">
-        <div class="col-66">
-          <div class="datediv">
+            </div>
+            <div class="card jarcard">
+              <div class="row">
+                <div class="col-66">
+                  <div class="datediv">
 
-            <!-- <label class="card-label" for="" >Schedule your first Delivery</label> -->
-            <label class="date-text" for="">We'll be in your area on</label>
-            <!-- <label class="card-label" for="" >Delivery Scheduled for</label> -->
-            <!-- <span class="cardDayspan" >{{lastJarBal.deliverdate2 | date :'EEEE'}} </span> -->
-            <!-- <span class="cardDate" >{{lastJarBal.deliverdate2 | date :'MMMM dd,'}}</span> -->
-            <span class="cardDayspan">Wednesday,</span>
-            <span class="cardDate"> March 29.</span>
-          </div>
+                    <!-- <label class="card-label" for="" >Schedule your first Delivery</label> -->
+                    <label class="date-text" for="">We'll be in your area on</label>
+                    <!-- <label class="card-label" for="" >Delivery Scheduled for</label> -->
+                    <!-- <span class="cardDayspan" >{{lastJarBal.deliverdate2 | date :'EEEE'}} </span> -->
+                    <!-- <span class="cardDate" >{{lastJarBal.deliverdate2 | date :'MMMM dd,'}}</span> -->
+                    <span class="cardDayspan">{{estimatedDate | date:'EEEE'}},</span>
+                    <span class="cardDate"> {{estimatedDate | date :'MMMM dd.'}}</span>
+                  </div>
 
-          <button class="button card-schedule" ui-sref="app.schedule">
-             Schedule delivery
-          </button>
-          <!-- <button class="button card-schedule" ng-click="cancelJarDelivery()">
-             Cancel delivery
-          </button> -->
-        </div>
-        <div class="col-33">
-          <div class="card-imgDiv">
-            <img class="card-img img-responsive" src="img/bisleri.png" alt="">
-          </div>
+                  <button class="button card-schedule" ui-sref="app.schedule({productId:p.product._id})" ng-if="!p.deliveryRequest">
+                  Schedule delivery
+                </button>
+                  <button class="button card-schedule" ng-click="cancelDelivery(p.deliveryRequest._id)" ng-if="p.deliveryRequest">
+                  Cancel delivery
+                </button>
+                </div>
+                <div class="col-33">
+                  <div class="card-imgDiv">
+                    <img class="card-img img-responsive" src="img/bisleri.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </flex-slider>
+      </div>
+
+      <div class="card bmore">
+        <div class="item item-text-wrap" ui-sref='app.browse'>
+          Browse More Products
         </div>
       </div>
     </div>
-    <div class="card bmore">
-      <div class="item item-text-wrap" ui-sref='app.browse'>
-        Browse More Products
-      </div>
+    <div class="notPlan" ng-if="plans.length==0">
+      <h4>Currently you are not subscribed to any plans.</h4>
+      <label for="">Our plans are cheaper and more convenient</label>
+      <button class="button button-medium button-assertive">
+        Start Today
+      </button>
     </div>
   </ion-content>
 

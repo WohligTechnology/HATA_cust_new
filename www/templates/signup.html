@@ -1,9 +1,9 @@
 <ion-view title="Sign up">
   <ion-nav-bar class="bar-stable nav-height">
-    <ion-nav-buttons side="left">
+    <!--<ion-nav-buttons side="left">
       <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
         </button>
-    </ion-nav-buttons>
+    </ion-nav-buttons>-->
   </ion-nav-bar>
   <form ng-submit="saveUser()" name="userForm">
     <ion-content class="has-header signUpForm hasterms t54">
@@ -20,37 +20,37 @@
       <div class="signuppad loginform">
         <div>
           <label class=" item-input " ng-if="signupForm.userType == 'Corporate' || signupForm.userType == 'Other'">
-        <input type="text" placeholder="Institution Name"  ng-model="signupForm.institutionName" value="{{signupForm.institutionName}}" name="institutionName" ng-required="signupForm.userType == 'Corporate' || signupForm.userType == 'Other'" ng-disabled="lockData">
+        <input type="text" placeholder="Institution Name"  ng-model="signupForm.institutionName"  name="institutionName" ng-required="signupForm.userType == 'Corporate' || signupForm.userType == 'Other'" ng-disabled="lockData">
         </label>
           <p class="error-msg" ng-show="userForm.institutionName.$error.required && userForm.institutionName.$touched">Please Enter Your Institution Name.</p>
         </div>
         <div>
           <label class=" item-input ">
-        <input type="text" placeholder="Full Name"  ng-model="signupForm.name" value="{{signupForm.name}}" name="name" required ng-disabled="lockData">
+        <input type="text" placeholder="Full Name"  ng-model="signupForm.name" name="name" required ng-disabled="lockData">
         </label>
           <p class="error-msg" ng-show="userForm.name.$error.required && userForm.name.$touched">Please Enter Your Full Name.</p>
         </div>
         <div>
           <label class=" item-input ">
-            <input type="email" placeholder="Email ID" ng-model="signupForm.email" value="{{signupForm.email}}" name="email" required ng-disabled="lockData">
+            <input type="email" placeholder="Email ID" ng-model="signupForm.email"  name="email" required ng-disabled="lockData">
           </label>
           <p class="error-msg" ng-show="userForm.email.$touched && userForm.email.$invalid">Please Enter your Email ID</p>
         </div>
         <div>
           <label class=" item-input ">
-            <input type="text" placeholder="Mobile Number" ng-model="signupForm.registerMobile" name="mob"  value="{{signupForm.registerMobile}}" disabled required >
+            <input type="text" placeholder="Mobile Number" ng-model="signupForm.registerMobile" name="mob"   disabled required >
           </label>
           <!--<p class="error-msg" ng-show="userForm.mob.$error.required && userForm.mob.$touched">Please Enter your Mobile Number</p>-->
         </div>
         <div>
           <label class=" item-input ">
-            <input type="text" placeholder="Address" ng-model="signupForm.deliveryAddress" name="deliveryAddress"  value="{{signupForm.deliveryAddress}}"  required ng-disabled="lockData">
+            <input type="text" placeholder="Address" ng-model="signupForm.deliveryAddress" name="deliveryAddress"   required ng-disabled="lockData">
           </label>
           <p class="error-msg" ng-show="userForm.deliveryAddress.$error.required && userForm.deliveryAddress.$touched">Please Enter your Address </p>
         </div>
         <div>
           <label class=" item-input ">
-            <input limit-to="6"  type="number" placeholder="Pincode"  ng-model="signupForm.pinCode" name="pinCode" value="{{signupForm.pinCode}}" ng-min="100000" ng-max="999999"  required ng-disabled="lockData">
+            <input limit-to="6"  type="number" placeholder="Pincode"  ng-model="signupForm.pinCode" name="pinCode"  ng-min="100000" ng-max="999999"  required ng-disabled="lockData">
           </label>
           <p class="error-msg" ng-show="userForm.pinCode.$invalid && userForm.pinCode.$touched">Please Enter your Pincode.</p>
         </div>

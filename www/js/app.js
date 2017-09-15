@@ -156,7 +156,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
         }
       })
       .state('app.schedule', {
-        url: '/schedule',
+        url: '/schedule/:productId',
         cache: false,
         views: {
           'menuContent': {
@@ -167,7 +167,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
       })
       .state('app.thankyou', {
         cache: false,
-        url: '/thankyou',
+        url: '/thankyou/:productId',
         views: {
           'menuContent': {
             templateUrl: 'templates/thankyou.html',

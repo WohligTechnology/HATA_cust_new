@@ -5,7 +5,8 @@
         <label for="" class="otpLabel">Enter the <span class="fourdigit">4-digit OTP</span> code you <br> received through <span class="fourdigit">SMS</span></label>
 
         <div class="otp-verify">
-          <input type="number" class="" limit-to="4" ng-model="otp" ng-min="1000" ng-max="9999">
+          <input type="number" class="" limit-to="4" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+            ng-model="otp" ng-min="1000" ng-max="9999">
         </div>
         <button class="button button-assertive verifybtn" ng-click="verifyOtp(otp)" ng-disabled="!otp">
   VERIFY

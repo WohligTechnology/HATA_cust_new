@@ -1,45 +1,48 @@
 <ion-view title="Delivery History">
-    <ion-nav-bar class="bar-stable nav-height">
-      <ion-nav-buttons side="left">
-        <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
+  <ion-nav-bar class="bar-stable nav-height">
+    <ion-nav-buttons side="left">
+      <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
           </button>
-      </ion-nav-buttons>
+    </ion-nav-buttons>
 
-    </ion-nav-bar>
-
-
+  </ion-nav-bar>
 
 
-    <ion-content class="has-header bgearn  t52" >
 
-      <div class="hasorder-foot">
-        <div class="" ng-repeat="order in delivery">
-            <label class="earning-Date" for="">{{order.date}}</label>
-            <div class="whtback">
-                <div class="row jarpahistory">
-                    <div class="col-50 rel brorder">
-                        <div class="">
-                            <label for="" class="bottlename" >{{order.name}}</label>
 
-                            <h4 class="balhistory" ng-if=" order.product[0].productQuantity == 1">+ {{order.productQuantity}} {{order.unit}}</h4>
-                            <h4 class="balhistory" ng-if=" order.productQuantity > 1">+ {{order.productQuantity}} {{order.unit}}s</h4>
-                            <h4 class="balhistory" ng-if=" order.QuantityDelivered == 1">- {{order.QuantityDelivered}} {{order.unit}}</h4>
-                            <h4 class="balhistory" ng-if=" order.QuantityDelivered > 1">- {{order.QuantityDelivered}} {{order.unit}}s</h4>
-                        </div>
-                    </div>
-                    <div class="col-50 rel">
-                        <div class="item-note">
-                            <label for="" class="bottlename">Balance</label>
-                            <h4 class="balhistory" >{{order.balance}} Jars</h4>
-                        </div>
-                    </div>
-                </div>
+  <ion-content class="has-header bgearn  t52">
+
+    <div class="hasorder-foot">
+      <div class="" ng-repeat="order in delivery" ng-if="delivery.length > 0">
+        <label class="earning-Date" for="">{{order.date}}</label>
+        <div class="whtback">
+          <div class="row jarpahistory">
+            <div class="col-50 rel brorder">
+              <div class="">
+                <label for="" class="bottlename">{{order.name}}</label>
+
+                <h4 class="balhistory" ng-if=" order.product[0].productQuantity == 1">+ {{order.productQuantity}} {{order.unit}}</h4>
+                <h4 class="balhistory" ng-if=" order.productQuantity > 1">+ {{order.productQuantity}} {{order.unit}}s</h4>
+                <h4 class="balhistory" ng-if=" order.QuantityDelivered == 1">- {{order.QuantityDelivered}} {{order.unit}}</h4>
+                <h4 class="balhistory" ng-if=" order.QuantityDelivered > 1">- {{order.QuantityDelivered}} {{order.unit}}s</h4>
+              </div>
             </div>
+            <div class="col-50 rel">
+              <div class="item-note">
+                <label for="" class="bottlename">Balance</label>
+                <h4 class="balhistory">{{order.balance}} Jars</h4>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+      <div class="notAvail" ng-if="delivery.length==0">
+        There are no deliveries to display.
+      </div>
+    </div>
 
 
-    </ion-content>
+  </ion-content>
 
 
 </ion-view>

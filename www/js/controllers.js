@@ -9,20 +9,15 @@ angular.module('starter.controllers', ['starter.services'])
       $.jStorage.set('profile', {});
       $.jStorage.flush();
       $state.go('landing');
-
     };
-    $scope.userInfo = $.jStorage.get('profile');
-    var userData = {};
-    userData._id = $.jStorage.get('profile')._id;
+
     $scope.$watch(function () {
         return $ionicSideMenuDelegate.isOpenLeft();
       },
       function (isOpen) {
         if (isOpen) {
-          MyServices.apiCallWithData('user/getOne', userData, function (data) {
-            if (data.value) {
-              $scope.userData = data.data;
-            }
+          MyServices.getUserData(function (data) {
+            $scope.userInfo = data.data;
           });
         }
       });
@@ -43,16 +38,15 @@ angular.module('starter.controllers', ['starter.services'])
   .controller('VerifyCtrl', function ($scope, $stateParams, MyServices, $timeout, $ionicPopup, $state) {
     var mobileData = {};
     mobileData.mobile = $stateParams.mobNo;
-    $scope.resend = false;
+    $scope.resend = true;
     MyServices.apiCallWithData('User/createUser', mobileData, function (data) {
       if (data.value) {
         $scope.getOtpData = data.data;
-        $timeout(function () {
-          $scope.resend = true;
-        }, 10000);
+
       }
     });
     $scope.verifyOtp = function (otp) {
+
       var otpData = {};
       otpData.otp = otp;
       otpData.mobile = $stateParams.mobNo;
@@ -63,13 +57,15 @@ angular.module('starter.controllers', ['starter.services'])
           $state.go('signup');
         } else {
           $ionicPopup.alert({
-            title: "OTP verification failed",
-            template: data.error
+            cssClass: 'removedpopup',
+            title: '<img src="img/warning.png">',
+            template: "<h4>Incorrect OTP</h4><label>Please try again!"
           });
         }
       });
     };
     $scope.resenOtp = function () {
+      $scope.resend = false;
       MyServices.apiCallWithData('User/sendOtp', mobileData, function (data) {
         if (data.value) {
           $scope.getOtpData = data.data;
@@ -103,17 +99,8 @@ angular.module('starter.controllers', ['starter.services'])
         if ($.jStorage.get('profile').pincode) {
           $scope.lockData = true;
         }
-        var userData = {};
-        userData._id = $.jStorage.get('profile')._id;
-        MyServices.apiCallWithData('User/getOne', userData, function (data) {
-          if (data.value) {
-            $scope.signupForm = data.data;
-            _.forEach($scope.signupForm.mobile, function (value) {
-              if (value.accessLevel == 'Registered Mobile') {
-                $scope.signupForm.registerMobile = value.mobileNo;
-              }
-            });
-          }
+        MyServices.getUserData(function (data) {
+          $scope.signupForm = data.data;
         });
       }
     };
@@ -137,13 +124,14 @@ angular.module('starter.controllers', ['starter.services'])
             if (data.value) {
               var userInfo = {};
               userInfo = $.jStorage.get('profile');
-              userInfo.pincode = data.data[0].pincode;
+              userInfo.pincode = data.data.pincode;
               $.jStorage.set('profile', userInfo);
               $state.go('app.browse');
             } else {
               $ionicPopup.alert({
-                title: "Pincode Error",
-                template: "We dont deliver to your pin-code."
+                cssClass: 'removedpopup',
+                title: '<img src="img/warning.png">',
+                template: "<h4>Sorry!</h4><label>We don't currently serve your pincode. We've saved your details so you'll be one of the first to know when we start!"
               });
               $scope.getUserData();
             }
@@ -217,11 +205,20 @@ angular.module('starter.controllers', ['starter.services'])
         $scope.products = data.data;
       }
     });
+
+    $scope.categoryData = {};
+    $scope.categoryData._id = $stateParams.catId;
+    MyServices.apiCallWithData('Subcategory/getOne', $scope.categoryData, function (data) {
+      if (data.value) {
+        $scope.category = data.data;
+      }
+    });
   })
   .controller('RequirementCtrl', function ($scope, $stateParams, MyServices, $ionicPopup, $state) {
     $scope.productData = {};
     $scope.productData._id = $stateParams.productId;
     $scope.userInfo = $.jStorage.get('profile');
+    console.log($scope.flexwidth);
     MyServices.apiCallWithData('Product/getOne', $scope.productData, function (data) {
       $scope.require = false;
       if (data.value) {
@@ -305,8 +302,9 @@ angular.module('starter.controllers', ['starter.services'])
 
         } else {
           $ionicPopup.alert({
-            title: "Failed",
-            template: warehouseData.error
+            cssClass: 'removedpopup',
+            title: '<img src="img/warning.png">',
+            template: "Sorry! Product is out of stock."
           });
         }
       });
@@ -322,33 +320,34 @@ angular.module('starter.controllers', ['starter.services'])
     userData.warehouseId = $scope.userInfo.warehouseId;
     $scope.outOfStock = false;
 
-    MyServices.apiCallWithData("user/getCartForCustomer", userData, function (data) {
-      if (data.value) {
-        $scope.outOfStock = false;
-        $scope.cartData = data.data.cart;
-        $scope.getTotal();
-      }
-    });
-    $scope.removeProduct = function (cart) {
-      userData.cartId = cart._id;
-      MyServices.apiCallWithData("user/deleteFromCart", userData, function (data) {
-        console.log(data);
+    function getCustomerCart() {
+      MyServices.apiCallWithData("user/getCartForCustomer", userData, function (data) {
         if (data.value) {
-          $scope.cartData = data.data.cart;
           $scope.outOfStock = false;
+          $scope.cartData = data.data.cart;
           $scope.getTotal();
           if (!data.data.cart || $scope.cartData.length == 0) {
             delete $scope.userInfo.warehouseId;
             $.jStorage.set('profile', $scope.userInfo);
           }
+        }
+      });
+    }
+    getCustomerCart();
+    $scope.removeProduct = function (cart) {
+      userData.cartId = cart._id;
+      MyServices.apiCallWithData("user/deleteFromCart", userData, function (data) {
+        console.log(data);
+        if (data.value) {
           $ionicPopup.alert({
             cssClass: 'removedpopup',
-            title: '<img src="img/tick.png">',
-            template: "Products Removed Successfully!"
+            title: '<img src="img/cart.png">',
+            template: "Removed from Cart"
           });
+          getCustomerCart();
         } else {
           $ionicPopup.alert({
-            cssClass: 'productspopup',
+            cssClass: 'removedpopup',
             title: '<img src="img/linkexpire.png">',
             template: "Error Occured while Removing Products to Cart"
           });
@@ -388,7 +387,7 @@ angular.module('starter.controllers', ['starter.services'])
       status: false
     }, {
       name: "Paytm",
-      img: "img/Paytm_logo.png",
+      img: "img/paytm_logo.png",
       status: false
     }, {
       name: "Other Wallets",
@@ -419,7 +418,7 @@ angular.module('starter.controllers', ['starter.services'])
           $state.go('app.confirm');
         } else {
           $ionicPopup.alert({
-            cssClass: 'productspopup',
+            cssClass: 'removedpopup',
             title: '<img src="img/linkexpire.png">',
             template: "Error Occured while creating order"
           });
@@ -484,95 +483,194 @@ angular.module('starter.controllers', ['starter.services'])
 
     });
   })
-  .controller('DashboardCtrl', function ($scope, $window, $stateParams) {
-    $scope.dasharray = [{
-      name: "20L Kinley",
-      unit: "Jar",
-      balance: 40
-    }, {
-      name: "Kinley (1 Liter)",
-      unit: "Carton",
-      balance: 40
-    }];
+  .controller('DashboardCtrl', function ($scope, $window, $stateParams, $state, MyServices, $ionicPopup) {
+
+    $scope.getPlans = function () {
+      var userData = {};
+      userData._id = $.jStorage.get('profile')._id;
+      MyServices.apiCallWithData('user/getPlansProductSDDetails', userData, function (data) {
+        if (data.value) {
+          $scope.plans = data.data.results;
+        }
+      });
+    }
+    $scope.getPlans();
     $scope.flexwidth = $window.innerWidth - 45;
+    var pinData = {};
+    pinData.pinCode = $.jStorage.get('profile').pincode;
 
-  })
-  .controller('ScheduleCtrl', function ($scope, $window, $stateParams, MyServices, $filter) {
-    $scope.productArray = [{
-      name: '20L Kinley',
-      quantity: 0,
-      limit: 12,
-      unit: 'Jar'
-    }, {
-      name: '1L Kinley',
-      quantity: 0,
-      limit: 20,
-      unit: 'Carton'
-    }]
-    $scope.flexwidth = $window.innerWidth;
-    $scope.CurrentDate = new Date();
-    $scope.getDateArray = [];
-    $scope.CurrentDay = new Date().getDay();
-    console.log($scope.CurrentDay);
-    for (var j = $scope.CurrentDay; j >= 1; j--) {
-      $scope.getDateArray.push({
-        date: new Date().setDate(new Date().getDate() - j),
-        status: false,
-        selected: false,
-        available: false
-      });
-    }
-
-    $scope.getDateArray.push({
-      date: new Date().setDate(new Date().getDate()),
-      status: true,
-      selected: true,
-      available: false
-
-    });
-    for (var i = 1; i <= 30; i++) {
-      $scope.getDateArray.push({
-        date: new Date().setDate(new Date().getDate() + i),
-        status: true,
-        selected: false,
-        available: false
-      });
-    }
-    $scope.getDateArray = _.chunk($scope.getDateArray, 7);
-    $scope.user = {};
-    $scope.user.pin = "400031";
-    MyServices.getByPin($scope.user, function (data) {
+    MyServices.apiCallWithData('pincode/getEstimatedDeliveryDate', pinData, function (data) {
       if (data.value) {
-        $scope.pindays = data.data;
-        _.forEach($scope.pindays.days, function (value) {
-          _.forEach(_.flatten($scope.getDateArray), function (value1) {
-            if ($filter('date')(value1.date, 'EEEE') == value) {
-              console.log($filter('date')(value1.date, 'EEEE'), value);
-              value1.available = true;
-            }
-          });
+        $scope.estimatedDate = data.data.estimatedDate;
+      }
+    });
+    $scope.cancelDelivery = function (deliveryId) {
+      $ionicPopup.alert({
+        cssClass: 'productspopup',
+        title: 'Cancel Delivery',
+        template: "Are you sure ?",
+        buttons: [{
+
+          text: 'Yes',
+          onTap: function (e) {
+            var deliveryReq = {};
+            deliveryReq._id = deliveryId;
+            MyServices.apiCallWithData('DeliveryRequest/cancelDeliveryRequest', deliveryReq, function (data) {
+              if (data.value) {
+                $state.reload();
+              }
+            });
+          }
+        }, {
+          text: 'No',
+          type: 'button-positive',
+          onTap: function (e) {}
+        }]
+      });
+
+    }
+  })
+  .controller('ScheduleCtrl', function ($scope, $window, $stateParams, MyServices, $ionicPopup, $state, $filter) {
+    $scope.scheduleData = {};
+    $scope.scheduleData.scheduledDeliveryTime = '8 AM to 1 PM';
+    $scope.flexwidth = $window.innerWidth;
+    var productData = {};
+    productData.productId = $stateParams.productId;
+    productData._id = $.jStorage.get('profile')._id;
+    MyServices.apiCallWithData('user/getPlanProductSDDetails', productData, function (data) {
+      $scope.productPlan = data.data;
+      $scope.products = data.data.userPlan.planBalance[0];
+      $scope.products.deliverQauntity = null;
+    });
+
+
+    $scope.generateArray = function (days, estimatedDate) {
+      $scope.CurrentDate = new Date(estimatedDate);
+      $scope.getDateArray = [];
+      $scope.CurrentDay = new Date(estimatedDate).getDay();
+      for (var j = $scope.CurrentDay; j >= 1; j--) {
+        $scope.getDateArray.push({
+          date: new Date(estimatedDate).setDate(new Date(estimatedDate).getDate() - j),
+          status: false,
+          selected: false,
+          available: false
         });
-        $scope.getDateArray = _.chunk($scope.getDateArray, 7);
-        console.log("hellloassdasd", $scope.getDateArray);
 
       }
+      // $scope.getDateArray.push({
+      //   date: new Date().setDate(new Date(date).getDate()),
+      //   status: false,
+      //   selected: true,
+      //   available: false
 
+      // });
+
+      for (var i = 0; i < 28 - $scope.CurrentDay; i++) {
+        $scope.getDateArray.push({
+          date: new Date(estimatedDate).setDate(new Date(estimatedDate).getDate() + i),
+          status: true,
+          selected: false,
+          available: false
+        });
+
+      }
+      $scope.getDateArray = _.chunk($scope.getDateArray, 7);
+
+      _.forEach(days, function (value) {
+        _.forEach(_.flatten($scope.getDateArray), function (value1) {
+          if ($filter('date')(estimatedDate) == $filter('date')(value1.date)) {
+            value1.selected = true;
+          }
+          if ($filter('date')(value1.date, 'EEEE') == value) {
+            value1.available = true;
+          }
+
+        });
+      });
+
+    };
+
+    var pinData = {};
+    pinData.pinCode = $.jStorage.get('profile').pincode;
+    MyServices.apiCallWithData('pincode/checkPincode', pinData, function (data) {
+      if (data.value) {
+        $scope.pindays = data.data;
+        MyServices.apiCallWithData('pincode/getEstimatedDeliveryDate', pinData, function (data) {
+          if (data.value) {
+            $scope.estimatedDate = $scope.scheduleData.scheduleDeliveryDate = data.data.estimatedDate;
+            $scope.generateArray($scope.pindays.days, $scope.estimatedDate);
+
+          }
+        });
+      }
     });
 
     $scope.selectDate = function (date) {
-      console.log("date", date);
-      _.forEach(_.flatten($scope.getDateArray), function (value1) {
-        _.forEach(value1, function (value) {
-          if (value.date == date) {
-            value.selected = true;
-            console.log(value);
-          } else {
-            value.selected = false;
-          }
-        });
+      $scope.scheduleData.scheduleDeliveryDate = date;
+      _.forEach(_.flatten($scope.getDateArray), function (value) {
+        if (value.date == date) {
+          value.selected = true;
+        } else {
+          value.selected = false;
+        }
       });
+    };
+
+    $scope.createDelivery = function () {
+      $scope.scheduleData.products = [{
+        productId: null,
+        quantity: null,
+        planBased: true
+      }];
+      $scope.scheduleData.products[0].productId = $scope.products.product._id;
+      $scope.scheduleData.products[0].quantity = $scope.products.deliverQuantity;
+      $scope.scheduleData.customerId = $.jStorage.get('profile')._id;
+      MyServices.apiCallWithData('DeliveryRequest/createUserDeliveryRequest', $scope.scheduleData, function (data) {
+        if (data.value) {
+          $state.go('app.thankyou', {
+            deliveryId: data.data._id
+          });
+        } else {
+          $ionicPopup.alert({
+            cssClass: 'removedpopup',
+            title: '<img src="img/linkexpire.png">',
+            template: "Error Occure"
+          });
+        }
+      });
+
     }
+
   })
-  .controller('ThankyouCtrl', function ($scope, $stateParams) {})
+  .controller('ThankyouCtrl', function ($scope, $stateParams, MyServices) {
+    var deliveryRequest = {};
+    deliveryRequest.customerId = $.jStorage.get('profile')._id;
+    deliveryRequest.productId = $stateParams.productId;
+    MyServices.apiCallWithData('DeliveryRequest/getLastDeliveryScheduledForProduct', deliveryRequest, function (data) {
+      if (data.data.length > 0) {
+        $scope.deliveryData = data.data[0];
+      }
+    })
+  })
   .controller('HelpCtrl', function ($scope, $stateParams) {})
-  .controller('AccountCtrl', function ($scope, $stateParams) {});
+  .controller('AccountCtrl', function ($scope, $stateParams, MyServices, $ionicPopup) {
+    MyServices.getUserData(function (data) {
+      $scope.signupForm = data.data;
+    });
+    $scope.saveUser = function () {
+      MyServices.apiCallWithData('User/saveUserData', $scope.signupForm, function (data) {
+        if (data.value) {
+          $ionicPopup.alert({
+            cssClass: 'removedpopup',
+            title: '<img src="img/tick.png">',
+            template: "Your profile updated successfully!"
+          });
+          MyServices.getUserData(function (data) {
+            $scope.signupForm = data.data;
+          });
+        }
+      });
+
+    }
+
+  });

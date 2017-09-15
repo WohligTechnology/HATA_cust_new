@@ -10,7 +10,7 @@
   <ion-content class="bg-prdct hasfooter t52 " ng-init="remove=null">
     <div class="prod-det">
       <div class="card " ng-repeat="cart in cartData" ng-if="product.length!=0">
-        <div class="item item-text-wrap pad0 ">
+        <div class="item item-text-wrap pad0 disabled">
           <div class="row">
             <i class="button button-icon icon ion-ios-close-outline review-cancel" ng-click="removeProduct(cart);remove=cart"></i>
             <div class="col-33">
@@ -30,21 +30,20 @@
                 <div for="" class="deposit" ng-if="cart.depositStatus =='Deducted'">Existing Deposit (<label for="">- Rs.{{cart.prevDeposit}}</label>)</div>
                 <div for="" class="total" ng-if="cart.plan=='One Time'"><span class="">Total: </span><label for="">Rs.{{(cart.quantity * cart.productId.price)+cart.deposit}}</label></div>
                 <div for="" class="total" ng-if="cart.plan!='One Time'"><span class="">Total: </span ><label for="" >Rs.{{cart.plan.quantity*cart.plan.price}}</label></div>
-                <div for="" class="outOfStock" ng-if="cart.outOfStock">Proudct Out of Stock</div>
               </div>
 
             </div>
-          </div>
-          <div class=" btmrow">
-            <div class="btmorder " ng-if="cart.plan=='One Time'">Estimated Delivery: <span>{{cart.date}}</span></div>
-                <div class="btmorder" ng-if="cart.plan!='One Time'">Schedule delivery from dashboard</div>
+            </div>
+              <div class=" btmrow">
+                <div class="btmorder " ng-if="cart.plan=='One Time' && !cart.outOfStock">Estimated Delivery: <span>{{cart.estimatedDate |date :'dd MMMM yyyy'}}</span></div>
+                <div class="btmorder" ng-if="cart.plan!='One Time' && !cart.outOfStock">Schedule delivery from dashboard</div>
+                <div for="" class="outOfStock" ng-if="cart.outOfStock">Proudct out of stock</div>
               </div>
-
             </div>
           </div>
 
-          <div class="card no-product" ng-if="!cartData || cartData.length==0 ">
-            There is no product
+          <div class=" no-product" ng-if="!cartData || cartData.length==0 ">
+            <img src="" alt=""> It's a little lonely here
           </div>
           <!--<div class="row chkoutcoupon" ng-if="product.length!=0">
         <div class="col-50">

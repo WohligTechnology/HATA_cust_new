@@ -1,4 +1,4 @@
-<ion-view title="{{products[0].category.name}}">
+<ion-view title="{{category.name}}">
   <ion-nav-bar class="bar-stable schedule-bar  nav-height">
     <ion-nav-buttons side="left">
       <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
@@ -7,13 +7,16 @@
   </ion-nav-bar>
   <ion-content class="browsemorebg">
     <div class="mbt">
-      <div class="browse-moredivalign" ng-repeat="product in products" ui-sref="app.requirement({productId:product._id})">
+      <div class="browse-moredivalign" ng-if="products.length>0" ng-repeat="product in products" ui-sref="app.requirement({productId:product._id})">
         <div class="browse-moreImgDiv">
           <img class="browse-moreImg " ng-src="{{product.smallImage | uploadpath}}" alt="">
         </div>
         <div class="browse-aqualbl" for="">{{product.name}}</div>
         <div for="" class="colorpure">{{product.tag}} <i class="ion ion-information-circled"></i></div>
         <label class="browse-morerupee" for="">₹ {{product.price}}</label>
+      </div>
+      <div class="notAvail" ng-if="products.length==0">
+        No Products Available
       </div>
     </div>
   </ion-content>
