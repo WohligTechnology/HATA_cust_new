@@ -10,7 +10,7 @@
     <div class="confirm-checkmark">
       <label class="successlbl" for="">Thank You!</label>
       <img src="img/tick.png" alt="">
-      <label class="conirfmline" for="">We’ve received your request! <br>We’ll deliver {{deliveryData.quantity}} {{deliveryData.product.name}} {{deliveryData.product.unit}} <span ng-if="">s</span> <br> on August 24, 2017. </label>
+      <label class="conirfmline" for="">We’ve received your request! <br>We’ll deliver {{deliveryData.quantity}} {{deliveryData.productId.name}} {{deliveryData.productId.unit}}<span ng-if="deliveryData.quantity>1">s</span> <br> on {{deliveryData.scheduleDeliveryDate |date:'MMMM dd,yyyy' }}. </label>
     </div>
 
   </ion-pane>

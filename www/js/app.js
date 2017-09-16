@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider'])
 
-  .run(function ($ionicPlatform) {
+  .run(function ($ionicPlatform, $state, $ionicPopup) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -19,7 +19,37 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
+
+      if (window.Connection) {
+        if (navigator.connection.type == Connection.NONE) {
+          $ionicPopup.confirm({
+              title: "Internet Disconnected",
+              content: "The internet is disconnected on your device."
+            })
+            .then(function (result) {
+              if (!result) {
+                ionic.Platform.exitApp();
+              }
+            });
+        }
+      }
     });
+    $ionicPlatform.registerBackButtonAction(function (event) {
+      if ($.jStorage.get('profile').pincode) {
+        if ($state.current.name == "dashboard") {
+          navigator.app.exitApp();
+        } else {
+          window.history.back();
+        }
+      } else {
+        // if ($state.current.name == "landing" ) {
+        navigator.app.exitApp();
+        // } else {
+        // window.history.back();
+        // }
+      }
+    }, 100);
+
   })
 
   .config(function ($stateProvider, $urlRouterProvider) {
@@ -39,6 +69,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
         controller: 'LandingCtrl'
       })
       .state('verify', {
+        cache: false,
         url: '/verify/:mobNo',
         templateUrl: 'templates/verify.html',
         controller: 'VerifyCtrl'
@@ -50,6 +81,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
         controller: 'SignupCtrl'
       })
       .state('app.browse', {
+        cache: false,
         url: '/browse',
         views: {
           'menuContent': {
@@ -119,6 +151,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
         }
       })
       .state('app.orderhistory', {
+        cache: false,
         url: '/orderhistory',
         views: {
           'menuContent': {
@@ -128,6 +161,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
         }
       })
       .state('app.order-detail', {
+        cache: false,
         url: '/order-detail/:orderId',
         views: {
           'menuContent': {
@@ -137,6 +171,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
         }
       })
       .state('app.deliveryhistory', {
+        cache: false,
         url: '/deliveryhistory/:orderId',
         views: {
           'menuContent': {

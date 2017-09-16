@@ -35,6 +35,8 @@
           </div>
         </div>
       </div>
+      <ion-infinite-scroll ng-if="!stop" on-infinite="loadMore()" distance="5%">
+      </ion-infinite-scroll>
       <div class="notAvail" ng-if="orderList.length==0">
         There are no orders to display.
       </div>

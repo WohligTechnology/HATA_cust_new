@@ -14,7 +14,7 @@
   <ion-content class="has-header browse-backgrndcolor">
     <div class="">
 
-      <ion-slides options="sliderData.sliderOptions" slider="sliderData.sliderDelegate">
+      <ion-slides options="sliderData.sliderOptions" slider="sliderData.sliderDelegate" ng-if="sliderData.allFeaturedProduct.length>0">
         <ion-slide-page ng-repeat="data in sliderData.allFeaturedProduct" ui-sref="app.requirement({productId:data._id})">
           <div class=" browse-sliderRow">
             <div class="browse-slideImgDiv">

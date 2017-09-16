@@ -31,7 +31,7 @@ angular.module('starter.controllers', ['starter.services'])
 
   })
   .controller('LandingCtrl', function ($scope, $stateParams, $state) {
-    if ($.jStorage.get('profile')) {
+    if ($.jStorage.get('profile') && $.jStorage.get('profile').pincode) {
       $state.go('app.dashboard');
     }
   })
@@ -59,7 +59,7 @@ angular.module('starter.controllers', ['starter.services'])
           $ionicPopup.alert({
             cssClass: 'removedpopup',
             title: '<img src="img/warning.png">',
-            template: "<h4>Incorrect OTP</h4><label>Please try again!"
+            template: "<h4>Incorrect OTP</h4><label>Please try again!</label>"
           });
         }
       });
@@ -131,7 +131,7 @@ angular.module('starter.controllers', ['starter.services'])
               $ionicPopup.alert({
                 cssClass: 'removedpopup',
                 title: '<img src="img/warning.png">',
-                template: "<h4>Sorry!</h4><label>We don't currently serve your pincode. We've saved your details so you'll be one of the first to know when we start!"
+                template: "<h4>Sorry!</h4><label>We don't currently serve your pincode. We've saved your details so you'll be one of the first to know when we start!</label>"
               });
               $scope.getUserData();
             }
@@ -218,7 +218,6 @@ angular.module('starter.controllers', ['starter.services'])
     $scope.productData = {};
     $scope.productData._id = $stateParams.productId;
     $scope.userInfo = $.jStorage.get('profile');
-    console.log($scope.flexwidth);
     MyServices.apiCallWithData('Product/getOne', $scope.productData, function (data) {
       $scope.require = false;
       if (data.value) {
@@ -428,14 +427,36 @@ angular.module('starter.controllers', ['starter.services'])
   })
   .controller('ConfirmCtrl', function ($scope, $stateParams) {})
   .controller('OrderhistoryCtrl', function ($scope, $stateParams, MyServices) {
-
     var userData = {};
-    userData._id = $.jStorage.get('profile')._id;
-    MyServices.apiCallWithData("Order/getOrdersForUser", userData, function (data) {
-      if (data.value) {
-        $scope.orderList = data.data.results;
-      }
-    });
+    var page = 1;
+    $scope.stop = true;
+    $scope.orderList = [];
+    $scope.getOrders = function (page) {
+      var userData = {};
+      userData._id = $.jStorage.get('profile')._id;
+      userData.page = page;
+      MyServices.apiCallWithData("Order/getOrdersForUser", userData, function (data) {
+        if (data.value) {
+          _.forEach(data.data.results, function (value) {
+            $scope.orderList.push(value);
+          })
+          console.log($scope.orderList);
+          if ($scope.orderList == 0) {
+            $scope.stop = true;
+          } else {
+            $scope.stop = false;
+          }
+        } else {
+          $scope.stop = true;
+        }
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+      });
+    }
+    $scope.getOrders(page);
+    $scope.loadMore = function () {
+      page += 1;
+      $scope.getOrders(page);
+    }
 
 
   })
@@ -484,7 +505,9 @@ angular.module('starter.controllers', ['starter.services'])
     });
   })
   .controller('DashboardCtrl', function ($scope, $window, $stateParams, $state, MyServices, $ionicPopup) {
-
+    if (!$.jStorage.get('profile')) {
+      $state.go('landing');
+    }
     $scope.getPlans = function () {
       var userData = {};
       userData._id = $.jStorage.get('profile')._id;
@@ -495,7 +518,10 @@ angular.module('starter.controllers', ['starter.services'])
       });
     }
     $scope.getPlans();
-    $scope.flexwidth = $window.innerWidth - 45;
+    $scope.flexwidth = $window.innerWidth - 40;
+    $scope.flexStyle = {
+      "width": $window.innerWidth.toString() + "px"
+    };
     var pinData = {};
     pinData.pinCode = $.jStorage.get('profile').pincode;
 
@@ -628,7 +654,7 @@ angular.module('starter.controllers', ['starter.services'])
       MyServices.apiCallWithData('DeliveryRequest/createUserDeliveryRequest', $scope.scheduleData, function (data) {
         if (data.value) {
           $state.go('app.thankyou', {
-            deliveryId: data.data._id
+            productId: $stateParams.productId
           });
         } else {
           $ionicPopup.alert({
@@ -647,8 +673,8 @@ angular.module('starter.controllers', ['starter.services'])
     deliveryRequest.customerId = $.jStorage.get('profile')._id;
     deliveryRequest.productId = $stateParams.productId;
     MyServices.apiCallWithData('DeliveryRequest/getLastDeliveryScheduledForProduct', deliveryRequest, function (data) {
-      if (data.data.length > 0) {
-        $scope.deliveryData = data.data[0];
+      if (data.value) {
+        $scope.deliveryData = data.data;
       }
     })
   })

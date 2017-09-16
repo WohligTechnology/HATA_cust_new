@@ -10413,7 +10413,9 @@ ion-slides {
     border: transparent !important; }
 
 .flex-control-nav {
-  display: none; }
+  bottom: -25px !important; }
+  .flex-control-nav li {
+    padding: 2px; }
 
 .flex-next {
   right: 0px !important;
@@ -10466,6 +10468,29 @@ ion-slides {
     margin: 5px; }
   .btmnote .col label {
     color: #7a8a94; }
+
+.nocart {
+  top: 40%;
+  transform: translate(0%, -40%);
+  color: #223c4d;
+  position: absolute;
+  width: 100%;
+  text-align: center; }
+  .nocart .imgDiv {
+    width: 100px;
+    opacity: .3;
+    margin: 0 auto; }
+    .nocart .imgDiv img {
+      width: 100%;
+      height: auto; }
+  .nocart h4 {
+    font-size: 18px;
+    color: #223c4d;
+    font-weight: 600;
+    margin: 8%; }
+  .nocart button {
+    text-align: center;
+    padding: 0 20px; }
 
 .removedpopup h3 img {
   max-width: 35px;
@@ -10903,11 +10928,12 @@ ion-slides {
   font-size: 14px; }
 
 .notPlan {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 45%;
+  transform: translate(0, -45%);
   color: #223c4d;
-  position: absolute; }
+  position: absolute;
+  text-align: center;
+  padding: 15%; }
   .notPlan h4 {
     font-size: 18px;
     color: #223c4d;
@@ -10935,12 +10961,12 @@ ion-slides {
   font-size: 16px;
   margin-top: 15px;
   display: block;
-  font-weight: 400;
-  color: #515050; }
+  color: #223c4d; }
 
 .cardDayspan {
   font-size: 18px;
-  font-weight: 500; }
+  font-weight: 600;
+  color: #223c4d; }
 
 .cardDate {
   font-size: 18px;
@@ -10967,16 +10993,28 @@ ion-slides {
   color: white;
   font-size: 14px; }
 
+.card-cancel {
+  min-height: 30px;
+  line-height: 20px;
+  margin: 15px 0 20px 10px;
+  border-radius: 50px;
+  background: #ff414d;
+  font-weight: 600;
+  color: white;
+  font-size: 14px; }
+
 .datediv {
   margin-left: 10px; }
 
 .bmore {
   display: block;
   margin: 10% 15%;
-  text-align: center;
-  padding: 8px; }
+  text-align: center; }
   .bmore .item {
-    font-weight: 600; }
+    font-weight: 600;
+    background: #ff414d;
+    color: white;
+    border-radius: 5px; }
 
 .header-bellFont {
   color: #091b27 !important;
@@ -10988,7 +11026,8 @@ ion-slides {
   margin: 10px !important;
   text-align: center;
   padding: 40px 20px 20px;
-  border-radius: 10px; }
+  border-radius: 10px;
+  width: 85%; }
   .dashslider .card .baltxt {
     color: #223c4d;
     font-size: 76px;
@@ -11006,8 +11045,10 @@ ion-slides {
 .dashslider li {
   margin-right: 0 !important; }
 
-.dashslider li + li .card {
-  margin-left: 0 !important; }
+.dashslider li + li {
+  margin-left: 0; }
+  .dashslider li + li .card {
+    margin-left: 5px !important; }
 
 .dashslider .flexslider {
   padding: 0;
@@ -11051,6 +11092,9 @@ ion-slides {
   border-bottom: 8px solid transparent;
   border-left: 8px solid black; }
 
+.dashslider .flexslider-container {
+  width: 320px; }
+
 .mainslide {
   height: 500px; }
 
@@ -11058,10 +11102,17 @@ ion-slides {
   min-height: 30px;
   line-height: 20px;
   border-radius: 50px;
-  background: #ff414d;
   font-weight: 600;
-  color: white;
-  font-size: 14px; }
+  font-size: 14px;
+  background: white;
+  color: #223c4d;
+  border: 1px solid #ebebeb; }
+
+.cardDivide {
+  width: 50%;
+  height: 1px;
+  margin: 20px auto;
+  background: #b8b8b8; }
 
 .ionic_Calendar {
   background: white;

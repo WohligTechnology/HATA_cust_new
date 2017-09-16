@@ -769,7 +769,11 @@ ion-slides {
 }
 
 .flex-control-nav {
-  display: none;
+  // display: none;
+  bottom: -25px!important;
+  li {
+    padding: 2px;
+  }
 }
 
 .flex-next {
@@ -843,6 +847,34 @@ ion-slides {
 
 //requirement.html end
 //review.html start
+.nocart {
+  top: 40%;
+  transform: translate(0%, -40%);
+  color: #223c4d;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  .imgDiv {
+    width: 100px;
+    opacity: .3;
+    margin: 0 auto;
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+  h4 {
+    font-size: 18px;
+    color: #223c4d;
+    font-weight: 600;
+    margin: 8%;
+  }
+  button {
+    text-align: center;
+    padding: 0 20px;
+  }
+}
+
 .removedpopup {
   h3 {
     img {
@@ -1390,11 +1422,12 @@ ion-slides {
 }
 
 .notPlan {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 45%;
+  transform: translate(0, -45%);
   color: #223c4d;
   position: absolute;
+  text-align: center;
+  padding: 15%;
   h4 {
     font-size: 18px;
     color: #223c4d;
@@ -1429,13 +1462,13 @@ ion-slides {
   font-size: 16px;
   margin-top: 15px;
   display: block;
-  font-weight: 400;
-  color: #515050;
+  color: #223c4d;
 }
 
 .cardDayspan {
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
+  color: #223c4d;
 }
 
 .cardDate {
@@ -1467,6 +1500,17 @@ ion-slides {
   font-size: 14px;
 }
 
+.card-cancel {
+  min-height: 30px;
+  line-height: 20px;
+  margin: 15px 0 20px 10px;
+  border-radius: 50px;
+  background: $positive;
+  font-weight: 600;
+  color: white;
+  font-size: 14px;
+}
+
 .datediv {
   margin-left: 10px;
 }
@@ -1475,9 +1519,11 @@ ion-slides {
   display: block;
   margin: 10% 15%;
   text-align: center;
-  padding: 8px;
   .item {
     font-weight: 600;
+    background: $positive;
+    color: white;
+    border-radius: 5px;
   }
 }
 
@@ -1494,6 +1540,7 @@ ion-slides {
     text-align: center;
     padding: 40px 20px 20px;
     border-radius: 10px;
+    width: 85%;
     .baltxt {
       color: #223c4d;
       font-size: 76px;
@@ -1514,8 +1561,9 @@ ion-slides {
     margin-right: 0 !important;
   }
   li+li {
+    margin-left: 0;
     .card {
-      margin-left: 0 !important;
+      margin-left: 5px !important;
     }
   }
   .flexslider {
@@ -1560,6 +1608,9 @@ ion-slides {
     border-bottom: 8px solid transparent;
     border-left: 8px solid black;
   }
+  .flexslider-container {
+    width: 320px;
+  }
 }
 
 .mainslide {
@@ -1570,10 +1621,18 @@ ion-slides {
   min-height: 30px;
   line-height: 20px;
   border-radius: 50px;
-  background: $positive;
   font-weight: 600;
-  color: white;
   font-size: 14px;
+  background: white;
+  color: #223c4d;
+  border: 1px solid #ebebeb;
+}
+
+.cardDivide {
+  width: 50%;
+  height: 1px;
+  margin: 20px auto;
+  background: #b8b8b8;
 }
 
 //dashboard.html end

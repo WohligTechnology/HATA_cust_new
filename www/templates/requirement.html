@@ -23,7 +23,7 @@
         </div>
         <div class="avgTxt" ng-show="require && product.returnable">Rs {{product.depositAmount}} Deposit Per {{product.unit}}</div>
       </div>
-      <div class="item" ng-show="product.planBased" ng-click="toggleCard()">
+      <div class="item" ng-show="product.planBased" ng-click="toggleCard();quantity=null">
         <div>
           <div class="rq-plan">Regular requirement? Buy a plan and save!</div>
           <div class="item-note">

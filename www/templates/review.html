@@ -42,8 +42,15 @@
             </div>
           </div>
 
-          <div class=" no-product" ng-if="!cartData || cartData.length==0 ">
-            <img src="" alt=""> It's a little lonely here
+
+          <div class="nocart" ng-if="!cartData || cartData.length==0 ">
+            <div class="imgDiv">
+              <img src="img/spiderweb.png" alt="">
+            </div>
+            <h4>It's a little lonely here</h4>
+            <button class="button button-medium button-assertive" ui-sref='app.browse'>
+              Browse Products
+            </button>
           </div>
           <!--<div class="row chkoutcoupon" ng-if="product.length!=0">
         <div class="col-50">
