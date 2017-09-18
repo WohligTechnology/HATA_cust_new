@@ -9818,6 +9818,9 @@ a.button {
 .hasfooter {
   bottom: 50px !important; }
 
+.scroll-content {
+  overflow-y: auto !important; }
+
 .bar .back-button.hide,
 .bar .buttons .hide {
   display: block !important; }
@@ -10300,7 +10303,8 @@ ion-slides {
     color: #ff414d; }
 
 .bbnone {
-  border-bottom: 1px solid transparent; }
+  border-bottom: 1px solid transparent;
+  border: none; }
 
 .inputcard {
   margin: 10px; }
@@ -10636,7 +10640,8 @@ ion-slides {
   padding-top: 8px !important;
   background: #ff414d;
   color: white;
-  margin: 0; }
+  margin: 0;
+  border-radius: 0; }
   .pay .paydiv {
     font-size: 18px; }
     .pay .paydiv i {
@@ -10646,7 +10651,8 @@ ion-slides {
   height: 100%;
   text-align: center;
   padding-top: 15px;
-  color: #ff414d; }
+  color: #ff414d;
+  border-radius: 0; }
 
 .review-foot {
   padding: 0;
@@ -11321,6 +11327,8 @@ ion-slides {
     display: block !important; }
   .calflex .flex-direction-nav a:before {
     font-size: 18px; }
+  .calflex .flex-control-nav {
+    display: none !important; }
   .calflex .flex-prev {
     left: 10px !important;
     top: 30% !important; }

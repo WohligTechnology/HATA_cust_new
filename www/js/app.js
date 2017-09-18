@@ -35,18 +35,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
       }
     });
     $ionicPlatform.registerBackButtonAction(function (event) {
-      if ($.jStorage.get('profile').pincode) {
-        if ($state.current.name == "dashboard") {
+      if ($.jStorage.get('profile')) {
+        if (($state.current.name == "app.dashboard" || $state.current.name == "app.dashboard") && $.jStorage.get('profile').pincode) {
           navigator.app.exitApp();
         } else {
           window.history.back();
         }
       } else {
-        // if ($state.current.name == "landing" ) {
-        navigator.app.exitApp();
-        // } else {
-        // window.history.back();
-        // }
+        if ($state.current.name == "signup") {
+          $state.go('landing');
+        } else if ($state.current.name == "landing") {
+          navigator.app.exitApp();
+        } else {
+          window.history.back();
+        }
       }
     }, 100);
 

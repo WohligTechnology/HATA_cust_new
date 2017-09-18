@@ -23,9 +23,9 @@
           </div>
         </ion-slide-page>
       </ion-slides>
-      <div class="browse-grid">
+      <div class="browse-grid" ng-if="allSubcategory.length>0">
         <label for="" class="browse-text">Our Products</label>
-        <div class="row" ng-if="allSubcategory.length>0" ng-repeat="category in allSubcategory" ng-init="outerIndex=$index">
+        <div class="row" ng-repeat="category in allSubcategory" ng-init="outerIndex=$index">
           <div class="col-50 " ng-repeat="cat in category" ng-init="innerIndex=$index" ui-sref="app.browse-more({catId:cat._id})">
             <div class="browse-card1 card">
               <div class="icondiv">

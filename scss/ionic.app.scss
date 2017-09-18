@@ -31,6 +31,10 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
   bottom: 50px!important;
 }
 
+.scroll-content {
+  overflow-y: auto!important;
+}
+
 .bar .back-button.hide,
 .bar .buttons .hide {
   display: block!important;
@@ -631,6 +635,7 @@ ion-slides {
 
 .bbnone {
   border-bottom: 1px solid transparent;
+  border: none;
 }
 
 .inputcard {
@@ -1052,6 +1057,7 @@ ion-slides {
   background: $positive;
   color: white;
   margin: 0;
+  border-radius: 0;
   .paydiv {
     font-size: 18px;
     i {
@@ -1065,6 +1071,7 @@ ion-slides {
   text-align: center;
   padding-top: 15px;
   color: $positive;
+  border-radius: 0;
 }
 
 .review-foot {
@@ -1896,6 +1903,9 @@ ion-slides {
   }
   .flex-direction-nav a:before {
     font-size: 18px;
+  }
+  .flex-control-nav {
+    display: none!important;
   }
   .flex-prev {
     left: 10px!important;

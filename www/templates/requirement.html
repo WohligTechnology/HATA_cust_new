@@ -8,16 +8,16 @@
   </ion-nav-bar>
   <ion-content class="browse-backgrndcolor">
     <div class="list card requirecard">
-      <div class="item bbnone" ng-click="toggleCard()">
+      <fieldset class="item bbnone" ng-click="toggleCard()" ng-disabled="!product.planBased">
         <div class="rq-prdctname">{{product.name}} {{product.unit}}</div>
         <div class="rq-rupee">
           <label for="" class="rq-rupee" ng-show="require">₹ <span>{{product.price}}</span></label>
-          <i class="ion rq-arrows" ng-class="require ? 'ion-arrow-up-b' : 'ion-arrow-down-b'"></i>
+          <i class="ion rq-arrows" ng-class="require ? 'ion-arrow-up-b' : 'ion-arrow-down-b'" ng-show="product.planBased"></i>
         </div>
-      </div>
+      </fieldset>
       <div ng-show="require" class="inputcard">
         <div class="require-accordion inputarea">
-          <input type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+          <input type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.keyCode == 110 || event.keyCode == 229) ? null : (event.charCode >= 48 && event.charCode <=57) || (event.charCode >= 96 && event.charCode <=105)"
             ng-model="quantity" placeholder="Enter the Quantity" ng-change="getQuantity(null,quantity);" required>
           <div class="bbtm"></div>
         </div>

@@ -11,17 +11,20 @@ angular.module('starter.services', [])
     return {
 
       apiCallWithData: function (url, formData, callback) {
-        $ionicLoading.show({
-          content: 'Loading',
-          animation: 'fade-in',
-          showBackdrop: true,
-          maxWidth: 200,
-          showDelay: 0
-        });
-
+        if (!formData.noLoader) {
+          $ionicLoading.show({
+            content: 'Loading',
+            animation: 'fade-in',
+            showBackdrop: true,
+            maxWidth: 200,
+            showDelay: 0
+          });
+        }
         $http.post(adminurl + url, formData).then(function (data) {
           if (data) {
-            $ionicLoading.hide();
+            if (!formData.noLoader) {
+              $ionicLoading.hide();
+            }
             data = data.data;
             callback(data);
           }

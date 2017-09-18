@@ -1,12 +1,14 @@
 <ion-view title="Order Details">
   <ion-nav-bar class="bar-stable nav-height">
     <ion-nav-buttons side="left">
-      <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
-          </button>
+      <button class="button button-icon button-clear ion-navicon sigupIconLeft disblock" menu-toggle="left">
+        </button>
     </ion-nav-buttons>
 
   </ion-nav-bar>
   <ion-content class="has-header bgearn  t52">
+    <ion-refresher on-refresh="getOrders(1,true)">
+    </ion-refresher>
     <div class="hasorder-foot orhistory">
       <div class="" ng-repeat="order in orderList" ng-if="orderList.length > 0">
         <div class="whtback">
@@ -35,9 +37,9 @@
           </div>
         </div>
       </div>
-      <ion-infinite-scroll ng-if="!stop" on-infinite="loadMore()" distance="5%">
+      <ion-infinite-scroll ng-if="!stop" on-infinite="loadMore()" distance="5%" icon="none">
       </ion-infinite-scroll>
-      <div class="notAvail" ng-if="orderList.length==0">
+      <div class=" notAvail " ng-if="orderList.length==0 ">
         There are no orders to display.
       </div>
     </div>

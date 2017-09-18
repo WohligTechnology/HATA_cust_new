@@ -27,7 +27,7 @@
                   </span>
                 </div>
                 <div for="" class="desc" ng-if="cart.plan!='One Time'"><span class="qty">{{cart.plan.quantity}} {{cart.productId.unit}} plan</span><span>Rs. {{cart.plan.price}}/ {{cart.productId.unit}}</span></div>
-                <div for="" class="deposit" ng-if="cart.depositStatus =='Deducted'">Existing Deposit (<label for="">- Rs.{{cart.prevDeposit}}</label>)</div>
+                <div for="" class="deposit">Existing Deposit (<label for=""><span ng-if="cart.depositStatus =='Deducted'">-</span> Rs.{{cart.prevDeposit}}</label>)</div>
                 <div for="" class="total" ng-if="cart.plan=='One Time'"><span class="">Total: </span><label for="">Rs.{{(cart.quantity * cart.productId.price)+cart.deposit}}</label></div>
                 <div for="" class="total" ng-if="cart.plan!='One Time'"><span class="">Total: </span ><label for="" >Rs.{{cart.plan.quantity*cart.plan.price}}</label></div>
               </div>
@@ -43,7 +43,7 @@
           </div>
 
 
-          <div class="nocart" ng-if="!cartData || cartData.length==0 ">
+          <div class="nocart" ng-if="cartData.length==0 ">
             <div class="imgDiv">
               <img src="img/spiderweb.png" alt="">
             </div>
@@ -64,11 +64,11 @@
 
         </div>
   </ion-content>
-  <div class="bar bar-footer row review-foot" ng-if="cartData  && cartData.length>0 ">
-    <div class="col addmore" ui-sref="app.browse" ng-if="cartData && cartData.length>0 ">
+  <div class="bar bar-footer row review-foot" ng-if="cartData.length>0 ">
+    <div class="col addmore" ui-sref="app.browse">
       <div>Add More</div>
     </div>
-    <div class="col pay button" ui-sref="app.payment({total:total})" ng-if="cartData.length>0 " ng-disabled="outOfStock">
+    <div class="col pay button" ui-sref="app.payment({total:total})" ng-disabled="outOfStock">
       <div class="paydiv">Pay Rs. {{total}} <i class="ion ion-chevron-right"></i></div>
     </div>
   </div>

@@ -16,9 +16,9 @@ angular.module('starter.controllers', ['starter.services'])
       },
       function (isOpen) {
         if (isOpen) {
-          MyServices.getUserData(function (data) {
-            $scope.userInfo = data.data;
-          });
+          // MyServices.getNavDetails(function (data) {
+          $scope.userInfo = $.jStorage.get('profile');
+          // });
         }
       });
 
@@ -37,6 +37,7 @@ angular.module('starter.controllers', ['starter.services'])
   })
   .controller('VerifyCtrl', function ($scope, $stateParams, MyServices, $timeout, $ionicPopup, $state) {
     var mobileData = {};
+    $scope.otp = null;
     mobileData.mobile = $stateParams.mobNo;
     $scope.resend = true;
     MyServices.apiCallWithData('User/createUser', mobileData, function (data) {
@@ -69,6 +70,7 @@ angular.module('starter.controllers', ['starter.services'])
       MyServices.apiCallWithData('User/sendOtp', mobileData, function (data) {
         if (data.value) {
           $scope.getOtpData = data.data;
+          $scope.otp = null;
           $timeout(function () {
             $scope.resend = true;
           }, 10000);
@@ -218,6 +220,14 @@ angular.module('starter.controllers', ['starter.services'])
     $scope.productData = {};
     $scope.productData._id = $stateParams.productId;
     $scope.userInfo = $.jStorage.get('profile');
+
+    $scope.isNumberKey = function (evt) {
+      var charCode = (evt.which) ? evt.which : event.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+
+      return true;
+    }
     MyServices.apiCallWithData('Product/getOne', $scope.productData, function (data) {
       $scope.require = false;
       if (data.value) {
@@ -319,8 +329,10 @@ angular.module('starter.controllers', ['starter.services'])
     userData.warehouseId = $scope.userInfo.warehouseId;
     $scope.outOfStock = false;
 
+
     function getCustomerCart() {
       MyServices.apiCallWithData("user/getCartForCustomer", userData, function (data) {
+        $scope.cartData = [];
         if (data.value) {
           $scope.outOfStock = false;
           $scope.cartData = data.data.cart;
@@ -430,12 +442,17 @@ angular.module('starter.controllers', ['starter.services'])
     var userData = {};
     var page = 1;
     $scope.stop = true;
-    $scope.orderList = [];
-    $scope.getOrders = function (page) {
-      var userData = {};
+    // $scope.orderList = [];
+    $scope.getOrders = function (page, noLoader) {
       userData._id = $.jStorage.get('profile')._id;
       userData.page = page;
+      userData.noLoader = $scope.showSpin = noLoader;
+      console.log(userData);
+      if (userData.page == 1) {
+        $scope.orderList = [];
+      }
       MyServices.apiCallWithData("Order/getOrdersForUser", userData, function (data) {
+
         if (data.value) {
           _.forEach(data.data.results, function (value) {
             $scope.orderList.push(value);
@@ -450,13 +467,19 @@ angular.module('starter.controllers', ['starter.services'])
           $scope.stop = true;
         }
         $scope.$broadcast('scroll.infiniteScrollComplete');
+        $scope.$broadcast('scroll.refreshComplete');
       });
     }
-    $scope.getOrders(page);
+    $scope.getOrders(page, false);
     $scope.loadMore = function () {
-      page += 1;
-      $scope.getOrders(page);
+      if (!$scope.stop) {
+        page += 1;
+        $scope.getOrders(page, false);
+      }
     }
+    // $scope.refreshOrder = function () {
+    //   $scope.getOrders(page);
+    // }
 
 
   })
@@ -505,13 +528,17 @@ angular.module('starter.controllers', ['starter.services'])
     });
   })
   .controller('DashboardCtrl', function ($scope, $window, $stateParams, $state, MyServices, $ionicPopup) {
+    console.log($state.current.name);
     if (!$.jStorage.get('profile')) {
       $state.go('landing');
     }
+
     $scope.getPlans = function () {
       var userData = {};
+
       userData._id = $.jStorage.get('profile')._id;
       MyServices.apiCallWithData('user/getPlansProductSDDetails', userData, function (data) {
+        $scope.plans = [];
         if (data.value) {
           $scope.plans = data.data.results;
         }
@@ -532,11 +559,10 @@ angular.module('starter.controllers', ['starter.services'])
     });
     $scope.cancelDelivery = function (deliveryId) {
       $ionicPopup.alert({
-        cssClass: 'productspopup',
-        title: 'Cancel Delivery',
-        template: "Are you sure ?",
+        cssClass: 'removedpopup',
+        title: '<img src="img/warning.png">',
+        template: "<h4>Cancel Delivery</h4><label>Are you sure ?</label>",
         buttons: [{
-
           text: 'Yes',
           onTap: function (e) {
             var deliveryReq = {};
