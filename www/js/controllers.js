@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['starter.services'])
+angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 
   .controller('AppCtrl', function ($scope, $stateParams, $state, $ionicPopover, $ionicSideMenuDelegate, MyServices) {
     $scope.goBackHandler = function () {
@@ -46,6 +46,8 @@ angular.module('starter.controllers', ['starter.services'])
 
       }
     });
+
+
     $scope.verifyOtp = function (otp) {
 
       var otpData = {};
@@ -256,7 +258,7 @@ angular.module('starter.controllers', ['starter.services'])
       });
     }
     $scope.getQuantity = function (index, quantity) {
-      if (_.isEmpty(quantity) && quantity > 0) {
+      if (!_.isEmpty(quantity) && parseInt(quantity) > 0) {
         $scope.activePlan = {};
         $scope.activePlan.quantity = quantity;
         $scope.activePlan.plan = 'One Time';
@@ -329,13 +331,15 @@ angular.module('starter.controllers', ['starter.services'])
     userData.warehouseId = $scope.userInfo.warehouseId;
     $scope.outOfStock = false;
 
-
     function getCustomerCart() {
       MyServices.apiCallWithData("user/getCartForCustomer", userData, function (data) {
         $scope.cartData = [];
+        console.log($scope.cartData);
         if (data.value) {
           $scope.outOfStock = false;
-          $scope.cartData = data.data.cart;
+          if (data.data.cart) {
+            $scope.cartData = data.data.cart;
+          }
           $scope.getTotal();
           if (!data.data.cart || $scope.cartData.length == 0) {
             delete $scope.userInfo.warehouseId;
@@ -383,10 +387,10 @@ angular.module('starter.controllers', ['starter.services'])
     }
   })
   .controller('DeliveryCtrl', function ($scope, $stateParams) {})
-  .controller('PaymentCtrl', function ($scope, $stateParams, $state, MyServices, $ionicPopup) {
+  .controller('PaymentCtrl', function ($scope, $stateParams, $ionicPlatform, $state, MyServices, $ionicPopup) {
     $scope.total = $stateParams.total;
     $scope.userInfo = $.jStorage.get('profile');
-
+    $scope.called = false;
     $scope.payment = [{
       name: "Credit Card",
       status: false
@@ -408,6 +412,7 @@ angular.module('starter.controllers', ['starter.services'])
       status: false
     }];
     $scope.selectPayment = function (index) {
+      $scope.called = false;
       $scope.findPayment = $scope.payment[index].name;
       _.forEach($scope.payment, function (value) {
         if (value.name == $scope.findPayment) {
@@ -417,6 +422,7 @@ angular.module('starter.controllers', ['starter.services'])
         }
       });
     }
+    $scope.options = {};
     $scope.createOrder = function () {
       var userData = {};
       userData._id = $scope.userInfo._id;
@@ -424,63 +430,188 @@ angular.module('starter.controllers', ['starter.services'])
       MyServices.apiCallWithData("user/generateUserOrder", userData, function (data) {
         console.log(data);
         if (data.value) {
+          $scope.orderInfo = data.data;
           delete $scope.userInfo.warehouseId;
           $.jStorage.set('profile', $scope.userInfo);
-          $state.go('app.confirm');
+          switch ($scope.orderInfo.paymentMethod) {
+            case 'Credit Card':
+              $scope.paymentMethod = 'card';
+              break;
+            case 'Debit Card':
+              $scope.paymentMethod = 'card';
+              break;
+            case 'Net Banking':
+              $scope.paymentMethod = 'netbanking';
+              break;
+            case 'Paytm':
+              $scope.paymentMethod = 'wallet';
+              break;
+            case 'Other Wallets':
+              $scope.paymentMethod = 'wallet';
+              break;
+            case 'Cash On Delivery':
+              $state.go('app.confirm');
+              break;
+            default:
+              $scope.paymentMethod = '';
+          }
+          if ($scope.orderInfo.paymentMethod != 'Cash On Delivery') {
+            MyServices.getUserData(function (data) {
+              $scope.userData = data.data;
+              $scope.options = {
+                description: 'Pay for Order ' + $scope.orderInfo.orderId,
+                image: 'https://i.imgur.com/3g7nmJC.png',
+                currency: 'INR',
+                key: 'rzp_test_BrwXxB7w8pKsfS', //this payment id i have used twice Please change both
+                //please see line no(802)
+                // key: 'rzp_live_gFWckrbme2wT4J', //this live payment id
+                external: {
+                  wallets: ['paytm']
+                },
+                amount: parseInt($scope.orderInfo.totalAmount) * 100,
+                name: $scope.userData.name,
+                prefill: {
+                  email: $scope.userData.email,
+                  contact: $scope.userData.registerMobile,
+                  name: $scope.userData.name,
+                  method: $scope.paymentMethod
+                },
+                // 'handler': function (transaction) {
+                //   $scope.transactionHandler(transaction);
+                // },
+                theme: {
+                  color: '#FF414D'
+                }
+              };
+              $scope.pay();
+            });
+          }
         } else {
-          $ionicPopup.alert({
-            cssClass: 'removedpopup',
-            title: '<img src="img/linkexpire.png">',
-            template: "Error Occured while creating order"
-          });
+          if (data.error) {
+            var alertPopup = $ionicPopup.alert({
+              cssClass: 'removedpopup',
+              title: '<img src="img/linkexpire.png">',
+              template: data.error
+            });
+            alertPopup.then(function (res) {
+              $state.go('app.review');
+            });
+          } else {
+            $ionicPopup.alert({
+              cssClass: 'removedpopup',
+              title: '<img src="img/linkexpire.png">',
+              template: "Error Occured while creating order"
+            });
+          }
+
         }
       });
     }
+
+    // $scope.transactionHandler = function (success) {
+    //   console.log("success", success);
+    //   console.log(success);
+    //   var orderId = success.razorpay_order_id;
+    //   var signature = success.razorpay_signature;
+    //   $scope.paymentInfo = {};
+    //   if (success.razorpay_payment_id) {
+    //     $scope.paymentInfo.paymentId = success.razorpay_payment_id;
+    //     $scope.paymentInfo._id = $scope.orderInfo._id;
+    //     $scope.paymentInfo.razorpay_order_id = $scope.orderInfo.razorpay_order_id;
+    //     console.log("payAndCapture", success);
+    //     MyServices.apiCallWithData("order/verifyOrderPaymentStatus", $scope.paymentInfo, function (data) {
+    //       if (data.value === true) {
+    //         $state.go('app.confirm');
+    //         //redirect to thank you page
+    //       }
+    //     });
+    //   }
+    // }
+
+
+    var successCallback = function (success) {
+      $scope.called = false;
+      $scope.paymentInfo = {};
+      if (success) {
+        $scope.paymentInfo.paymentId = success;
+        $scope.paymentInfo._id = $scope.orderInfo._id;
+        MyServices.apiCallWithData("order/verifyOrderPaymentStatus", $scope.paymentInfo, function (data) {
+          if (data.value) {
+            $state.go('app.confirm');
+            //redirect to thank you page
+          }
+        });
+      }
+    }
+
+    var cancelCallback = function (error) {
+      console.log();
+      $scope.called = false;
+      var alertPopup = $ionicPopup.alert({
+        cssClass: 'removedpopup',
+        title: '<img src="img/linkexpire.png">',
+        template: error
+      });
+      alertPopup.then(function (res) {
+        $state.go('app.review');
+      });
+    }
+
+    $ionicPlatform.ready(function () {
+      $scope.pay = function () {
+        if (!$scope.called) {
+
+          // $.getScript('https://checkout.razorpay.com/v1/checkout.js', function () {
+          //   var rzp1 = new Razorpay($scope.options);
+          //   rzp1.open();
+          //   called = true;
+          // });
+          RazorpayCheckout.on('payment.success', successCallback);
+          RazorpayCheckout.on('payment.cancel', cancelCallback);
+          RazorpayCheckout.open($scope.options, successCallback, cancelCallback);
+
+          // console.log(successCallback);
+          // // RazorpayCheckout.on('payment.external_wallet', externalWalletCallback)
+          // $scope.called = true;
+
+        }
+      }
+    });
   })
   .controller('ConfirmCtrl', function ($scope, $stateParams) {})
   .controller('OrderhistoryCtrl', function ($scope, $stateParams, MyServices) {
     var userData = {};
-    var page = 1;
+    var page = null;
     $scope.stop = true;
     // $scope.orderList = [];
-    $scope.getOrders = function (page, noLoader) {
+    $scope.getOrders = function (orderPage, noLoader) {
       userData._id = $.jStorage.get('profile')._id;
-      userData.page = page;
+      userData.page = page = orderPage;
       userData.noLoader = $scope.showSpin = noLoader;
-      console.log(userData);
       if (userData.page == 1) {
         $scope.orderList = [];
       }
       MyServices.apiCallWithData("Order/getOrdersForUser", userData, function (data) {
-
         if (data.value) {
-          _.forEach(data.data.results, function (value) {
-            $scope.orderList.push(value);
-          })
-          console.log($scope.orderList);
-          if ($scope.orderList == 0) {
+          if (data.data.results == 0) {
             $scope.stop = true;
           } else {
+            $scope.orderList = _.concat($scope.orderList, data.data.results);
             $scope.stop = false;
           }
         } else {
           $scope.stop = true;
         }
-        $scope.$broadcast('scroll.infiniteScrollComplete');
-        $scope.$broadcast('scroll.refreshComplete');
       });
+      $scope.$broadcast('scroll.infiniteScrollComplete');
+      $scope.$broadcast('scroll.refreshComplete');
     }
-    $scope.getOrders(page, false);
+    $scope.getOrders(1, false);
     $scope.loadMore = function () {
-      if (!$scope.stop) {
-        page += 1;
-        $scope.getOrders(page, false);
-      }
+      console.log("in loadmore");
+      page += 1;
+      $scope.getOrders(page, false);
     }
-    // $scope.refreshOrder = function () {
-    //   $scope.getOrders(page);
-    // }
-
 
   })
   .controller('OrderDetailCtrl', function ($scope, $stateParams, MyServices) {
@@ -494,41 +625,46 @@ angular.module('starter.controllers', ['starter.services'])
 
 
   })
-  .controller('DeliveryHistoryCtrl', function ($scope, $stateParams) {
-    var jarBalance = 4;
-    $scope.delivery = [{
-      name: "Kinley 20L Jar",
-      date: "February 21, 2017",
-      unit: "Jar",
-      QuantityDelivered: 2
-    }, {
-      name: "Kinley 20L Jar",
-      date: "February 15, 2017",
-      unit: "Jar",
-      QuantityDelivered: 2
-    }, {
-      name: "Kinley 20L Jar",
-      date: "February 13, 2017",
-      unit: "Jar",
-      productQuantity: 20
-    }]
-    _.forEachRight($scope.delivery, function (value) {
-
-      if (value.productQuantity) {
-        jarBalance = jarBalance + value.productQuantity;
-        value.balance = jarBalance;
-
-      } else {
-
-        jarBalance = jarBalance - value.QuantityDelivered;
-        value.balance = jarBalance;
-
+  .controller('DeliveryHistoryCtrl', function ($scope, $stateParams, MyServices) {
+    var deliveryInfo = {};
+    var page = null;
+    $scope.stop = true;
+    // $scope.orderList = [];
+    $scope.getDelivery = function (orderPage, noLoader) {
+      deliveryInfo.page = page = orderPage;
+      deliveryInfo.noLoader = $scope.showSpin = noLoader;
+      if (deliveryInfo.page == 1) {
+        $scope.deliveryData = [];
       }
+      deliveryInfo.customerId = $.jStorage.get('profile')._id;
+      deliveryInfo.productId = $stateParams.productId;
+      MyServices.apiCallWithData('DeliveryRequest/getDeliveryHistoryOfProduct', deliveryInfo, function (data) {
+        if (data.value) {
+          if (data.data == 0) {
+            $scope.stop = true;
+          } else {
+            $scope.deliveryData = _.concat(data.data, $scope.deliveryData);
+            $scope.stop = false;
+          }
+        } else {
+          $scope.stop = true;
+        }
+      });
+      $scope.$broadcast('scroll.infiniteScrollComplete');
+      $scope.$broadcast('scroll.refreshComplete');
+    }
+    $scope.getDelivery(1, false);
+    $scope.loadMore = function () {
+      console.log("in loadmore");
+      page += 1;
+      $scope.getDelivery(page, false);
+    }
 
-    });
+
+
+
   })
   .controller('DashboardCtrl', function ($scope, $window, $stateParams, $state, MyServices, $ionicPopup) {
-    console.log($state.current.name);
     if (!$.jStorage.get('profile')) {
       $state.go('landing');
     }

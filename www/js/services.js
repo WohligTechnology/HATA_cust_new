@@ -1,6 +1,6 @@
-var adminurl = "https://freshflow.wohlig.co.in/api/"; //test server
+// var adminurl = "https://freshflow.wohlig.co.in/api/"; //test server
 // var adminurl = "http://wohlig.io/api/"; //server
-// var adminurl = "http://192.168.1.21:80/api/"; //server
+var adminurl = "http://192.168.1.2:80/api/"; //server
 // var imgpath = adminurl + "uploadfile/getupload?file=";
 var imgurl = adminurl + "upload/";
 var imgpath = imgurl + "readFile?file=";
@@ -104,8 +104,5 @@ angular.module('starter.services', [])
           });
         }
       },
-
-
-
     };
   });

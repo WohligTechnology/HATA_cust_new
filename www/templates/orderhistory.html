@@ -15,7 +15,7 @@
           <div class="row orderdiv">
             <div class="col-40 rel">
               <div class="ordersname">
-                <h4>Order {{order.orderId}}</h4>
+                <h4>Order #{{order.orderId}}</h4>
               </div>
             </div>
             <div class="col-30 rel">
@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <ion-infinite-scroll ng-if="!stop" on-infinite="loadMore()" distance="5%" icon="none">
+      <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="!stop">
       </ion-infinite-scroll>
       <div class=" notAvail " ng-if="orderList.length==0 ">
         There are no orders to display.

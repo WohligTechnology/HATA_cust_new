@@ -150,6 +150,11 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
 
 //landing.html end
 //verify.html start
+.hw100 {
+  height: 100%;
+  width: 100%;
+}
+
 .otpLabel {
   text-align: center;
   display: inline-block;
@@ -1249,6 +1254,9 @@ ion-slides {
 //orderhistory.html start
 .bgearn {
   background: #f2f4f5;
+  .scroll {
+    overflow: scroll;
+  }
 }
 
 .whtback {
@@ -1319,6 +1327,7 @@ ion-slides {
 .bottlename {
   color: #616161;
   font-size: 14px;
+  text-transform: capitalize;
   display: block;
 }
 
@@ -1361,6 +1370,7 @@ ion-slides {
   margin: 0;
   color: #454545;
   font-weight: 600;
+  text-transform: capitalize;
 }
 
 .order-histrscol {

@@ -9911,6 +9911,10 @@ a.button {
   font-weight: 600;
   padding: 0 !important; }
 
+.hw100 {
+  height: 100%;
+  width: 100%; }
+
 .otpLabel {
   text-align: center;
   display: inline-block;
@@ -10788,6 +10792,8 @@ ion-slides {
 
 .bgearn {
   background: #f2f4f5; }
+  .bgearn .scroll {
+    overflow: scroll; }
 
 .whtback {
   background: white;
@@ -10844,6 +10850,7 @@ ion-slides {
 .bottlename {
   color: #616161;
   font-size: 14px;
+  text-transform: capitalize;
   display: block; }
 
 .history-refils {
@@ -10877,7 +10884,8 @@ ion-slides {
   font-size: 15px;
   margin: 0;
   color: #454545;
-  font-weight: 600; }
+  font-weight: 600;
+  text-transform: capitalize; }
 
 .order-histrscol {
   text-align: center;

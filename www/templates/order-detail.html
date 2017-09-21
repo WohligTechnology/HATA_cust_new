@@ -4,9 +4,7 @@
       <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
         </button>
     </ion-nav-buttons>
-
   </ion-nav-bar>
-
   <ion-content class="bg-prdct  t52">
     <div class="prod-det">
       <div class="card" ng-repeat="p in orderDetail.products">
@@ -16,9 +14,7 @@
               <div class="producticon">
                 <img ng-src="{{p.product.smallImage | uploadpath}}" alt="">
               </div>
-
             </div>
-
             <div class="col-66">
               <div class="details-div">
                 <h2>{{p.product.name}} </h2>
@@ -29,20 +25,16 @@
                 <div for="" class="total" ng-if="p.plan=='One Time'"><span class="">Total: </span><label for="">Rs.{{(p.quantity * p.product.price)+p.deposit}}</label></div>
                 <div for="" class="total" ng-if="p.plan!='One Time'"><span class="">Total: </span ><label for="" >Rs.{{p.plan.quantity*p.plan.price}}</label></div>
               </div>
-
             </div>
           </div>
           <div class=" btmrow">
-            <div class="btmorder" ng-if="p.plan == 'One Time'">Delivery Date: <span>{{p.date}}</span></div>
-                <div class="btmorder positive" ng-if="p.plan != 'One Time'" ui-sref="app.deliveryhistory">SEE DELIVERY HISTORY</div>
+              <div class="btmorder" ng-if="p.plan == 'One Time'">Delivery Date: <span>{{p.deliveryDate | date:'dd/MM/yyyy'}}</span>
+                </div>
+                <div class="btmorder positive" ng-if="p.plan != 'One Time'" ui-sref="app.deliveryhistory({productId:p.product._id})">SEE DELIVERY HISTORY
+                </div>
               </div>
-
             </div>
           </div>
-
-
-
         </div>
   </ion-content>
-
 </ion-view>

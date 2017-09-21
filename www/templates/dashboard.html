@@ -18,7 +18,7 @@
             <div class="card">
               <label for="" class="prod-name">{{p.product.name}} {{p.product.unit}} Balance</label>
               <label class="baltxt">{{p.quantity}}</label>
-              <button class="button del-his-btn " ui-sref="app.deliveryhistory">
+              <button class="button del-his-btn " ui-sref="app.deliveryhistory({productId:p.product._id})">
                Delivery History
             </button>
               <div class="cardDivide"></div>

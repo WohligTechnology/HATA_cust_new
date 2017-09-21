@@ -4,6 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://*.razorpay.com data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
+
   <title></title>
 
   <link rel="manifest" href="manifest.json">
@@ -16,6 +18,7 @@
           .catch(err => console.log('Error', err));
       }
     </script>-->
+
   <link href="css/ionic.app.css" rel="stylesheet">
   <link href="lib/flexslider/flexslider.css" rel="stylesheet">
   <link href="css/animate.css" rel="stylesheet">
@@ -25,22 +28,19 @@
   <script src="lib/flexslider/jquery.flexslider.js"></script>
 
   <script src="lib/ionic/js/ionic.bundle.js"></script>
+  <script src="cordova.js"></script>
+  <script src="lib/ngCordova/dist/ng-cordova.js"></script>
   <script src="lib/jStorage/jstorage.min.js"></script>
   <script src="lib/angular-flexslider/angular-flexslider.js"></script>
-
-  <!-- ionic/angularjs js -->
-  <!-- <script src="lib/flexslider/jquery.flexslider.js"></script> -->
-  <script src="lib/ionic/js/ionic.bundle.js"></script>
   <script src="lib/lodash/dist/lodash.min.js"></script>
-  <!-- <script src="js/services.js"></script> -->
 
   <!-- cordova script (this will be a 404 during development) -->
-  <script src="cordova.js"></script>
 
   <!-- your app's js -->
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/services.js"></script>
+
 
 </head>
 

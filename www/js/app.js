@@ -39,12 +39,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
         if (($state.current.name == "app.dashboard" || $state.current.name == "app.dashboard") && $.jStorage.get('profile').pincode) {
           navigator.app.exitApp();
         } else {
-          window.history.back();
+          if ($state.current.name == "signup") {
+            navigator.app.exitApp();
+          } else {
+            window.history.back();
+          }
         }
       } else {
-        if ($state.current.name == "signup") {
-          $state.go('landing');
-        } else if ($state.current.name == "landing") {
+        if ($state.current.name == "landing") {
           navigator.app.exitApp();
         } else {
           window.history.back();
@@ -174,7 +176,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
       })
       .state('app.deliveryhistory', {
         cache: false,
-        url: '/deliveryhistory/:orderId',
+        url: '/deliveryhistory/:productId',
         views: {
           'menuContent': {
             templateUrl: 'templates/deliveryhistory.html',

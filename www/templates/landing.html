@@ -12,8 +12,8 @@
       <div class="col-67 ">
         <div class="spanTextDiv">
           <span class="phnSpan">+91</span>
-          <input class="phnText" type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
-            ng-model="loginInfo.mobile" ng-min="1000000000" ng-max="9999999999" limit-to="10" placeholder="Enter your contact no">
+          <input class="phnText" type="tel" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+            ng-model="loginInfo.mobile" ng-minlength="10" limit-to="10" placeholder="Enter your contact no">
         </div>
       </div>
       <div class="col-33 ">
