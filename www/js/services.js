@@ -1,15 +1,12 @@
-// var adminurl = "https://freshflow.wohlig.co.in/api/"; //test server
-// var adminurl = "http://wohlig.io/api/"; //server
-var adminurl = "http://192.168.1.2:80/api/"; //server
-// var imgpath = adminurl + "uploadfile/getupload?file=";
+var adminurl = "https://freshflow.wohlig.co.in/api/"; //test server
+// var adminurl = "http://wohlig.io/api/"; //local server
+// var adminurl = "http://192.168.1.2:80/api/"; //local server
 var imgurl = adminurl + "upload/";
 var imgpath = imgurl + "readFile?file=";
 // var uploadurl = imgurl;
 angular.module('starter.services', [])
   .factory('MyServices', function ($http, $ionicLoading, $timeout, $ionicPopup) {
-
     return {
-
       apiCallWithData: function (url, formData, callback) {
         if (!formData.noLoader) {
           $ionicLoading.show({

@@ -36,7 +36,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
     });
     $ionicPlatform.registerBackButtonAction(function (event) {
       if ($.jStorage.get('profile')) {
-        if (($state.current.name == "app.dashboard" || $state.current.name == "app.dashboard") && $.jStorage.get('profile').pincode) {
+        if (($state.current.name == "app.browse" || $state.current.name == "app.dashboard") && $.jStorage.get('profile').pincode) {
           navigator.app.exitApp();
         } else {
           if ($state.current.name == "signup") {
@@ -44,6 +44,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
           } else {
             window.history.back();
           }
+        }
+        if ($state.current.name == "app.thankyou" && $state.current.name == "app.confirm") {
+          //no back or exit on this
         }
       } else {
         if ($state.current.name == "landing") {
