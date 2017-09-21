@@ -11,7 +11,7 @@
 
 
   <ion-content class="has-header bgearn  t52">
-    <ion-refresher on-refresh="getDelivery(1,true)">
+    <ion-refresher on-refresh="doRefresh()">
     </ion-refresher>
     <div class="hasorder-foot">
       <div class="" ng-repeat="delivery in deliveryData track by $index" ng-if="deliveryData.length > 0">

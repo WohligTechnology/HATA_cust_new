@@ -7,10 +7,10 @@
 
   </ion-nav-bar>
   <ion-content class="has-header bgearn  t52">
-    <ion-refresher on-refresh="getOrders(1,true)">
+    <ion-refresher on-refresh="doRefresh()">
     </ion-refresher>
     <div class="hasorder-foot orhistory">
-      <div class="" ng-repeat="order in orderList" ng-if="orderList.length > 0">
+      <div class="" ng-repeat="order in orderList track by $index" ng-if="orderList.length > 0">
         <div class="whtback">
           <div class="row orderdiv">
             <div class="col-40 rel">
@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="!stop">
+      <ion-infinite-scroll ng-if="!stop && !refreshing" on-infinite="loadMore(true)" immediate-check="false" distance="5%">
       </ion-infinite-scroll>
       <div class=" notAvail " ng-if="orderList.length==0 ">
         There are no orders to display.

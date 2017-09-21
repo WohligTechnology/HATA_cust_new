@@ -117,6 +117,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
           value.name = $scope.signupForm.name;
         }
       });
+      $scope.signupForm.loginStatus = true;
       MyServices.apiCallWithData('User/saveUserData', $scope.signupForm, function (data) {
         if (data.value) {
           $scope.signupForm = data.data;
@@ -140,7 +141,6 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
               $scope.getUserData();
             }
           });
-
         }
       });
     };
@@ -579,15 +579,16 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     });
   })
   .controller('ConfirmCtrl', function ($scope, $stateParams) {})
-  .controller('OrderhistoryCtrl', function ($scope, $stateParams, MyServices) {
+  .controller('OrderhistoryCtrl', function ($scope, $stateParams, MyServices, $timeout) {
     var userData = {};
     var page = null;
     $scope.stop = true;
-    // $scope.orderList = [];
+    $scope.orderList = [];
     $scope.getOrders = function (orderPage, noLoader) {
+      $scope.$broadcast('scroll.refreshComplete');
       userData._id = $.jStorage.get('profile')._id;
       userData.page = page = orderPage;
-      userData.noLoader = $scope.showSpin = noLoader;
+      userData.noLoader = noLoader;
       if (userData.page == 1) {
         $scope.orderList = [];
       }
@@ -602,16 +603,27 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         } else {
           $scope.stop = true;
         }
+        $scope.$broadcast('scroll.infiniteScrollComplete');
       });
-      $scope.$broadcast('scroll.infiniteScrollComplete');
-      $scope.$broadcast('scroll.refreshComplete');
     }
     $scope.getOrders(1, false);
-    $scope.loadMore = function () {
-      console.log("in loadmore");
-      page += 1;
-      $scope.getOrders(page, false);
+    $scope.loadMore = function (loadMoreStatus) {
+      if (loadMoreStatus) {
+        console.log("in loadmore", page);
+        page += 1;
+        $scope.getOrders(page, true);
+      }
     }
+
+    $scope.doRefresh = function () {
+      $scope.refreshing = true;
+      // fetch remote data
+      $scope.getOrders(1, true);
+      $timeout(function () {
+        $scope.refreshing = false;
+      }, 1000);
+
+    };
 
   })
   .controller('OrderDetailCtrl', function ($scope, $stateParams, MyServices) {
@@ -629,7 +641,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     var deliveryInfo = {};
     var page = null;
     $scope.stop = true;
-    // $scope.orderList = [];
+    $scope.deliveryData = [];
     $scope.getDelivery = function (orderPage, noLoader) {
       deliveryInfo.page = page = orderPage;
       deliveryInfo.noLoader = $scope.showSpin = noLoader;
@@ -658,7 +670,16 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
       console.log("in loadmore");
       page += 1;
       $scope.getDelivery(page, false);
-    }
+    };
+    $scope.doRefresh = function () {
+      $scope.refreshing = true;
+      // fetch remote data
+      $scope.getDelivery(1, true);
+      $timeout(function () {
+        $scope.refreshing = false;
+      }, 1000);
+
+    };
 
 
 
@@ -678,6 +699,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         if (data.value) {
           $scope.plans = data.data.results;
         }
+        $scope.$broadcast('scroll.refreshComplete');
       });
     }
     $scope.getPlans();

@@ -10,6 +10,8 @@
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content class="has-header bg-dashboard">
+    <ion-refresher on-refresh="getPlans()">
+    </ion-refresher>
     <div ng-if="plans && plans.length>0">
       <div class="dashslider">
         <flex-slider class=" " animation="slide" flex-slide="p in plans track by $index" animation-loop="false" item-margin="27"
