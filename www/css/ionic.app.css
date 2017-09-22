@@ -9990,6 +9990,46 @@ a.button {
   font-size: 24px !important;
   padding: 0 0 0 12px !important; }
 
+.leaveApp h3 img {
+  max-width: 35px;
+  max-height: 35px; }
+
+.leaveApp .popup {
+  border-radius: 5px; }
+
+.leaveApp .popup-body {
+  background: white;
+  color: #223c4d;
+  text-align: center;
+  font-weight: 600;
+  padding-bottom: 30px;
+  font-size: 14px; }
+  .leaveApp .popup-body h4 {
+    margin: 0;
+    font-size: 20px;
+    color: #223c4d;
+    font-weight: 600; }
+  .leaveApp .popup-body label {
+    font-size: 12px; }
+
+.leaveApp .popup-head {
+  padding-top: 30px;
+  padding-bottom: 0;
+  border-bottom: none !important;
+  text-align: center;
+  background: white;
+  border-radius: 5px; }
+
+.leaveApp .popup-buttons {
+  padding: 0;
+  min-height: 40px;
+  background: white;
+  border: none; }
+  .leaveApp .popup-buttons button {
+    border: none;
+    min-height: 35px;
+    font-size: 12px; }
+
 .sigupRight {
   color: #091b27 !important;
   font-size: 24px !important;

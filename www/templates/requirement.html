@@ -17,13 +17,18 @@
       </fieldset>
       <div ng-show="require" class="inputcard">
         <div class="require-accordion inputarea">
-          <input type="tel" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.keyCode == 110 || event.keyCode == 229) ? null : (event.charCode >= 48 && event.charCode <=57) || (event.charCode >= 96 && event.charCode <=105)"
-            ng-model="quantity" placeholder="Enter the Quantity" ng-change="getQuantity(null,quantity);" required>
-          <div class="bbtm"></div>
+          <div class="add-div text-center">
+            <button class="ion ion-minus-circled jars-button" ng-click="getQuantity(-1);" ng-disabled="quantity==0"></button>
+            <label class="jarcount">{{quantity}}</label>
+            <button class="ion  ion-plus-circled jars-button" ng-click="getQuantity(1);"></button>
+          </div>
+          <!--<input type="number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13 || event.keyCode == 110 || event.keyCode == 229) ? null : (event.charCode >= 48 && event.charCode <=57) || (event.charCode >= 96 && event.charCode <=105)"
+            ng-model="quantity" placeholder="Enter the Quantity" ng-change="getQuantity(null,quantity);" required>-->
+          <!--<div class="bbtm"></div>-->
         </div>
         <div class="avgTxt" ng-show="require && product.returnable">Rs {{product.depositAmount}} Deposit Per {{product.unit}}</div>
       </div>
-      <div class="item" ng-show="product.planBased" ng-click="toggleCard();quantity=null">
+      <div class="item" ng-show="product.planBased" ng-click="toggleCard();">
         <div>
           <div class="rq-plan">Regular requirement? Buy a plan and save!</div>
           <div class="item-note">

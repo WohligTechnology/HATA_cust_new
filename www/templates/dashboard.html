@@ -4,10 +4,10 @@
       <button class="button button-icon button-clear ion-navicon sigupIconLeft disblock" menu-toggle="left">
         </button>
     </ion-nav-buttons>
-    <ion-nav-buttons side="right">
+    <!--<ion-nav-buttons side="right">
       <button class="button button-clear ion-ios-bell header-bellFont disblock" menu-toggle="right">
         </button>
-    </ion-nav-buttons>
+    </ion-nav-buttons>-->
   </ion-nav-bar>
   <ion-content class="has-header bg-dashboard">
     <ion-refresher on-refresh="getPlans()">
@@ -27,7 +27,7 @@
               <div class="datediv">
 
                 <label class="date-text" for="" ng-if="!p.deliveryRequest">We'll be in your area on</label>
-                <label class="date-text" for="" ng-if="p.deliveryRequest">{{p.deliveryRequest.quantity}} {{p.deliveryRequest.productId.unit}} will be deliverd on</label>
+                <label class="date-text" for="" ng-if="p.deliveryRequest">{{p.deliveryRequest.quantity}} {{p.deliveryRequest.productId.unit}} will be delivered on</label>
                 <span class="cardDayspan" ng-if="!p.deliveryRequest">{{estimatedDate | date:'EEEE'}},</span>
                 <span class="cardDate" ng-if="!p.deliveryRequest"> {{estimatedDate | date :'MMMM dd.'}}</span>
                 <span class="cardDayspan" ng-if="p.deliveryRequest">{{p.deliveryRequest.scheduleDeliveryDate | date:'EEEE'}},</span>

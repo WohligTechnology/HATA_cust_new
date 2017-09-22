@@ -80,7 +80,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
       });
     };
   })
-  .controller('SignupCtrl', function ($scope, $stateParams, $state, $ionicPopover, $ionicPopup, MyServices) {
+  .controller('SignupCtrl', function ($scope, $stateParams, $state, $ionicPopover, $ionicPlatform, $ionicPopup, MyServices) {
     $ionicPopover.fromTemplateUrl('templates/modal/terms.html', {
       scope: $scope,
       cssClass: 'menupop',
@@ -125,22 +125,35 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
           var pinData = {
             pinCode: $scope.signupForm.pinCode
           };
-          MyServices.apiCallWithData("pincode/checkPinCode", pinData, function (data) {
-            if (data.value) {
-              var userInfo = {};
-              userInfo = $.jStorage.get('profile');
-              userInfo.pincode = data.data.pincode;
-              $.jStorage.set('profile', userInfo);
-              $state.go('app.browse');
-            } else {
-              $ionicPopup.alert({
-                cssClass: 'removedpopup',
-                title: '<img src="img/warning.png">',
-                template: "<h4>Sorry!</h4><label>We don't currently serve your pincode. We've saved your details so you'll be one of the first to know when we start!</label>"
-              });
-              $scope.getUserData();
-            }
-          });
+        } else {
+          if (data.error == 'noPincodeFound') {
+            $ionicPopup.alert({
+              cssClass: 'leaveApp',
+              title: '<img src="img/warning.png">',
+              template: "<h4>Sorry!</h4><label>We don't currently serve your pincode. We've saved your details, so you'll be one of the first to know when we start.</label>",
+              buttons: [{
+                  text: 'Leave app',
+                  onTap: function (e) {
+                    ionic.Platform.exitApp();
+                    $ionicPlatform.registerBackButtonAction(function (event) {
+                      ionic.Platform.exitApp();
+                    });
+                  }
+                },
+                {
+                  text: 'Change pincode',
+                  type: 'button-positive',
+                  onTap: function (e) {}
+                }
+              ]
+            });
+          } else {
+            $ionicPopup.alert({
+              cssClass: 'removedpopup',
+              title: '<img src="img/linkexpire.png">',
+              template: "Error Occured while updating user"
+            });
+          }
         }
       });
     };
@@ -240,6 +253,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     $scope.toggleCard = function () {
       $scope.require = !$scope.require;
       $scope.activePlan = null;
+      $scope.quantity = 0;
       _.forEach($scope.product.plans, function (value) {
         value.selected = false;
       });
@@ -257,10 +271,11 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         }
       });
     }
-    $scope.getQuantity = function (index, quantity) {
-      if (!_.isEmpty(quantity) && parseInt(quantity) > 0) {
+    $scope.getQuantity = function (num) {
+      $scope.quantity += num;
+      if ($scope.quantity > 0) {
         $scope.activePlan = {};
-        $scope.activePlan.quantity = quantity;
+        $scope.activePlan.quantity = $scope.quantity;
         $scope.activePlan.plan = 'One Time';
       } else {
         $scope.activePlan = null;
