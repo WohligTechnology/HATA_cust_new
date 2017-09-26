@@ -125,6 +125,9 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
           var userInfo = {};
           userInfo = $.jStorage.get('profile');
           userInfo.pincode = data.data.pinCode;
+          if (!userInfo.name) {
+            userInfo.name = data.data.name;
+          }
           $.jStorage.set('profile', userInfo);
           $state.go('app.browse');
 
@@ -739,6 +742,12 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
             MyServices.apiCallWithData('DeliveryRequest/cancelDeliveryRequest', deliveryReq, function (data) {
               if (data.value) {
                 $state.reload();
+              } else {
+                $ionicPopup.alert({
+                  cssClass: 'removedpopup',
+                  title: '<img src="img/warning.png">',
+                  template: "Error Occured while canceling order"
+                });
               }
             });
           }
