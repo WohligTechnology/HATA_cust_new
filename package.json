@@ -1,7 +1,7 @@
 {
-  "name": "HaTa",
+  "name": "Fresh Flow",
   "version": "1.1.1",
-  "description": "HaTa: An Ionic project",
+  "description": "Fresh Flow: An Ionic project",
   "devDependencies": {
     "gulp": "^3.5.6",
     "gulp-clean-css": "^3.7.0",

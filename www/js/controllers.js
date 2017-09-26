@@ -100,7 +100,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     $scope.lockData = false;
     $scope.getUserData = function () {
       if ($.jStorage.get('profile')._id) {
-        if ($.jStorage.get('profile').pincode) {
+        if ($.jStorage.get('profile').email) {
           $scope.lockData = true;
         }
         MyServices.getUserData(function (data) {
@@ -111,6 +111,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 
     $scope.getUserData();
     $scope.saveUser = function () {
+      $scope.changePincode = false;
       _.forEach($scope.signupForm.mobile, function (value) {
         if (value.accessLevel == 'Registered Mobile') {
           value.mobileNo = $scope.signupForm.registerMobile;
@@ -121,18 +122,21 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
       MyServices.apiCallWithData('User/saveUserData', $scope.signupForm, function (data) {
         if (data.value) {
           $scope.signupForm = data.data;
-          $scope.getUserData();
-          var pinData = {
-            pinCode: $scope.signupForm.pinCode
-          };
+          var userInfo = {};
+          userInfo = $.jStorage.get('profile');
+          userInfo.pincode = data.data.pinCode;
+          $.jStorage.set('profile', userInfo);
+          $state.go('app.browse');
+
         } else {
           if (data.error == 'noPincodeFound') {
             $ionicPopup.alert({
-              cssClass: 'leaveApp',
+              cssClass: 'removedpopup',
               title: '<img src="img/warning.png">',
               template: "<h4>Sorry!</h4><label>We don't currently serve your pincode. We've saved your details, so you'll be one of the first to know when we start.</label>",
               buttons: [{
                   text: 'Leave app',
+                  cssClass: 'leaveApp',
                   onTap: function (e) {
                     ionic.Platform.exitApp();
                     $ionicPlatform.registerBackButtonAction(function (event) {
@@ -141,17 +145,19 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
                   }
                 },
                 {
-                  text: 'Change pincode',
+                  text: 'Retry',
                   type: 'button-positive',
-                  onTap: function (e) {}
+                  onTap: function (e) {
+                    $scope.changePincode = true;
+                  }
                 }
               ]
             });
           } else {
             $ionicPopup.alert({
               cssClass: 'removedpopup',
-              title: '<img src="img/linkexpire.png">',
-              template: "Error Occured while updating user"
+              title: '<img src="img/warning.png">',
+              template: "Error Occured while updating order"
             });
           }
         }
@@ -378,7 +384,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         } else {
           $ionicPopup.alert({
             cssClass: 'removedpopup',
-            title: '<img src="img/linkexpire.png">',
+            title: '<img src="img/warning.png">',
             template: "Error Occured while Removing Products to Cart"
           });
         }
@@ -407,25 +413,28 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     $scope.userInfo = $.jStorage.get('profile');
     $scope.called = false;
     $scope.payment = [{
-      name: "Credit Card",
-      status: false
-    }, {
-      name: "Debit Card",
-      status: false
-    }, {
-      name: "Net Banking",
-      status: false
-    }, {
-      name: "Paytm",
-      img: "img/paytm_logo.png",
-      status: false
-    }, {
-      name: "Other Wallets",
-      status: false
-    }, {
-      name: "Cash On Delivery",
-      status: false
-    }];
+        name: "Credit Card",
+        status: false
+      }, {
+        name: "Debit Card",
+        status: false
+      }, {
+        name: "Net Banking",
+        status: false
+      },
+      // {
+      //   name: "Paytm",
+      //   img: "img/paytm_logo.png",
+      //   status: false
+      // }, 
+      {
+        name: "Other Wallets",
+        status: false
+      }, {
+        name: "Cash On Delivery",
+        status: false
+      }
+    ];
     $scope.selectPayment = function (index) {
       $scope.called = false;
       $scope.findPayment = $scope.payment[index].name;
@@ -458,9 +467,9 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
             case 'Net Banking':
               $scope.paymentMethod = 'netbanking';
               break;
-            case 'Paytm':
-              $scope.paymentMethod = 'wallet';
-              break;
+              // case 'Paytm':
+              //   $scope.paymentMethod = 'wallet';
+              //   break;
             case 'Other Wallets':
               $scope.paymentMethod = 'wallet';
               break;
@@ -477,12 +486,12 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
                 description: 'Pay for Order ' + $scope.orderInfo.orderId,
                 image: 'https://i.imgur.com/3g7nmJC.png',
                 currency: 'INR',
-                key: 'rzp_test_BrwXxB7w8pKsfS', //this payment id i have used twice Please change both
+                // key: 'rzp_test_BrwXxB7w8pKsfS', //this payment id i have used twice Please change both
                 //please see line no(802)
-                // key: 'rzp_live_gFWckrbme2wT4J', //this live payment id
-                external: {
-                  wallets: ['paytm']
-                },
+                key: 'rzp_live_gFWckrbme2wT4J', //this live payment id
+                // external: {
+                //   wallets: ['paytm']
+                // },
                 amount: parseInt($scope.orderInfo.totalAmount) * 100,
                 name: $scope.userData.name,
                 prefill: {
@@ -505,7 +514,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
           if (data.error) {
             var alertPopup = $ionicPopup.alert({
               cssClass: 'removedpopup',
-              title: '<img src="img/linkexpire.png">',
+              title: '<img src="img/warning.png">',
               template: data.error
             });
             alertPopup.then(function (res) {
@@ -514,7 +523,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
           } else {
             $ionicPopup.alert({
               cssClass: 'removedpopup',
-              title: '<img src="img/linkexpire.png">',
+              title: '<img src="img/warning.png">',
               template: "Error Occured while creating order"
             });
           }
@@ -564,7 +573,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
       $scope.called = false;
       var alertPopup = $ionicPopup.alert({
         cssClass: 'removedpopup',
-        title: '<img src="img/linkexpire.png">',
+        title: '<img src="img/warning.png">',
         template: error
       });
       alertPopup.then(function (res) {
@@ -701,10 +710,9 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 
   })
   .controller('DashboardCtrl', function ($scope, $window, $stateParams, $state, MyServices, $ionicPopup) {
-    if (!$.jStorage.get('profile')) {
-      $state.go('landing');
+    $scope.reloadDashboard = function () {
+      $state.reload();
     }
-
     $scope.getPlans = function () {
       var userData = {};
 
@@ -717,19 +725,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         $scope.$broadcast('scroll.refreshComplete');
       });
     }
-    $scope.getPlans();
-    $scope.flexwidth = $window.innerWidth - 40;
-    $scope.flexStyle = {
-      "width": $window.innerWidth.toString() + "px"
-    };
-    var pinData = {};
-    pinData.pinCode = $.jStorage.get('profile').pincode;
 
-    MyServices.apiCallWithData('pincode/getEstimatedDeliveryDate', pinData, function (data) {
-      if (data.value) {
-        $scope.estimatedDate = data.data.estimatedDate;
-      }
-    });
     $scope.cancelDelivery = function (deliveryId) {
       $ionicPopup.alert({
         cssClass: 'removedpopup',
@@ -754,6 +750,24 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
       });
 
     }
+    if (!$.jStorage.get('profile')) {
+      $state.go('landing');
+    } else {
+      $scope.getPlans();
+      $scope.flexwidth = $window.innerWidth - 40;
+      $scope.flexStyle = {
+        "width": $window.innerWidth.toString() + "px"
+      };
+      var pinData = {};
+      pinData.pinCode = $.jStorage.get('profile').pincode;
+
+      MyServices.apiCallWithData('pincode/getEstimatedDeliveryDate', pinData, function (data) {
+        if (data.value) {
+          $scope.estimatedDate = data.data.estimatedDate;
+        }
+      });
+    }
+
   })
   .controller('ScheduleCtrl', function ($scope, $window, $stateParams, MyServices, $ionicPopup, $state, $filter) {
     $scope.scheduleData = {};
@@ -765,7 +779,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     MyServices.apiCallWithData('user/getPlanProductSDDetails', productData, function (data) {
       $scope.productPlan = data.data;
       $scope.products = data.data.userPlan.planBalance[0];
-      $scope.products.deliverQauntity = null;
+      $scope.products.deliverQuantity = null;
     });
 
 
@@ -856,14 +870,47 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
             productId: $stateParams.productId
           });
         } else {
-          $ionicPopup.alert({
-            cssClass: 'removedpopup',
-            title: '<img src="img/linkexpire.png">',
-            template: "Error Occure"
-          });
+          if (data.error == 'lowPlanBalance') {
+            $ionicPopup.alert({
+              cssClass: 'removedpopup',
+              title: '<img src="img/warning.png">',
+              template: "Your plan balance is lower than requested quantity"
+            });
+
+          } else if (data.error == 'Sorry! Product is out of stock.') {
+            $ionicPopup.alert({
+              cssClass: 'removedpopup',
+              title: '<img src="img/warning.png">',
+              template: data.error
+            });
+          } else {
+            $ionicPopup.alert({
+              cssClass: 'removedpopup',
+              title: '<img src="img/warning.png">',
+              template: "Error Occurred"
+            });
+          }
+
         }
       });
 
+    }
+    $scope.changeQuantity = function (quantity) {
+
+      if ($scope.products.deliverQuantity != null) {
+        $scope.products.deliverQuantity = $scope.products.deliverQuantity + quantity;
+      } else {
+        $scope.endRange = $scope.products.quantity;
+        if ($scope.products.product.minDeliverySize <= $scope.products.quantity) {
+          $scope.products.deliverQuantity = $scope.startRange = $scope.products.product.minDeliverySize;
+
+        } else {
+          $scope.products.deliverQuantity = $scope.startRange = $scope.products.quantity;
+        }
+      }
+      // if ($scope.products.deliverQuantity == $scope.products.product.minDeliverySize) {
+      //   $scope.products.deliverQuantity = null;
+      // }
     }
 
   })

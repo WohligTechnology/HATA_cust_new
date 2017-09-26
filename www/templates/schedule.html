@@ -10,14 +10,22 @@
     <div class="card jars-card list ">
       <div class="item ">
         <label class="jar-label" for="">{{products.product.name}} {{products.product.unit}}</label>
-        <div class="add-div">
+        <!--<div class="add-div">
           <button class="ion ion-minus-circled jars-button" ng-click="(products.deliverQuantity == products.product.minDeliverySize) ? products.deliverQuantity = null : (products.deliverQuantity = products.deliverQuantity-1) "
             ng-hide="products.deliverQuantity == null"></button>
           <label class="jarcount" ng-if="products.deliverQuantity>=products.product.minDeliverySize">{{products.deliverQuantity}}</label>
           <button class="ion  ion-plus-circled jars-button" ng-click="products.deliverQuantity ? (products.deliverQuantity = products.deliverQuantity + 1) : products.deliverQuantity = products.product.minDeliverySize"
             ng-disabled="products.deliverQuantity>=products.quantity"></button>
+        </div>-->
+        <div class="add-div">
+          <button class="ion ion-minus-circled jars-button" ng-click="changeQuantity(-1) " ng-disabled="startRange >= products.deliverQuantity "
+            ng-hide="products.deliverQuantity==null"></button>
+          <label class="jarcount" ng-if="products.deliverQuantity">{{products.deliverQuantity}}</label>
+          <button class="ion  ion-plus-circled jars-button" ng-click="changeQuantity(1) " ng-disabled="endRange <= products.deliverQuantity"></button>
         </div>
+
       </div>
+
     </div>
 
     <div class="ionic_Calendar card">

@@ -50,7 +50,7 @@
         </div>
         <div>
           <label class=" item-input ">
-            <input limit-to="6"  type="number" placeholder="Pincode"  ng-model="signupForm.pinCode" name="pinCode"  ng-min="100000" ng-max="999999"  required ng-disabled="lockData">
+            <input limit-to="6"  type="number" placeholder="Pincode"  ng-model="signupForm.pinCode" name="pinCode"  ng-min="100000" ng-max="999999"  required ng-disabled="lockData && !changePincode">
           </label>
           <p class="error-msg" ng-show="userForm.pinCode.$invalid && userForm.pinCode.$touched">Please Enter your Pincode.</p>
         </div>

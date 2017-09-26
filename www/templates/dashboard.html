@@ -10,7 +10,7 @@
     </ion-nav-buttons>-->
   </ion-nav-bar>
   <ion-content class="has-header bg-dashboard">
-    <ion-refresher on-refresh="getPlans()">
+    <ion-refresher on-refresh="reloadDashboard()">
     </ion-refresher>
     <div ng-if="plans && plans.length>0">
       <div class="dashslider">
@@ -53,10 +53,10 @@
       </div>
     </div>
     <div class="notPlan" ng-if="plans.length==0">
-      <h4>Currently you are not subscribed to any plans.</h4>
-      <label for="">Our plans are cheaper and <br> more convenient</label>
+      <h4>Currently, you do not have any active plans.</h4>
+      <label for="">Our plans are cheaper and <br> more convenient.</label>
       <button class="button button-medium button-assertive" ui-sref='app.browse'>
-        Start Today
+        Start Today!
       </button>
     </div>
   </ion-content>
