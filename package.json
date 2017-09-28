@@ -17,8 +17,7 @@
     "ionic-plugin-keyboard",
     "com.razorpay.cordova"
   ],
-  "cordovaPlatforms": [{
-    "platform": "android",
-    "locator": "browser"
-  }]
+  "cordovaPlatforms": [
+    "android"
+  ]
 }

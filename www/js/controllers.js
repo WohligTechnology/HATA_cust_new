@@ -492,9 +492,9 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
                 // key: 'rzp_test_BrwXxB7w8pKsfS', //this payment id i have used twice Please change both
                 //please see line no(802)
                 key: 'rzp_live_gFWckrbme2wT4J', //this live payment id
-                // external: {
-                //   wallets: ['paytm']
-                // },
+                external: {
+                  wallets: ['paytm']
+                },
                 amount: parseInt($scope.orderInfo.totalAmount) * 100,
                 name: $scope.userData.name,
                 prefill: {
@@ -555,7 +555,15 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     //   }
     // }
 
-
+    // You need to register an event listener for the `resume` event
+    document.addEventListener('resume', onResume, false);
+    var onResume = function (event) {
+      // Re-register the payment success and cancel callbacks
+      RazorpayCheckout.on('payment.success', successCallback)
+      RazorpayCheckout.on('payment.cancel', cancelCallback)
+      // Pass on the event to RazorpayCheckout
+      RazorpayCheckout.onResume(event);
+    };
     var successCallback = function (success) {
       $scope.called = false;
       $scope.paymentInfo = {};
@@ -570,7 +578,20 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         });
       }
     }
-
+    var externalWalletCallback = function (success) {
+      $scope.called = false;
+      $scope.paymentInfo = {};
+      if (success) {
+        $scope.paymentInfo.paymentId = success;
+        $scope.paymentInfo._id = $scope.orderInfo._id;
+        MyServices.apiCallWithData("order/verifyOrderPaymentStatus", $scope.paymentInfo, function (data) {
+          if (data.value) {
+            $state.go('app.confirm');
+            //redirect to thank you page
+          }
+        });
+      }
+    }
     var cancelCallback = function (error) {
       console.log();
       $scope.called = false;
@@ -595,11 +616,9 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
           // });
           RazorpayCheckout.on('payment.success', successCallback);
           RazorpayCheckout.on('payment.cancel', cancelCallback);
+          RazorpayCheckout.on('payment.external_wallet', externalWalletCallback);
           RazorpayCheckout.open($scope.options, successCallback, cancelCallback);
-
-          // console.log(successCallback);
-          // // RazorpayCheckout.on('payment.external_wallet', externalWalletCallback)
-          // $scope.called = true;
+          $scope.called = true;
 
         }
       }
