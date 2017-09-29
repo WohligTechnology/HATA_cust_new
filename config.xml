@@ -31,6 +31,7 @@
   <plugin name="cordova-plugin-device" spec="1.1.4"/>
   <plugin name="cordova-plugin-splashscreen" spec="~4.0.1"/>
   <plugin name="com.razorpay.cordova" spec="https://github.com/razorpay/razorpay-cordova.git"/>
+  <plugin name="com.paytm.cordova" spec="https://github.com/samyam-a/PayTM-PhoneGap-Plugin.git --variable GENERATE_URL=https://backend.freshflow.in/paytm/generate_checksum --variable VERIFY_URL=https://backend.freshflow.in/paytm/verify_checksum --variable MERCHANT_ID=HaTaBe05572575068674 --variable INDUSTRY_TYPE_ID=Retail --variable WEBSITE=APP_STAGING"/>
   <platform name="android">
     <allow-intent href="market:*"/>
     <icon src="resources/android/icon/drawable-ldpi-icon.png" density="ldpi"/>

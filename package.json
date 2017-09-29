@@ -15,7 +15,8 @@
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
-    "com.razorpay.cordova"
+    "com.razorpay.cordova",
+    "com.paytm.cordova"
   ],
   "cordovaPlatforms": [
     "android"

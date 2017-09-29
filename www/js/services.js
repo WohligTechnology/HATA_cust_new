@@ -1,6 +1,6 @@
-// var adminurl = "https://backend.freshflow.in/api/"; //main server
+var adminurl = "https://backend.freshflow.in/api/"; //main server
 // var adminurl = "http://wohlig.io/api/"; //local server
-var adminurl = "http://192.168.1.20:80/api/"; //local server
+// var adminurl = "http://192.168.1.14:80/api/"; //local server
 var imgurl = adminurl + "upload/";
 var imgpath = imgurl + "readFile?file=";
 // var uploadurl = imgurl;
@@ -35,7 +35,32 @@ angular.module('starter.services', [])
           });
         });
       },
+      paytmData: function (formData, callback) {
+        console.log(formData);
+        $ionicLoading.show({
+          content: 'Loading',
+          animation: 'fade-in',
+          showBackdrop: true,
+          maxWidth: 200,
+          showDelay: 0
+        });
+        // http://192.168.1.14:3000/paytm/generate_checksum
+        $http.post("https://backend.freshflow.in/paytm/generate_checksum", formData).then(function (data) {
+          if (data) {
+            $ionicLoading.hide();
+            data = data.data;
+            callback(data);
+          }
 
+        }, function errorCallback(response) {
+          $ionicLoading.hide();
+          $ionicLoading.show({
+            template: 'Something went wrong',
+            noBackdrop: true,
+            duration: 2000
+          });
+        });
+      },
       apiCallWithoutData: function (url, callback) {
         $ionicLoading.show({
           content: 'Loading',
