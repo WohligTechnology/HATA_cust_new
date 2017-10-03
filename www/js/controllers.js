@@ -425,11 +425,11 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         name: "Net Banking",
         status: false
       },
-      {
-        name: "Paytm",
-        img: "img/paytm_logo.png",
-        status: false
-      },
+      // {
+      //   name: "Paytm",
+      //   img: "img/paytm_logo.png",
+      //   status: false
+      // },
       {
         name: "Other Wallets",
         status: false
@@ -473,10 +473,10 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
               $scope.paymentMethod = 'netbanking';
               $scope.razorPay($scope.orderInfo);
               break;
-            case 'Paytm':
-              $scope.paymentMethod = 'wallet';
-              $scope.paytmPay($scope.orderInfo);
-              break;
+              // case 'Paytm':
+              //   $scope.paymentMethod = 'wallet';
+              //   $scope.paytmPay($scope.orderInfo);
+              //   break;
             case 'Other Wallets':
               $scope.paymentMethod = 'wallet';
               $scope.razorPay($scope.orderInfo);
@@ -506,56 +506,56 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         }
       });
     }
-    $scope.paytmPay = function (orderInfo) {
-      MyServices.getUserData(function (data) {
-        var userData = data.data;
-        var paymentConfig = {};
-        paymentConfig.MID = 'HaTaBe31467307640424'; //Provided by Paytm
-        paymentConfig.ORDER_ID = orderInfo.orderId; //unique OrderId for every request
-        paymentConfig.CUST_ID = userData._id; // unique customer identifier 
-        paymentConfig.INDUSTRY_TYPE_ID = 'Retail'; //Provided by Paytm
-        paymentConfig.CHANNEL_ID = 'WAP'; //Provided by Paytm
-        paymentConfig.TXN_AMOUNT = parseInt(orderInfo.totalAmount); // transaction amount
-        paymentConfig.WEBSITE = 'APP_STAGING'; //Provided by Paytm
-        paymentConfig.CALLBACK_URL = 'https://pguat.paytm.com/paytmchecksum/paytmCallback.jsp'; //Provided by Paytm
-        paymentConfig.EMAIL = userData.email; // customer email id
-        paymentConfig.MOBILE_NO = userData.registerMobile; // customer 10 digit mobile no.
+    // $scope.paytmPay = function (orderInfo) {
+    //   MyServices.getUserData(function (data) {
+    //     var userData = data.data;
+    //     var paymentConfig = {};
+    //     paymentConfig.MID = 'HaTaBe31467307640424'; //Provided by Paytm
+    //     paymentConfig.ORDER_ID = orderInfo.orderId; //unique OrderId for every request
+    //     paymentConfig.CUST_ID = userData._id; // unique customer identifier 
+    //     paymentConfig.INDUSTRY_TYPE_ID = 'Retail'; //Provided by Paytm
+    //     paymentConfig.CHANNEL_ID = 'WAP'; //Provided by Paytm
+    //     paymentConfig.TXN_AMOUNT = parseInt(orderInfo.totalAmount); // transaction amount
+    //     paymentConfig.WEBSITE = 'APP_STAGING'; //Provided by Paytm
+    //     paymentConfig.CALLBACK_URL = 'https://pguat.paytm.com/paytmchecksum/paytmCallback.jsp'; //Provided by Paytm
+    //     paymentConfig.EMAIL = userData.email; // customer email id
+    //     paymentConfig.MOBILE_NO = userData.registerMobile; // customer 10 digit mobile no.
 
 
-        // MyServices.paytmData(paymentConfig, function (data) {
-        //for live 'product'
-        document.addEventListener("onload", function () {
+    //     // MyServices.paytmData(paymentConfig, function (data) {
+    //     //for live 'product'
+    //     document.addEventListener("onload", function () {
 
 
-          var ref = window.plugins.paytm.startPayment(orderInfo.orderId, userData._id, userData.email, userData.registerMobile, parseInt(orderInfo.totalAmount), "staging", successCallback1, failureCallback);
-          ref.addEventListener('loadstop', function (event) {
-            function successCallback1(response) {
-              //staging (or) product 
-              var transactionBankTxnId = response.MID;
-              var transactionMId = response.ORDERID;
-              var transactionOrderId = response.TXNID;
-              var transactionTxnDate = response.TXNDATE;
-              var transactionTxnId = response.BANKTXNID;
-              $scope.paymentInfo.paymentId = response.TXNID;
-              $scope.paymentInfo._id = orderInfo._id;
-              MyServices.apiCallWithData("order/verifyOrderPaymentStatus", $scope.paymentInfo, function (data) {
-                if (data.value) {
-                  $state.go('app.confirm');
-                }
-              });
-              alert(JSON.stringify(response));
-              console.log("Payed Successfully");
-            }
+    //       var ref = window.plugins.paytm.startPayment(orderInfo.orderId, userData._id, userData.email, userData.registerMobile, parseInt(orderInfo.totalAmount), "staging", successCallback1, failureCallback);
+    //       ref.addEventListener('loadstop', function (event) {
+    //         function successCallback1(response) {
+    //           //staging (or) product 
+    //           var transactionBankTxnId = response.MID;
+    //           var transactionMId = response.ORDERID;
+    //           var transactionOrderId = response.TXNID;
+    //           var transactionTxnDate = response.TXNDATE;
+    //           var transactionTxnId = response.BANKTXNID;
+    //           $scope.paymentInfo.paymentId = response.TXNID;
+    //           $scope.paymentInfo._id = orderInfo._id;
+    //           MyServices.apiCallWithData("order/verifyOrderPaymentStatus", $scope.paymentInfo, function (data) {
+    //             if (data.value) {
+    //               $state.go('app.confirm');
+    //             }
+    //           });
+    //           alert(JSON.stringify(response));
+    //           console.log("Payed Successfully");
+    //         }
 
-            function failureCallback(message) {
-              alert('Failed because: ' + message);
-              console.log('Failed because: ' + message);
-            }
-          });
-        });
-        // });
-      });
-    };
+    //         function failureCallback(message) {
+    //           alert('Failed because: ' + message);
+    //           console.log('Failed because: ' + message);
+    //         }
+    //       });
+    //     });
+    //     // });
+    //   });
+    // };
 
 
     $scope.razorPay = function (orderInfo) {
