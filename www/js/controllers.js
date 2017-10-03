@@ -611,14 +611,14 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     // }
 
     // You need to register an event listener for the `resume` event
-    document.addEventListener('resume', onResume, false);
-    var onResume = function (event) {
-      // Re-register the payment success and cancel callbacks
-      RazorpayCheckout.on('payment.success', successCallback)
-      RazorpayCheckout.on('payment.cancel', cancelCallback)
-      // Pass on the event to RazorpayCheckout
-      RazorpayCheckout.onResume(event);
-    };
+    // document.addEventListener('resume', onResume, false);
+    // var onResume = function (event) {
+    //   // Re-register the payment success and cancel callbacks
+    //   RazorpayCheckout.on('payment.success', successCallback)
+    //   RazorpayCheckout.on('payment.cancel', cancelCallback)
+    //   // Pass on the event to RazorpayCheckout
+    //   RazorpayCheckout.onResume(event);
+    // };
     var successCallback = function (success) {
       $scope.called = false;
       $scope.paymentInfo = {};
