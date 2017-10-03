@@ -463,7 +463,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
           switch ($scope.orderInfo.paymentMethod) {
             case 'Credit Card':
               $scope.paymentMethod = 'card';
-
+              $scope.razorPay($scope.orderInfo);
               break;
             case 'Debit Card':
               $scope.paymentMethod = 'card';
