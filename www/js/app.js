@@ -8,6 +8,27 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
 
   .run(function ($ionicPlatform, $state, $ionicPopup) {
     $ionicPlatform.ready(function () {
+      //for ios
+      if ($.jStorage.get('profile')) {
+        if (($state.current.name == "app.browse" || $state.current.name == "app.dashboard") && $.jStorage.get('profile').pincode) {
+          navigator.app.exitApp();
+        } else {
+          if ($state.current.name == "signup") {
+            navigator.app.exitApp();
+          } else {
+            window.history.back();
+          }
+        }
+        if ($state.current.name == "app.thankyou" && $state.current.name == "app.confirm") {
+          //no back or exit on this
+        }
+      } else {
+        if ($state.current.name == "landing") {
+          navigator.app.exitApp();
+        } else {
+          window.history.back();
+        }
+      }
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if (window.cordova && window.cordova.plugins.Keyboard) {

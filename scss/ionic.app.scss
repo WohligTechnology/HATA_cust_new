@@ -134,8 +134,10 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
   }
 }
 
+
+
 .joinBtn {
-  line-height: 40px;
+  line-height: 50px!important;
   width: 100%;
   height: 100%;
   border-radius: 0;
@@ -230,6 +232,10 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
   top: 5px!important;
   right: 15px!important;
   bottom: 5px!important;
+}
+
+.platform-ios .nav-height .bar.bar-stable .title{
+  line-height: 46px!important;
 }
 
 .nav-height .bar.bar-stable .title {
@@ -386,7 +392,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
     position: absolute;
     z-index: 10;
     top: 0;
-    margin-left: 190px;
+    margin-left: 193px;
     padding: 7px;
   }
   .checkbox {
@@ -490,6 +496,11 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
   }
 }
 
+.squarecheckios .checkbox .checkbox-icon::before{
+  border-radius: 0px!important;
+  
+}
+
 .areyou {
   margin: 10px;
   font-size: 14px;
@@ -498,11 +509,14 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
 
 .radiodiv {
   background: #f2f4f5;
-  padding: 5px;
+  padding: 15px;
 }
 
 //radio button css end
 //browse.html start
+
+
+
 .cartbtn {
   height: 35px;
   width: 35px;
@@ -659,6 +673,12 @@ ion-slides {
 .browse-morerupee {
   color: #a2a9ad;
 }
+.platform-ios .notAvail{
+  top: 50%!important;
+  left: 50%!important;
+  transform: translate(-50%, 40%)!important;
+  height: 100vh!important;
+}
 
 .notAvail {
   color: #223c4d;
@@ -779,6 +799,12 @@ ion-slides {
   padding: 0 10px;
   color: #7a8994;
   font-size: 18px;
+}
+
+.platform-ios .plancard{
+  .rq-circle{
+    padding: 3px 8px!important;
+  }
 }
 
 .plancard {
@@ -905,6 +931,12 @@ ion-slides {
 
 //requirement.html end
 //review.html start
+.platform-ios .nocart {
+  
+  transform: translate(-50%, 50%)!important;
+  top: 50%!important;
+  left: 50%!important;
+}
 .nocart {
   top: 40%;
   transform: translate(0%, -40%);
@@ -1149,6 +1181,11 @@ ion-slides {
 
 //review.html end
 //delivery.html
+//platformios
+.platform-ios .t52{
+  top: 64px!important;
+}
+//.platform-iosend
 .t52 {
   top: 52px!important;
 }
@@ -1228,7 +1265,7 @@ ion-slides {
     background: white!important;
   }
   .hasmenuhead {
-    top: 200px;
+    top: 200px!important;
   }
 }
 
@@ -1483,13 +1520,17 @@ ion-slides {
   }
 }
 
-.notPlan {
-  top: 45%;
-  transform: translate(0, -45%);
-  color: #223c4d;
+.noactivplans {
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.notPlan {
+  color: #223c4d;
   text-align: center;
-  padding: 15%;
+  min-width: 200px;
   h4 {
     font-size: 18px;
     color: #223c4d;
@@ -1505,7 +1546,9 @@ ion-slides {
     padding: 0 40px;
   }
 }
-
+.platform-ios .noactivplans {
+  transform: translate(50%, -50%)!important;
+}
 .bg-dashboard {
   background: #f2f4f5;
   top: 54px;
@@ -1925,6 +1968,7 @@ ion-slides {
   vertical-align: middle;
   background: transparent;
   border: none;
+  padding: 10px!important;
 }
 
 .jarsch-button {

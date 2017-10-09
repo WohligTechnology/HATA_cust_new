@@ -10,7 +10,7 @@
       <div class="radiodiv">
         <label for="" class="areyou">Please select one:</label>
         <div class="row radiocheck" type="radio">
-          <ion-checkbox class="col" ng-repeat="(key,value) in userType" ng-model="signupForm.userType" ng-true-value="'{{key}}'" ng-false-value=""
+          <ion-checkbox class="col squarecheckios" ng-repeat="(key,value) in userType" ng-model="signupForm.userType" ng-true-value="'{{key}}'" ng-false-value=""
             ng-disabled="lockData">
             {{value}}
           </ion-checkbox>
@@ -58,7 +58,7 @@
     </ion-content>
 
     <div class="termscheck ">
-      <ion-checkbox ng-model="click" ng-init="click=true" class="ioncheck">
+      <ion-checkbox ng-model="click" ng-init="click=true" class="ioncheck squarecheckios">
         <span class="ihve">I have read &amp; accepted the</span>
       </ion-checkbox>
       <div class="termsline" ng-click="terms.show($event)">

@@ -426,11 +426,11 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         name: "Net Banking",
         status: false
       },
-      {
-        name: "Paytm",
-        img: "img/paytm_logo.png",
-        status: false
-      },
+      // {
+      //   name: "Paytm",
+      //   img: "img/paytm_logo.png",
+      //   status: false
+      // },
       {
         name: "Other Wallets",
         status: false
@@ -564,9 +564,9 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
           description: 'Pay for Order ' + orderInfo.orderId,
           image: 'https://i.imgur.com/3g7nmJC.png',
           currency: 'INR',
-          // key: 'rzp_test_BrwXxB7w8pKsfS', //this payment id i have used twice Please change both
-          //please see line no(802)
-          key: 'rzp_live_gFWckrbme2wT4J', //this live payment id
+          //  key: 'rzp_test_BrwXxB7w8pKsfS', //this payment id is for test
+         
+           key: 'rzp_live_gFWckrbme2wT4J', //this payment id is live
           external: {
             wallets: ['paytm']
           },

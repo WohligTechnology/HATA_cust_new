@@ -1,6 +1,7 @@
 var adminurl = "https://backend.freshflow.in/api/"; //main server
+//also uncommented live razor payement id
 // var adminurl = "http://wohlig.io/api/"; //local server
-// var adminurl = "http://192.168.1.24:80/api/"; //local server
+// var adminurl = "http://192.168.2.45:80/api/"; //local server
 var imgurl = adminurl + "upload/";
 var imgpath = imgurl + "readFile?file=";
 // var uploadurl = imgurl;
