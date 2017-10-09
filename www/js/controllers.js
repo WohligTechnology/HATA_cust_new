@@ -426,16 +426,19 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         name: "Net Banking",
         status: false
       },
-      // {
-      //   name: "Paytm",
-      //   img: "img/paytm_logo.png",
-      //   status: false
-      // },
+      {
+        name: "Paytm",
+        img: "img/paytm_logo.png",
+        status: false
+      },
       {
         name: "Other Wallets",
         status: false
       }, {
         name: "Cash On Delivery",
+        status: false
+      }, {
+        name: "Cheque On Delivery",
         status: false
       }
     ];
@@ -485,6 +488,9 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
             case 'Cash On Delivery':
               $state.go('app.confirm');
               break;
+            case 'Cheque On Delivery':
+              $state.go('app.confirm');
+              break;
           }
         } else {
           if (data.error) {
@@ -508,52 +514,38 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
       });
     }
 
-    function successCallback1(response) {
-      //staging (or) product 
-      $scope.paymentInfo = {};
-      var transactionBankTxnId = response.MID;
-      var transactionMId = response.ORDERID;
-      var transactionOrderId = response.TXNID;
-      var transactionTxnDate = response.TXNDATE;
-      var transactionTxnId = response.BANKTXNID;
-      $scope.paymentInfo.paymentId = response.TXNID;
-      $scope.paymentInfo._id = $scope.orderInfo._id;
-      MyServices.apiCallWithData("order/verifyOrderPaymentStatus", $scope.paymentInfo, function (data) {
-        if (data.value) {
-          $state.go('app.confirm');
+
+    $scope.paytmPay = function (orderInfo) {
+      delete orderInfo.paymentMethod;
+      var pageContent = '<html><head></head><body><form id="loginForm" action="' + orderInfo.paytmUrl + '" method="post">';
+      _.forEach(orderInfo, function (value, key) {
+        if (key != 'paytmUrl') {
+          pageContent = pageContent + '<input type="hidden" name="' + key + '" value="' + value + '">';
         }
       });
-      alert(JSON.stringify(response));
-      console.log("Payed Successfully");
-    }
+      pageContent = pageContent + '</form> <script type="text/javascript">document.getElementById("loginForm").submit();</script></body>' +
+        '</html>';
+      var pageContentUrl = 'data:text/html;base64,' + btoa(pageContent);
 
-    function failureCallback(message) {
-      alert('Failed because: ' + message);
-      console.log('Failed because: ' + message);
-    }
-    $scope.paytmPay = function (orderInfo) {
-      console.log(orderInfo);
-      MyServices.getUserData(function (data) {
-        var userData = data.data;
-        var paymentConfig = {};
-        paymentConfig.MID = 'HaTaBe31467307640424'; //Provided by Paytm
-        paymentConfig.ORDER_ID = orderInfo.orderId; //unique OrderId for every request
-        paymentConfig.CUST_ID = userData._id; // unique customer identifier 
-        paymentConfig.INDUSTRY_TYPE_ID = 'Retail'; //Provided by Paytm
-        paymentConfig.CHANNEL_ID = 'WAP'; //Provided by Paytm
-        paymentConfig.TXN_AMOUNT = parseInt(orderInfo.totalAmount); // transaction amount
-        paymentConfig.WEBSITE = 'APP_STAGING'; //Provided by Paytm
-        paymentConfig.CALLBACK_URL = 'https://pguat.paytm.com/paytmchecksum/paytmCallback.jsp'; //Provided by Paytm
-        paymentConfig.EMAIL = userData.email; // customer email id
-        paymentConfig.MOBILE_NO = userData.registerMobile; // customer 10 digit mobile no.
-
-
-        // MyServices.paytmData(paymentConfig, function (data) {
-        //for live 'product'
-
-        window.plugins.paytm.startPayment(orderInfo.orderId, userData._id, userData.email, userData.registerMobile, parseInt(orderInfo.totalAmount), "staging", successCallback1, failureCallback);
-      });
-      // });
+      var ref = window.cordova.InAppBrowser.open(
+        pageContentUrl,
+        "_blank",
+        "hidden=no,location=no,clearsessioncache=yes,clearcache=yes"
+      );
+      ref.addEventListener('loadstop', function (event) {
+        if (event.url == orderInfo.errorRedirectUrl) {
+          ref.close();
+          var alertPopup = $ionicPopup.alert({
+            template: '<h4 style="text-align:center;">Some Error Occurred. Payment Failed</h4>'
+          });
+          alertPopup.then(function (res) {
+            alertPopup.close();
+          });
+        } else if (event.url == orderInfo.successRedirectUrl) {
+          ref.close();
+          $state.go('app.confirm');
+        }
+      })
 
     };
 
@@ -565,11 +557,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
           image: 'https://i.imgur.com/3g7nmJC.png',
           currency: 'INR',
           //  key: 'rzp_test_BrwXxB7w8pKsfS', //this payment id is for test
-
           key: 'rzp_live_gFWckrbme2wT4J', //this payment id is live
-          external: {
-            wallets: ['paytm']
-          },
           amount: parseInt(orderInfo.totalAmount) * 100,
           name: $scope.userData.name,
           prefill: {

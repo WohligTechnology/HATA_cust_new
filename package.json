@@ -17,14 +17,13 @@
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
     "com.razorpay.cordova",
-    "com.paytm.cordova"
+    "cordova-plugin-inappbrowser"
   ],
   "cordovaPlatforms": [
     "android"
   ],
   "dependencies": {
     "android-versions": "^1.2.1",
-    "com.paytm.cordova": "https://github.com/samyam-a/PayTM-PhoneGap-Plugin.git --variable GENERATE_URL=https://backend.freshflow.in/paytm/generate_checksum --variable VERIFY_URL=https://backend.freshflow.in/paytm/verify_checksum --variable MERCHANT_ID=HaTaBe05572575068674 --variable INDUSTRY_TYPE_ID=Retail --variable WEBSITE=APP_STAGING",
     "com.razorpay.cordova": "git+https://github.com/razorpay/razorpay-cordova.git",
     "cordova-android": "^6.2.3",
     "cordova-ios": "^4.4.0",

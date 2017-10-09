@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="3" id="com.fresh.flow" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="4" id="com.fresh.flow" version="0.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Fresh Flow</name>
     <description>Fresh Flow is the most effortless way to order water online.</description>
     <author email="technology@hatabevtech.com" href="http://www.hatabevtech.com">Hata bevtech</author>
@@ -69,8 +69,6 @@
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
     </platform>
     <icon src="resources/ios/icon/icon-small@3x.png" />
-    <engine name="android" spec="^6.2.3" />
-    <plugin name="com.paytm.cordova" spec="https://github.com/samyam-a/PayTM-PhoneGap-Plugin.git --variable GENERATE_URL=https://backend.freshflow.in/paytm/generate_checksum --variable VERIFY_URL=https://backend.freshflow.in/paytm/verify_checksum --variable MERCHANT_ID=HaTaBe05572575068674 --variable INDUSTRY_TYPE_ID=Retail --variable WEBSITE=APP_STAGING" />
     <plugin name="com.razorpay.cordova" spec="git+https://github.com/razorpay/razorpay-cordova.git" />
     <plugin name="cordova-plugin-console" spec="^1.0.5" />
     <plugin name="cordova-plugin-device" spec="^1.1.4" />
@@ -79,4 +77,5 @@
     <plugin name="cordova-plugin-whitelist" spec="^1.3.1" />
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
     <engine name="ios" spec="~4.4.0" />
+    <engine name="android" spec="~6.1.2" />
 </widget>
