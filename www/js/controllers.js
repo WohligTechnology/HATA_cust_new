@@ -100,7 +100,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     $scope.lockData = false;
     $scope.getUserData = function () {
       if ($.jStorage.get('profile')._id) {
-        if ($.jStorage.get('profile').email) {
+        if ($.jStorage.get('profile').name) {
           $scope.lockData = true;
         }
         MyServices.getUserData(function (data) {
