@@ -565,8 +565,8 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
           image: 'https://i.imgur.com/3g7nmJC.png',
           currency: 'INR',
           //  key: 'rzp_test_BrwXxB7w8pKsfS', //this payment id is for test
-         
-           key: 'rzp_live_gFWckrbme2wT4J', //this payment id is live
+
+          key: 'rzp_live_gFWckrbme2wT4J', //this payment id is live
           external: {
             wallets: ['paytm']
           },
@@ -609,15 +609,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     //   }
     // }
 
-    // You need to register an event listener for the `resume` event
-    // document.addEventListener('resume', onResume, false);
-    // var onResume = function (event) {
-    //   // Re-register the payment success and cancel callbacks
-    //   RazorpayCheckout.on('payment.success', successCallback)
-    //   RazorpayCheckout.on('payment.cancel', cancelCallback)
-    //   // Pass on the event to RazorpayCheckout
-    //   RazorpayCheckout.onResume(event);
-    // };
+
     var successCallback = function (success) {
       $scope.called = false;
       $scope.paymentInfo = {};
@@ -737,16 +729,26 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 
 
   })
-  .controller('DeliveryHistoryCtrl', function ($scope, $stateParams, MyServices) {
+  .controller('DeliveryHistoryCtrl', function ($scope, $stateParams, MyServices, $timeout) {
     var deliveryInfo = {};
     var page = null;
     $scope.stop = true;
     $scope.deliveryData = [];
     $scope.getDelivery = function (orderPage, noLoader) {
+      $scope.$broadcast('scroll.refreshComplete');
       deliveryInfo.page = page = orderPage;
       deliveryInfo.noLoader = $scope.showSpin = noLoader;
       if (deliveryInfo.page == 1) {
+        deliveryInfo.totalBalance = 0;
         $scope.deliveryData = [];
+      } else if ($scope.deliveryData.length > 1) {
+        deliveryInfo.totalBalance = 0;
+        var lastElmt = $scope.deliveryData.length - 1;
+        if ($scope.deliveryData[lastElmt].quantityDelivered) {
+          deliveryInfo.totalBalance = $scope.deliveryData[lastElmt].balance + $scope.deliveryData[lastElmt].quantityDelivered;
+        } else {
+          deliveryInfo.totalBalance = $scope.deliveryData[lastElmt].balance - $scope.deliveryData[lastElmt].quantityAdded;
+        }
       }
       deliveryInfo.customerId = $.jStorage.get('profile')._id;
       deliveryInfo.productId = $stateParams.productId;
@@ -755,21 +757,22 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
           if (data.data == 0) {
             $scope.stop = true;
           } else {
-            $scope.deliveryData = _.concat(data.data, $scope.deliveryData);
+            $scope.deliveryData = _.concat($scope.deliveryData, data.data);
             $scope.stop = false;
           }
         } else {
           $scope.stop = true;
         }
+        $scope.$broadcast('scroll.infiniteScrollComplete');
       });
-      $scope.$broadcast('scroll.infiniteScrollComplete');
-      $scope.$broadcast('scroll.refreshComplete');
     }
     $scope.getDelivery(1, false);
-    $scope.loadMore = function () {
-      console.log("in loadmore");
-      page += 1;
-      $scope.getDelivery(page, false);
+    $scope.loadMore = function (loadMoreStatus) {
+      if (loadMoreStatus) {
+        console.log("in loadmore", page);
+        page += 1;
+        $scope.getDelivery(page, true);
+      }
     };
     $scope.doRefresh = function () {
       $scope.refreshing = true;
@@ -780,10 +783,6 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
       }, 1000);
 
     };
-
-
-
-
   })
   .controller('DashboardCtrl', function ($scope, $window, $stateParams, $state, MyServices, $ionicPopup) {
     $scope.reloadDashboard = function () {

@@ -10,7 +10,7 @@
     </ion-refresher>
     <div class="hasorder-foot">
       <div class="" ng-repeat="delivery in deliveryData track by $index" ng-if="deliveryData.length > 0">
-        <label class="earning-Date" for="">{{delivery.date |date:'EEEE dd,yyyy'}}</label>
+        <label class="earning-Date" for="">{{delivery.date |date:'MMMM dd,yyyy'}}</label>
         <div class="whtback">
           <div class="row jarpahistory">
             <div class="col-50 rel brorder">
@@ -31,13 +31,14 @@
           </div>
         </div>
       </div>
+      <!--<ion-infinite-scroll ng-if="!stop && !refreshing" on-infinite="loadMore(true)" immediate-check="false" distance="5%">
+      </ion-infinite-scroll>-->
       <div class="notAvail" ng-if="deliveryData.length==0">
         There are no deliveries to display.
       </div>
     </div>
 
-    <ion-infinite-scroll on-infinite="loadMore()" distance="1%" ng-if="!stop">
-    </ion-infinite-scroll>
+
   </ion-content>
 
 
