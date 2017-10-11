@@ -38,7 +38,7 @@
       </div>
     </div>
     <flex-slider class="carousel " animation="slide" flex-slide="plan in product.plans track by $index" animation-loop="true"
-      item-margin="10" slideshow="false" item-width="140" maxItems="" ng-if="!require">
+      item-margin="10" slideshow="false" item-width="150" maxItems="" ng-if="!require">
       <li class="" ng-click="highlightPlan($index ,plan);">
         <div class="plancard" ng-class="plan.selected ? 'borderplan' : ''">
           <i class="ion ion-checkmark-circled" ng-show="plan.selected"></i>
@@ -58,7 +58,7 @@
     </div>
     <div class="col">
       <i class="ion ion-checkmark-circled"></i>
-      <label for="">No Jar Deposit {{planQuantity}}</label>
+      <label for="">No Deposit</label>
     </div>
   </div>
   <div class="bar bar-footer nextFooter footer-height">
