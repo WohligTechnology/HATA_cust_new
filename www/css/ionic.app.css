@@ -10459,7 +10459,8 @@ ion-slides {
     background: #f2f4f5;
     border-radius: 10px;
     padding: 3px 10px;
-    margin: 20px auto 5px; }
+    margin: 20px auto 5px;
+    font-size: 14px; }
 
 .sliders {
   width: 100%;
@@ -10476,6 +10477,7 @@ ion-slides {
     border: transparent !important; }
 
 .flex-control-nav {
+  display: none;
   bottom: -25px !important; }
   .flex-control-nav li {
     padding: 2px; }
