@@ -34,6 +34,10 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     if ($.jStorage.get('profile') && $.jStorage.get('profile').pincode) {
       $state.go('app.dashboard');
     }
+    $scope.isIOS = ionic.Platform.isIOS();
+    if ($.jStorage.get('offlineCart')) {
+      $scope.offlineCart = $.jStorage.get('offlineCart');
+    }
   })
   .controller('VerifyCtrl', function ($scope, $stateParams, MyServices, $timeout, $ionicPopup, $state) {
     var mobileData = {};
@@ -129,7 +133,13 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
             userInfo.name = data.data.name;
           }
           $.jStorage.set('profile', userInfo);
-          $state.go('app.browse');
+          if ($.jStorage.get('offlineCart')) {
+            $state.go('app.requirement', {
+              productId: $.jStorage.get('offlineCart').product._id
+            });
+          } else {
+            $state.go('app.browse');
+          }
 
         } else {
           if (data.error == 'noPincodeFound') {
@@ -209,16 +219,21 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         $scope.allSubcategory = _.chunk($scope.allSubcategory, 2);
       }
     });
-    $scope.userInfo = $.jStorage.get('profile');
-    var userData = {};
-    userData._id = $scope.userInfo._id;
-    userData.pincode = $scope.userInfo.pincode;
-    userData.warehouseId = $scope.userInfo.warehouseId;
-    MyServices.apiCallWithData("user/getCartForCustomer", userData, function (data) {
-      if (data.value) {
-        $scope.cartData = data.data.cart;
-      }
-    });
+    if ($.jStorage.get('profile')) {
+      $scope.userInfo = $.jStorage.get('profile');
+      var userData = {};
+      userData._id = $scope.userInfo._id;
+      userData.pincode = $scope.userInfo.pincode;
+      userData.warehouseId = $scope.userInfo.warehouseId;
+      MyServices.apiCallWithData("user/getCartForCustomer", userData, function (data) {
+        if (data.value) {
+          $scope.cartData = data.data.cart;
+        }
+      });
+    } else {
+      $scope.cartData = [];
+    }
+
 
 
   })
@@ -243,20 +258,20 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
   .controller('RequirementCtrl', function ($scope, $stateParams, MyServices, $ionicPopup, $state) {
     $scope.productData = {};
     $scope.productData._id = $stateParams.productId;
-    $scope.userInfo = $.jStorage.get('profile');
-
-    $scope.isNumberKey = function (evt) {
-      var charCode = (evt.which) ? evt.which : event.keyCode;
-      if (charCode > 31 && (charCode < 48 || charCode > 57))
-        return false;
-
-      return true;
+    if ($.jStorage.get('profile')) {
+      $scope.userInfo = $.jStorage.get('profile');
     }
+
+
     MyServices.apiCallWithData('Product/getOne', $scope.productData, function (data) {
       $scope.require = false;
       if (data.value) {
         $scope.product = data.data;
-        $scope.toggleCard();
+        if ($.jStorage.get('offlineCart')) {
+          $scope.populateQuantity();
+        } else {
+          $scope.toggleCard();
+        }
       }
     });
     $scope.toggleCard = function () {
@@ -267,6 +282,26 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         value.selected = false;
       });
 
+    };
+    $scope.populateQuantity = function () {
+      if ($.jStorage.get('offlineCart').product.plan == 'One Time') {
+        $scope.require = true;
+        $scope.getQuantity($.jStorage.get('offlineCart').product.quantity);
+      } else {
+        $scope.quantity = 0;
+        $scope.require = false;
+        $scope.findQuantity = $.jStorage.get('offlineCart').product.plan.quantity;
+        _.forEach($scope.product.plans, function (value) {
+          if (value.quantity == $scope.findQuantity) {
+            $scope.activePlan = {};
+            $scope.activePlan.plan = value;
+            value.selected = true;
+          } else {
+            value.selected = false;
+          }
+        });
+      }
+      $scope.addToCart($scope.activePlan);
     }
     $scope.highlightPlan = function (index) {
       $scope.findQuantity = $scope.product.plans[index].quantity;
@@ -281,7 +316,11 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
       });
     }
     $scope.getQuantity = function (num) {
-      $scope.quantity += num;
+      if ($scope.quantity) {
+        $scope.quantity = $scope.quantity + num;
+      } else {
+        $scope.quantity = num;
+      }
       if ($scope.quantity > 0) {
         $scope.activePlan = {};
         $scope.activePlan.quantity = $scope.quantity;
@@ -290,14 +329,12 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         $scope.activePlan = null;
       }
     }
+
     $scope.addToCart = function (data) {
       var warehouseQuantity = {};
       warehouseQuantity.product = $scope.product;
       warehouseQuantity.product.plan = data.plan;
-      warehouseQuantity.pinCode = $scope.userInfo.pincode;
-      if ($.jStorage.get('profile').warehouseId) {
-        warehouseQuantity._id = $.jStorage.get('profile').warehouseId;
-      }
+
 
       if (data.plan == 'One Time') {
         warehouseQuantity.product.quantity = data.quantity;
@@ -307,42 +344,72 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         }
         warehouseQuantity.product.quantity = data.plan.quantity;
       }
-      MyServices.apiCallWithData("warehouse/checkProductAvailability", warehouseQuantity, function (warehouseData) {
-        if (warehouseData.value) {
-          if (warehouseData.data) {
-            $scope.userInfo.warehouseId = warehouseData.data._id;
-            $scope.userInfo = $.jStorage.set('profile', $scope.userInfo);
-          }
-          var cartData = {};
-          cartData._id = $scope.userInfo._id;
-          cartData.productId = $stateParams.productId;
-          cartData.plan = $scope.activePlan.plan;
-          if (cartData.plan.selected) {
-            delete cartData.plan.selected;
-          }
-          if ($scope.activePlan.quantity) {
-            cartData.quantity = $scope.activePlan.quantity;
-          }
-          MyServices.apiCallWithData("user/addUpdateCart", cartData, function (cartResponse) {
-            if (cartResponse.value) {
-              $state.go('app.review');
-            } else {
-              $ionicPopup.alert({
-                title: "Failed",
-                template: 'error occure in add to cart'
-              });
-            }
-
-          });
-
-        } else {
-          $ionicPopup.alert({
-            cssClass: 'removedpopup',
-            title: '<img src="img/warning.png">',
-            template: "Sorry! Product is out of stock."
-          });
+      if ($.jStorage.get('profile')) {
+        if ($.jStorage.get('profile').warehouseId) {
+          warehouseQuantity._id = $.jStorage.get('profile').warehouseId;
         }
-      });
+        warehouseQuantity.pinCode = $scope.userInfo.pincode;
+        MyServices.apiCallWithData("warehouse/checkProductAvailability", warehouseQuantity, function (warehouseData) {
+          if (warehouseData.value) {
+            if (warehouseData.data) {
+              $scope.userInfo.warehouseId = warehouseData.data._id;
+              $scope.userInfo = $.jStorage.set('profile', $scope.userInfo);
+            }
+            var cartData = {};
+            cartData._id = $scope.userInfo._id;
+            cartData.productId = $stateParams.productId;
+            cartData.plan = $scope.activePlan.plan;
+            if (cartData.plan.selected) {
+              delete cartData.plan.selected;
+            }
+            if ($scope.activePlan.quantity) {
+              cartData.quantity = $scope.activePlan.quantity;
+            }
+            MyServices.apiCallWithData("user/addUpdateCart", cartData, function (cartResponse) {
+              $.jStorage.set('offlineCart', null);
+              if (cartResponse.value) {
+                $state.go('app.review');
+              } else {
+                $ionicPopup.alert({
+                  title: "Failed",
+                  template: 'error occure in add to cart'
+                });
+              }
+
+            });
+
+          } else {
+            $ionicPopup.alert({
+              cssClass: 'removedpopup',
+              title: '<img src="img/warning.png">',
+              template: "Sorry! Product is out of stock."
+            });
+          }
+        });
+      } else {
+        $ionicPopup.alert({
+          cssClass: 'removedpopup',
+          title: '<img src="img/warning.png">',
+          template: "<h4>Sorry!</h4><label>Please Login to add products in your cart</label>",
+          buttons: [{
+              text: 'Cancel',
+              cssClass: 'leaveApp',
+              onTap: function (e) {
+
+              }
+            },
+            {
+              text: 'Login',
+              type: 'button-positive',
+              onTap: function (e) {
+                $.jStorage.set('offlineCart', warehouseQuantity);
+                $state.go('landing');
+              }
+            }
+          ]
+        });
+      }
+
 
     };
   })
@@ -426,11 +493,11 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         name: "Net Banking",
         status: false
       },
-      {
-        name: "Paytm",
-        img: "img/paytm_logo.png",
-        status: false
-      },
+      // {
+      //   name: "Paytm",
+      //   img: "img/paytm_logo.png",
+      //   status: false
+      // },
       {
         name: "Other Wallets",
         status: false

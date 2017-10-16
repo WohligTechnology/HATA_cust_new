@@ -9911,6 +9911,15 @@ a.button {
   font-weight: 600;
   padding: 0 !important; }
 
+.partDiv {
+  display: block;
+  float: right;
+  padding: 5px;
+  width: auto;
+  background: #f2f4f5;
+  margin: 10px 5px;
+  padding-right: 15px; }
+
 .hw100 {
   height: 100%;
   width: 100%; }

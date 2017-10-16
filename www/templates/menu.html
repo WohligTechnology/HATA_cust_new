@@ -18,29 +18,34 @@
     <ion-header-bar class="bar-stable">
 
       <div>
-        <label class="menu-displayName" menu-close ui-sref="app.profile" for="">{{userInfo.name}}</label>
-        <label class="menu-phn" menu-close ui-sref="app.profile" for="">{{userInfo.mobile}}</label>
+        <label class="menu-displayName" menu-close ui-sref="app.profile" for="" ng-if="userInfo.name">{{userInfo.name}}</label>
+        <label class="menu-displayName" menu-close ui-sref="app.profile" for="" ng-if="!userInfo.name">Hello Guest</label>
+        <label class="menu-phn" menu-close ui-sref="app.profile" for="" ng-if="userInfo.mobile">{{userInfo.mobile}}</label>
       </div>
     </ion-header-bar>
     <ion-content class="hasmenuhead menu-bgcolor">
 
-      <div class="menu-dash" menu-close ui-sref="app.dashboard">
+      <div class="menu-dash" menu-close ui-sref="app.dashboard" ng-if="userInfo.mobile">
         <label class="menu-label" for="">Dashboard</label>
       </div>
       <div class="menu-div" menu-close ui-sref="app.browse">
         <label class="menu-label" for="">Browse</label>
       </div>
-      <div class="menu-div" menu-close ui-sref="app.orderhistory">
+      <div class="menu-div" menu-close ui-sref="app.orderhistory" ng-if="userInfo.mobile">
         <label class="menu-label" for="">Order History</label>
       </div>
-      <div class="menu-div" menu-close ui-sref="app.account">
+      <div class="menu-div" menu-close ui-sref="app.account" ng-if="userInfo.mobile">
         <label class="menu-label" for="">Account</label>
       </div>
       <hr class="menu-hr">
-      <div class="menu-helpdiv" menu-close ui-sref="app.help">
+      <div class="menu-helpdiv" menu-close ui-sref="landing" ng-if="!userInfo.mobile">
+        <label class="menu-label" for="">Login</label>
+      </div>
+      <div class="menu-div" menu-close ui-sref="app.help">
         <label class="menu-label" for="">Help</label>
       </div>
-      <div class="menu-div" menu-close ng-click="logout()">
+
+      <div class="menu-div" menu-close ng-click="logout()" ng-if="userInfo.mobile">
         <label class="menu-label" for="">Logout</label>
       </div>
     </ion-content>

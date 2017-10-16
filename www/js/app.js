@@ -73,6 +73,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
 
 
       .state('landing', {
+        cache: false,
         url: '/landing',
         templateUrl: 'templates/landing.html',
         controller: 'LandingCtrl'
