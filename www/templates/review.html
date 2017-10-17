@@ -23,7 +23,7 @@
             <div class="col-66">
               <div class="details-div">
                 <h2>{{cart.productId.name}} {{cart.productId.unit}}</h2>
-                <div for="" class="desc" ng-if="cart.plan=='One Time'"><span class="qty">{{cart.quantity}} {{cart.productId.unit}}s</span><span>Rs. {{cart.productId.price}} <span ng-if="cart.productId.returnable">+ {{cart.productId.depositAmount}} Deposit</span>                  /{{cart.productId.unit}}
+                <div for="" class="desc" ng-if="cart.plan=='One Time'"><span class="qty">{{cart.quantity}} {{cart.productId.unit}}<span ng-if="cart.quantity>1">s</span></span><span>Rs. {{cart.productId.price}} <span ng-if="cart.productId.returnable">+ {{cart.productId.depositAmount}} Deposit</span>                  /{{cart.productId.unit}}
                   </span>
                 </div>
                 <div for="" class="desc" ng-if="cart.plan!='One Time'"><span class="qty">{{cart.plan.quantity}} {{cart.productId.unit}} plan</span><span>Rs. {{cart.plan.price}}/ {{cart.productId.unit}}</span></div>

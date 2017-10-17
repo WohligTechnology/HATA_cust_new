@@ -20,7 +20,7 @@
             </div>
             <div class="col-30 rel">
               <div ng-repeat=" pro in order.products">
-                <label for="" class="history-refils">{{pro.quantity}} {{pro.product.unit}}</label>
+                <label for="" class="history-refils">{{pro.quantity}} {{pro.product.unit}}<span ng-if="pro.quantity>1">s</span></label>
                 <label for="" class="bottlename">{{pro.product.name}}</label>
               </div>
             </div>

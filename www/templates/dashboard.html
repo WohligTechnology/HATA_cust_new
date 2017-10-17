@@ -27,7 +27,7 @@
               <div class="datediv">
 
                 <label class="date-text" for="" ng-if="!p.deliveryRequest">We'll be in your area on</label>
-                <label class="date-text" for="" ng-if="p.deliveryRequest">{{p.deliveryRequest.quantity}} {{p.deliveryRequest.productId.unit}} will be delivered on</label>
+                <label class="date-text" for="" ng-if="p.deliveryRequest">{{p.deliveryRequest.quantity}} {{p.deliveryRequest.productId.unit}}<span ng-if="p.deliveryRequest.quantity>1">s</span> will be delivered on</label>
                 <span class="cardDayspan" ng-if="!p.deliveryRequest">{{estimatedDate | date:'EEEE'}},</span>
                 <span class="cardDate" ng-if="!p.deliveryRequest"> {{estimatedDate | date :'MMMM dd.'}}</span>
                 <span class="cardDayspan" ng-if="p.deliveryRequest">{{p.deliveryRequest.scheduleDeliveryDate | date:'EEEE'}},</span>
@@ -54,13 +54,13 @@
     </div>
     <div class="noactivplans">
       <div class="notPlan" ng-if="plans.length==0">
-      <h4>Currently, you do not have any active plans.</h4>
-      <label for="">Our plans are cheaper and <br> more convenient.</label>
-      <button class="button button-medium button-assertive" ui-sref='app.browse'>
+        <h4>Currently, you do not have any active plans.</h4>
+        <label for="">Our plans are cheaper and <br> more convenient.</label>
+        <button class="button button-medium button-assertive" ui-sref='app.browse'>
         Start Today!
       </button>
+      </div>
     </div>
-  </div>
   </ion-content>
 
 </ion-view>
