@@ -6,7 +6,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     };
 
     $scope.logout = function () {
-      $.jStorage.set('profile', {});
+      $.jStorage.deleteKey('profile');
       $.jStorage.flush();
       $state.go('landing');
     };
@@ -39,9 +39,14 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
       $state.go('app.dashboard');
     }
     $scope.isIOS = ionic.Platform.isIOS();
-    if ($.jStorage.get('offlineCart')) {
-      $scope.offlineCart = $.jStorage.get('offlineCart');
-    }
+    $scope.registerLater = function () {
+      if ($.jStorage.get('offlineCart')) {
+        $.jStorage.deleteKey('offlineCart');
+      }
+      $state.go('app.browse');
+    };
+
+
   })
   .controller('VerifyCtrl', function ($scope, $stateParams, MyServices, $timeout, $ionicPopup, $state) {
     var mobileData = {};
@@ -370,7 +375,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
               cartData.quantity = $scope.activePlan.quantity;
             }
             MyServices.apiCallWithData("user/addUpdateCart", cartData, function (cartResponse) {
-              $.jStorage.set('offlineCart', null);
+              $.jStorage.deleteKey('offlineCart');
               if (cartResponse.value) {
                 $state.go('app.review');
               } else {
@@ -497,11 +502,11 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         name: "Net Banking",
         status: false
       },
-      // {
-      //   name: "Paytm",
-      //   img: "img/paytm_logo.png",
-      //   status: false
-      // },
+      {
+        name: "Paytm",
+        img: "img/paytm_logo.png",
+        status: false
+      },
       {
         name: "Other Wallets",
         status: false

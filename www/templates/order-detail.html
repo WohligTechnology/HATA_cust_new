@@ -18,7 +18,7 @@
             <div class="col-66">
               <div class="details-div">
                 <h2>{{p.product.name}} </h2>
-                <div for="" class="desc" ng-if="p.plan == 'One Time'"><span class="qty">{{p.quantity}} {{p.product.unit}}s</span><span>Rs. {{p.product.price}} <span ng-if="p.product.returnable">+ {{p.product.depositAmount}}</span>                  / {{p.product.unit}}</span>
+                <div for="" class="desc" ng-if="p.plan == 'One Time'"><span class="qty">{{p.quantity}} {{p.product.unit}}<span ng-if="p.quantity>1">s</span> </span><span>Rs. {{p.product.price}} <span ng-if="p.product.returnable">+ {{p.product.depositAmount}}</span>                  / {{p.product.unit}}</span>
                 </div>
                 <div for="" class="desc" ng-if="p.plan!='One Time'"><span class="qty">{{p.plan.quantity}} {{p.product.unit}} plan</span><span>Rs. {{p.plan.price}}/ {{p.product.unit}}</span></div>
                 <div for="" class="deposit" ng-if="p.depositStatus =='Deducted'">Existing Deposit (<label for="">- Rs.{{p.prevDeposit}}</label>)</div>
