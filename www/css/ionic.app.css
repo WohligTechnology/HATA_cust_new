@@ -9869,6 +9869,7 @@ a.button {
     text-align: center; }
 
 .phnFooter {
+  position: inherit !important;
   padding: 0;
   height: 40px;
   background: #f2f4f5; }
@@ -9880,6 +9881,10 @@ a.button {
       width: 100%;
       height: 100%;
       padding: 0; }
+
+.platform-ios .spanTextDiv .phnText {
+  font-size: 16px !important;
+  line-height: 21px !important; }
 
 .spanTextDiv {
   width: 100%;
@@ -9894,8 +9899,9 @@ a.button {
     display: inline-block !important;
     background: #f2f4f5;
     width: 80%;
+    line-height: 21px !important;
     padding: 0 !important;
-    font-size: 17px !important;
+    font-size: 17px;
     height: 100%; }
 
 .joinBtn {
@@ -9996,6 +10002,9 @@ a.button {
   line-height: 52px !important;
   font-size: 22px !important;
   font-weight: 600; }
+
+.platform-ios .sigupIconLeft {
+  line-height: 35px !important; }
 
 .sigupIconLeft {
   color: #091b27 !important;
@@ -10216,6 +10225,9 @@ a.button {
   background: #f2f4f5;
   padding: 15px; }
 
+.platform-ios .bar .title + .buttons {
+  top: 3px !important; }
+
 .cartbtn {
   height: 35px;
   width: 35px;
@@ -10284,6 +10296,9 @@ ion-slides {
     .browse-card1 .icondiv img {
       height: auto;
       width: 100%; }
+
+body.keyboard-open.platform-ios .bar-footer {
+  bottom: 36px; }
 
 .bar-footer .title {
   height: 52px !important;
@@ -11021,8 +11036,7 @@ ion-slides {
 
 .notPlan {
   color: #223c4d;
-  text-align: center;
-  min-width: 200px; }
+  text-align: center; }
   .notPlan h4 {
     font-size: 18px;
     color: #223c4d;
@@ -11036,7 +11050,7 @@ ion-slides {
     padding: 0 40px; }
 
 .platform-ios .noactivplans {
-  transform: translate(50%, -50%) !important; }
+  transform: translate(-50%, -50%) !important; }
 
 .bg-dashboard {
   background: #f2f4f5;
@@ -11107,6 +11121,9 @@ ion-slides {
     background: #ff414d;
     color: white;
     border-radius: 5px; }
+
+.platform-ios .header-bellFont {
+  line-height: 35px !important; }
 
 .header-bellFont {
   color: #091b27 !important;
@@ -11485,3 +11502,9 @@ ion-slides {
   background: lightgrey;
   padding: 5px;
   font-size: 12px; }
+
+.platform-ios .bg-dashboard .scroll {
+  width: 100%; }
+
+.bg-dashboard div.scroll {
+  width: 100%; }

@@ -98,6 +98,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
 }
 
 .phnFooter {
+  position: inherit!important;
   padding: 0;
   height: 40px;
   background: #f2f4f5;
@@ -114,6 +115,13 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
   }
 }
 
+
+.platform-ios .spanTextDiv {
+  .phnText{
+  font-size: 16px!important;
+  line-height: 21px!important;
+}
+}
 .spanTextDiv {
   width: 100%;
   margin-top: 6px;
@@ -128,8 +136,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
     display: inline-block!important;
     background: #f2f4f5;
     width: 80%;
+    line-height: 21px!important;
     padding: 0 !important;
-    font-size: 17px!important;
+    font-size: 17px;
     height: 100%;
   }
 }
@@ -254,6 +263,10 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
 
 //navigation end
 //signup.html start
+
+.platform-ios .sigupIconLeft{
+  line-height: 35px!important;
+}
 .sigupIconLeft {
   color: #091b27!important;
   font-size: 24px!important;
@@ -521,6 +534,15 @@ $ionicons-font-path: "../lib/ionic/fonts" !default; // Include all of Ionic
 
 //radio button css end
 //browse.html start
+
+// .platform-ios .bar .button.button-icon:before{
+//   line-height: 34px!important;
+// }
+
+.platform-ios .bar .title + .buttons{
+  top: 3px !important;
+}
+
 .cartbtn {
   height: 35px;
   width: 35px;
@@ -604,6 +626,10 @@ ion-slides {
       width: 100%;
     }
   }
+}
+
+body.keyboard-open.platform-ios .bar-footer {
+  bottom: 36px;
 }
 
 .bar-footer .title {
@@ -1537,7 +1563,7 @@ ion-slides {
 .notPlan {
   color: #223c4d;
   text-align: center;
-  min-width: 200px;
+  // min-width: 200px;
   h4 {
     font-size: 18px;
     color: #223c4d;
@@ -1555,7 +1581,7 @@ ion-slides {
 }
 
 .platform-ios .noactivplans {
-  transform: translate(50%, -50%)!important;
+  transform: translate(-50%, -50%)!important;
 }
 
 .bg-dashboard {
@@ -1640,7 +1666,9 @@ ion-slides {
     border-radius: 5px;
   }
 }
-
+.platform-ios .header-bellFont{
+  line-height: 35px!important;
+}
 .header-bellFont {
   color: #091b27 !important;
   font-size: 32px !important;
@@ -2104,4 +2132,13 @@ ion-slides {
   font-size: 12px;
 }
 
+
+.platform-ios .bg-dashboard .scroll{
+width: 100%;
+}
 //account.html end
+
+.bg-dashboard { div.scroll{
+  width: 100%;
+}
+}

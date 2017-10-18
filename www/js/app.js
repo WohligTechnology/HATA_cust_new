@@ -14,7 +14,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
       // for form inputs)
       if (window.cordova && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-        cordova.plugins.Keyboard.disableScroll(true);
+        // cordova.plugins.Keyboard.disableScroll(true);
 
       }
       if (window.StatusBar) {
