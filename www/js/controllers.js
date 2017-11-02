@@ -944,7 +944,6 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
       //   available: false
 
       // });
-
       for (var i = 0; i < 28 - $scope.CurrentDay; i++) {
         $scope.getDateArray.push({
           date: new Date(estimatedDate).setDate(new Date(estimatedDate).getDate() + i),
@@ -955,21 +954,73 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 
       }
       $scope.getDateArray = _.chunk($scope.getDateArray, 7);
-
-      _.forEach(days, function (value) {
-        _.forEach(_.flatten($scope.getDateArray), function (value1) {
+      // var newholidayIndex = 0;
+      var available = true;
+      _.forEach(_.flatten($scope.getDateArray), function (value1) {
+        if (value1.status) {
           if ($filter('date')(estimatedDate) == $filter('date')(value1.date)) {
             value1.selected = true;
           }
-          if ($filter('date')(value1.date, 'EEEE') == value) {
-            value1.available = true;
+          var dayIndex = _.findIndex(days, function (value) {
+            return $filter('date')(value1.date, 'EEEE') == value;
+          });
+          if (dayIndex != -1) {
+            var holidayIndex = binaryIndexOf(value1);
+            if (holidayIndex != -1) {
+              value1.available = false;
+            } else {
+              if (available) {
+                value1.selected = true;
+                available = false;
+              }
+              value1.available = true;
+            }
+            // if (newholidayIndex < $scope.holidays.length - 1) {
+            //   var holidayIndex = _.findIndex($scope.holidays, function (holiday) {
+            //     return $filter('date')(holiday) == $filter('date')(value1.date);
+            //   }, newholidayIndex);
+            //   if (holidayIndex != -1) {
+            //     value1.available = false;
+            //     newholidayIndex = holidayIndex;
+            //   }
+            // }
           }
 
-        });
+          // _.forEach(days, function (value) {
+          //   if ($filter('date')(value1.date, 'EEEE') == value) {
+          //     value1.available = true;
+          //     _.forEach($scope.holidays, function (holiday) {
+          //       if ($filter('date')(holiday) == $filter('date')(value1.date)) {
+          //         value1.available = false;
+          //       }
+          //     });
+          //   }
+          // });
+        }
+
       });
 
     };
 
+    function binaryIndexOf(search) {
+      first = 0;
+      last = $scope.holidays.length - 1;
+      while (first <= last) {
+        middle = (first + last) / 2 | 0;
+        var holidayDate = new Date($filter('date')($scope.holidays[middle])).getTime();
+        var searchDate = new Date($filter('date')(search.date)).getTime();
+        if (holidayDate < searchDate) {
+          first = middle + 1;
+        } else if (holidayDate == searchDate) {
+          return middle;
+        } else {
+          last = middle - 1;
+        }
+      }
+      if (first > last)
+        return -1;
+
+    }
     var pinData = {};
     pinData.pinCode = $.jStorage.get('profile').pincode;
     MyServices.apiCallWithData('pincode/checkPincode', pinData, function (data) {
@@ -977,9 +1028,13 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         $scope.pindays = data.data;
         MyServices.apiCallWithData('pincode/getEstimatedDeliveryDate', pinData, function (data) {
           if (data.value) {
-            $scope.estimatedDate = $scope.scheduleData.scheduleDeliveryDate = data.data.estimatedDate;
-            $scope.generateArray($scope.pindays.days, $scope.estimatedDate);
-
+            MyServices.apiCallWithoutData('Holiday/getOnlyHolidays', function (holidays) {
+              if (data.value) {
+                $scope.holidays = holidays.data;
+                $scope.estimatedDate = $scope.scheduleData.scheduleDeliveryDate = data.data.estimatedDate;
+                $scope.generateArray($scope.pindays.days, $scope.estimatedDate);
+              }
+            })
           }
         });
       }
