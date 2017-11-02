@@ -31,6 +31,10 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 
   })
   .controller('LandingCtrl', function ($scope, $stateParams, $state) {
+    window.ionic.tap.cloneFocusedInput = function () {
+      return null;
+  };
+
     if ($.jStorage.get('profile') && $.jStorage.get('profile').pincode) {
       $state.go('app.dashboard');
     }

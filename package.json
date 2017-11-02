@@ -24,9 +24,10 @@
   ],
   "dependencies": {
     "android-versions": "^1.2.1",
+    "com.paytm.cordova": "0.0.1",
     "com.razorpay.cordova": "git+https://github.com/razorpay/razorpay-cordova.git",
     "cordova-android": "^6.2.3",
-    "cordova-ios": "^4.4.0",
+    "cordova-ios": "^4.5.2",
     "cordova-plugin-console": "^1.0.5",
     "cordova-plugin-device": "^1.1.4",
     "cordova-plugin-splashscreen": "^4.0.3",
