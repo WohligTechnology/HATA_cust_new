@@ -1,28 +1,7 @@
 angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 
   .controller('AppCtrl', function ($scope, $stateParams, $state, $ionicPopup, $ionicPopover, $ionicSideMenuDelegate, MyServices) {
-    $scope.data = {};
-    $ionicPopup.alert({
-      cssClass: 'removedpopup',
-      scope: $scope,
-      title: '<img src="img/warning.png">',
-      template: "<h4>Please Enter IP</h4><br><input type='text' ng-model='data.adminurl' value='' placeholder='Please Enter IP'/>",
-      buttons: [{
-          text: 'Ok',
-          cssClass: 'leaveApp',
-          onTap: function (e) {
-            MyServices.setIp($scope.data.adminurl);
-          }
-        },
-        {
-          text: 'cancel',
-          type: 'button-positive',
-          onTap: function (e) {
 
-          }
-        }
-      ]
-    });
     $scope.goBackHandler = function () {
       window.history.back(); //This works
     };
