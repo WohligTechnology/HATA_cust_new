@@ -21,20 +21,22 @@
                 <div for="" class="desc" ng-if="p.plan == 'One Time'"><span class="qty">{{p.quantity}} {{p.product.unit}}<span ng-if="p.quantity>1">s</span> </span><span>Rs. {{p.product.price}} <span ng-if="p.product.returnable">+ {{p.product.depositAmount}}</span>                  / {{p.product.unit}}</span>
                 </div>
                 <div for="" class="desc" ng-if="p.plan!='One Time'"><span class="qty">{{p.plan.quantity}} {{p.product.unit}} plan</span><span>Rs. {{p.plan.price}}/ {{p.product.unit}}</span></div>
+                <div for="" class="desc" ng-if="p.product.deliveryCharge"><span class="">Delivery Charge: Rs. {{p.product.deliveryCharge}}/ {{p.product.unit}}</span></div>
                 <div for="" class="deposit" ng-if="p.depositStatus =='Deducted'">Existing Deposit (<label for="">- Rs.{{p.prevDeposit}}</label>)</div>
-                <div for="" class="total" ng-if="p.plan=='One Time'"><span class="">Total: </span><label for="">Rs.{{(p.quantity * p.product.price)+p.deposit}}</label></div>
-                <div for="" class="total" ng-if="p.plan!='One Time'"><span class="">Total: </span ><label for="" >Rs.{{p.plan.quantity*p.plan.price}}</label></div>
+                <div for="" class="total"><span class="">Total: </span><label for="">Rs.{{p.totalPrice+p.deposit}}</label></div>
+                <!--<div for="" class="total" ng-if="p.plan=='One Time'"><span class="">Total: </span><label for="">Rs.{{(p.quantity * p.product.price)+p.deposit+p.deliveryCharge}}</label></div>
+                <div for="" class="total" ng-if="p.plan!='One Time'"><span class="">Total: </span ><label for="" >Rs.{{(p.plan.quantity*p.plan.price)+p.deliveryCharge}}</label></div>-->
               </div>
             </div>
           </div>
           <div class=" btmrow">
-              <div class="btmorder" ng-if="p.plan == 'One Time'">Delivery Date: <span>{{p.deliveryDate | date:'dd/MM/yyyy'}}</span>
-                </div>
-                <div class="btmorder positive" ng-if="p.plan != 'One Time'" ui-sref="app.deliveryhistory({productId:p.product._id})">SEE DELIVERY HISTORY
-                </div>
-              </div>
+            <div class="btmorder" ng-if="p.plan == 'One Time'">Delivery Date: <span>{{p.deliveryDate | date:'dd/MM/yyyy'}}</span>
+            </div>
+            <div class="btmorder positive" ng-if="p.plan != 'One Time'" ui-sref="app.deliveryhistory({productId:p.product._id})">SEE DELIVERY HISTORY
             </div>
           </div>
         </div>
+      </div>
+    </div>
   </ion-content>
 </ion-view>

@@ -1,13 +1,17 @@
-var adminurl = "https://backend.freshflow.in/api/"; //main server
+// var adminurl = "https://backend.freshflow.in/api/"; //main server
 //also uncommented live razor payement id
 // var adminurl = "http://wohlig.io/api/"; //local server
-// var adminurl = "http://192.168.1.17:80/api/"; //local server
+var adminurl = "http://192.168.1.6:80/api/"; //local server
 var imgurl = adminurl + "upload/";
 var imgpath = imgurl + "readFile?file=";
 // var uploadurl = imgurl;
 angular.module('starter.services', [])
   .factory('MyServices', function ($http, $ionicLoading, $timeout, $ionicPopup) {
+
     return {
+      setIp: function (ip) {
+        adminurl = ip + '/api/';
+      },
       apiCallWithData: function (url, formData, callback) {
         if (!formData.noLoader) {
           $ionicLoading.show({

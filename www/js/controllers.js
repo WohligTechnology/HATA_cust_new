@@ -1,6 +1,28 @@
 angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 
-  .controller('AppCtrl', function ($scope, $stateParams, $state, $ionicPopover, $ionicSideMenuDelegate, MyServices) {
+  .controller('AppCtrl', function ($scope, $stateParams, $state, $ionicPopup, $ionicPopover, $ionicSideMenuDelegate, MyServices) {
+    $scope.data = {};
+    $ionicPopup.alert({
+      cssClass: 'removedpopup',
+      scope: $scope,
+      title: '<img src="img/warning.png">',
+      template: "<h4>Please Enter IP</h4><br><input type='text' ng-model='data.adminurl' value='' placeholder='Please Enter IP'/>",
+      buttons: [{
+          text: 'Ok',
+          cssClass: 'leaveApp',
+          onTap: function (e) {
+            MyServices.setIp($scope.data.adminurl);
+          }
+        },
+        {
+          text: 'cancel',
+          type: 'button-positive',
+          onTap: function (e) {
+
+          }
+        }
+      ]
+    });
     $scope.goBackHandler = function () {
       window.history.back(); //This works
     };
@@ -33,7 +55,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
   .controller('LandingCtrl', function ($scope, $stateParams, $state) {
     window.ionic.tap.cloneFocusedInput = function () {
       return null;
-  };
+    };
 
     if ($.jStorage.get('profile') && $.jStorage.get('profile').pincode) {
       $state.go('app.dashboard');
@@ -151,11 +173,11 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
           }
 
         } else {
-          if (data.error == 'noPincodeFound') {
+          if (data.error == 'noPincodeFound' || data.error == 'noClusterFound') {
             $ionicPopup.alert({
               cssClass: 'removedpopup',
               title: '<img src="img/warning.png">',
-              template: "<h4>Sorry!</h4><label>We don't currently serve your pincode. We've saved your details, so you'll be one of the first to know when we start.</label>",
+              template: "<h4>Sorry!</h4><label>We don't currently serve your address. We've saved your details, so you'll be one of the first to know when we start.</label>",
               buttons: [{
                   text: 'Leave app',
                   cssClass: 'leaveApp',
@@ -179,7 +201,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
             $ionicPopup.alert({
               cssClass: 'removedpopup',
               title: '<img src="img/warning.png">',
-              template: "Error Occured while updating order"
+              template: "Error Occured while saving information. Please try again or contact Support for further assistance!"
             });
           }
         }
@@ -391,7 +413,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
             $ionicPopup.alert({
               cssClass: 'removedpopup',
               title: '<img src="img/warning.png">',
-              template: "Sorry! Product is out of stock."
+              template: warehouseData.error
             });
           }
         });
@@ -475,6 +497,9 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         if (value.outOfStock) {
           $scope.outOfStock = true;
         }
+        if (value.deliveryCharge) {
+          $scope.total = $scope.total + value.deliveryCharge;
+        }
         if (value.plan == 'One Time') {
           if (value.deposit > 0) {
             $scope.total = $scope.total + value.deposit;
@@ -502,11 +527,11 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         name: "Net Banking",
         status: false
       },
-      {
-        name: "Paytm",
-        img: "img/paytm_logo.png",
-        status: false
-      },
+      // {
+      //   name: "Paytm",
+      //   img: "img/paytm_logo.png",
+      //   status: false
+      // },
       {
         name: "Other Wallets",
         status: false
@@ -630,10 +655,10 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         $scope.userData = data.data;
         $scope.options = {
           description: 'Pay for Order ' + orderInfo.orderId,
-          image: 'https://i.imgur.com/3g7nmJC.png',
+          image: 'https://storage.googleapis.com/fresh-flow/icon.png',
           currency: 'INR',
-          //  key: 'rzp_test_BrwXxB7w8pKsfS', //this payment id is for test
-          key: 'rzp_live_gFWckrbme2wT4J', //this payment id is live
+          key: 'rzp_test_BrwXxB7w8pKsfS', //this payment id is for test
+          // key: 'rzp_live_gFWckrbme2wT4J', //this payment id is live
           amount: parseInt(orderInfo.totalAmount) * 100,
           name: $scope.userData.name,
           prefill: {
@@ -708,7 +733,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
       var alertPopup = $ionicPopup.alert({
         cssClass: 'removedpopup',
         title: '<img src="img/warning.png">',
-        template: error
+        template: error.description
       });
       alertPopup.then(function (res) {
         $state.go('app.review');

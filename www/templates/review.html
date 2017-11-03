@@ -27,9 +27,10 @@
                   </span>
                 </div>
                 <div for="" class="desc" ng-if="cart.plan!='One Time'"><span class="qty">{{cart.plan.quantity}} {{cart.productId.unit}} plan</span><span>Rs. {{cart.plan.price}}/ {{cart.productId.unit}}</span></div>
+                <div for="" class="desc" ng-if="cart.productId.deliveryCharge"><span class="">Delivery Charge: Rs. {{cart.productId.deliveryCharge}}/ {{cart.productId.unit}}</span></div>
                 <div for="" class="deposit" ng-if="cart.productId.returnable && cart.prevDeposit >0">Existing Deposit (<label for=""><span ng-if="cart.depositStatus =='Deducted'">-</span> Rs.{{cart.prevDeposit}}</label>)</div>
-                <div for="" class="total" ng-if="cart.plan=='One Time'"><span class="">Total: </span><label for="">Rs.{{(cart.quantity * cart.productId.price)+cart.deposit}}</label></div>
-                <div for="" class="total" ng-if="cart.plan!='One Time'"><span class="">Total: </span ><label for="" >Rs.{{cart.plan.quantity*cart.plan.price}}</label></div>
+                <div for="" class="total" ng-if="cart.plan=='One Time'"><span class="">Total: </span><label for="">Rs.{{(cart.quantity * cart.productId.price)+cart.deposit+cart.deliveryCharge}}</label></div>
+                <div for="" class="total" ng-if="cart.plan!='One Time'"><span class="">Total: </span ><label for="" >Rs.{{cart.plan.quantity*cart.plan.price+cart.deliveryCharge}}</label></div>
               </div>
 
             </div>

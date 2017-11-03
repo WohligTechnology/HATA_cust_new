@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider'])
 
-  .run(function ($ionicPlatform, $state, $ionicPopup) {
+  .run(function ($ionicPlatform, $state, $ionicPopup, $cordovaAppVersion, MyServices) {
     $ionicPlatform.ready(function () {
       //for ios
 
@@ -36,6 +36,116 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
         }
       }
     });
+    document.addEventListener("deviceready", function () {
+
+      $cordovaAppVersion.getVersionNumber().then(function (version) {
+        var appVersion = version.split('.');
+        var deregisterBackButton;
+        console.log(appVersion);
+        MyServices.apiCallWithoutData('AppVersion/getAppVersions', function (data) {
+          if (data.value) {
+            var versionData = data.data;
+            deregisterBackButton = $ionicPlatform.registerBackButtonAction(function (e) {
+              ionic.Platform.exitApp();
+            }, 401);
+            if (ionic.Platform.isIOS()) {
+              var iosVersion = versionData.iosVersion.split('.');
+              if (parseInt(iosVersion[0]) > parseInt(appVersion[0]) || parseInt(iosVersion[1]) > parseInt(appVersion[1]) || parseInt(iosVersion[2]) > parseInt(appVersion[2])) {
+                var versionPopupIos = $ionicPopup.alert({
+                  cssClass: 'removedpopup',
+                  title: '<img src="img/warning.png">',
+                  template: "Hi! We've got many new features for you on the new, improved version of the Freshflow App. Do upgrade it to now.",
+                  buttons: [{
+                      text: 'Update Now',
+                      cssClass: 'leaveApp',
+                      onTap: function (e) {
+                        e.preventDefault();
+                        var ref = window.cordova.InAppBrowser.open(
+                          versionData.iosUrl,
+                          "_blank",
+                          "hidden=no,location=no,clearsessioncache=yes,clearcache=yes,hardwareback=no"
+                        );
+                      }
+                    },
+                    {
+                      text: 'Update Later',
+                      type: 'button-positive',
+                      onTap: function (e) {
+                        if (versionData.iosCritical || parseInt(iosVersion[0]) > parseInt(appVersion[0])) {
+                          ionic.Platform.exitApp();
+                        } else {
+                          versionPopupIos.close();
+                        }
+                      }
+                    }
+                  ]
+                });
+                versionPopupIos.then(function (res) {
+                  deregisterBackButton();
+                })
+
+              }
+            }
+            if (ionic.Platform.isAndroid()) {
+              var androidVersion = versionData.androidVersion.split('.');
+              if (parseInt(androidVersion[0]) > parseInt(appVersion[0]) || parseInt(androidVersion[1]) > parseInt(appVersion[1]) || parseInt(androidVersion[2]) > parseInt(appVersion[2])) {
+                var versionPopupAndroid = $ionicPopup.alert({
+                  cssClass: 'removedpopup',
+                  title: '<img src="img/warning.png">',
+                  template: "Hi! We've got many new features for you on the new, improved version of the Freshflow App. Do upgrade it to now.",
+                  buttons: [{
+                      text: 'Update Now',
+                      cssClass: 'leaveApp',
+                      onTap: function (e) {
+                        e.preventDefault();
+                        var ref = window.cordova.InAppBrowser.open(
+                          versionData.androidUrl,
+                          "_blank",
+                          "hidden=no,location=no,clearsessioncache=yes,clearcache=yes,hardwareback=no"
+                        );
+                      }
+                    },
+                    {
+                      text: 'Update Later',
+                      type: 'button-positive',
+                      onTap: function (e) {
+                        if (versionData.androidCritical || parseInt(androidVersion[0]) > parseInt(appVersion[0])) {
+                          ionic.Platform.exitApp();
+                          $ionicPlatform.registerBackButtonAction(function (event) {
+                            ionic.Platform.exitApp();
+                          });
+                        } else {}
+                      }
+                    }
+                  ]
+                });
+                versionPopupAndroid.then(function (res) {
+                  deregisterBackButton();
+                })
+              }
+            }
+
+          }
+
+        });
+      });
+      // $cordovaAppVersion.getVersionCode().then(function (build) {
+      //   var appBuild = build;
+      //   console.log(appBuild);
+      // });
+
+
+      // $cordovaAppVersion.getAppName().then(function (name) {
+      //   var appName = name;
+      // });
+
+
+      // $cordovaAppVersion.getPackageName().then(function (package) {
+      //   var appPackage = package;
+      // });
+    }, false);
+
+
     $ionicPlatform.registerBackButtonAction(function (event) {
       if ($.jStorage.get('profile')) {
         if (($state.current.name == "app.browse" || $state.current.name == "app.dashboard") && $.jStorage.get('profile').pincode) {

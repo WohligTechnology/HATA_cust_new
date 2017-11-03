@@ -10,8 +10,8 @@
       <div class="radiodiv">
         <label for="" class="areyou">Please select one:</label>
         <div class="row radiocheck" type="radio">
-          <ion-checkbox class="col squarecheckios" ng-repeat="(key,value) in userType" ng-model="signupForm.userType" ng-true-value="'{{key}}'" ng-false-value=""
-            ng-disabled="lockData">
+          <ion-checkbox class="col squarecheckios" ng-repeat="(key,value) in userType" ng-model="signupForm.userType" ng-true-value="'{{key}}'"
+            ng-false-value="" ng-disabled="lockData">
             {{value}}
           </ion-checkbox>
         </div>
@@ -68,7 +68,7 @@
 
 
     <div class="bar bar-footer signUpFooter footer-height" ng-if="click">
-      <button class="button button-block button-positive footer-font" ng-disabled="userForm.$invalid " type="submit">
+      <button class="button button-block button-positive footer-font" ng-disabled="userForm.$invalid || !signupForm.userType" type="submit">
         Get Started
       </button>
     </div>

@@ -17,15 +17,15 @@
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
     "com.razorpay.cordova",
-    "cordova-plugin-inappbrowser"
+    "cordova-plugin-inappbrowser",
+    "cordova-plugin-app-version"
   ],
   "cordovaPlatforms": [
     "android"
   ],
   "dependencies": {
     "android-versions": "^1.2.1",
-    "com.paytm.cordova": "0.0.1",
-    "com.razorpay.cordova": "git+https://github.com/razorpay/razorpay-cordova.git",
+    "com.razorpay.cordova": "https://github.com/razorpay/razorpay-cordova.git",
     "cordova-android": "^6.2.3",
     "cordova-ios": "^4.5.2",
     "cordova-plugin-console": "^1.0.5",
@@ -37,7 +37,6 @@
   },
   "cordova": {
     "plugins": {
-      "com.paytm.cordova": {},
       "com.razorpay.cordova": {},
       "cordova-plugin-console": {},
       "cordova-plugin-device": {},
