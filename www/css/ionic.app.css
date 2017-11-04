@@ -10563,6 +10563,18 @@ body.keyboard-open.platform-ios .bar-footer {
   top: 50% !important;
   left: 50% !important; }
 
+.btmtext {
+  position: absolute;
+  bottom: 54px;
+  color: #7a7f82;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500; }
+
+.hasfooterReview {
+  bottom: 80px !important; }
+
 .nocart {
   top: 40%;
   transform: translate(0%, -40%);

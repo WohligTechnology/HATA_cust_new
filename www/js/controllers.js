@@ -1,7 +1,28 @@
 angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 
   .controller('AppCtrl', function ($scope, $stateParams, $state, $ionicPopup, $ionicPopover, $ionicSideMenuDelegate, MyServices) {
+    // $scope.data = {};
+    // $ionicPopup.alert({
+    //   cssClass: 'removedpopup',
+    //   scope: $scope,
+    //   title: '<img src="img/warning.png">',
+    //   template: "<h4>Please Enter IP</h4><br><input type='text' ng-model='data.adminurl' value='' placeholder='Please Enter IP'/>",
+    //   buttons: [{
+    //       text: 'Ok',
+    //       cssClass: 'leaveApp',
+    //       onTap: function (e) {
+    //         MyServices.setIp($scope.data.adminurl);
+    //       }
+    //     },
+    //     {
+    //       text: 'cancel',
+    //       type: 'button-positive',
+    //       onTap: function (e) {
 
+    //       }
+    //     }
+    //   ]
+    // });
     $scope.goBackHandler = function () {
       window.history.back(); //This works
     };
@@ -511,10 +532,11 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
       //   img: "img/paytm_logo.png",
       //   status: false
       // },
+      // {
+      //   name: "Other Wallets",
+      //   status: false
+      // },
       {
-        name: "Other Wallets",
-        status: false
-      }, {
         name: "Cash On Delivery",
         status: false
       }, {
@@ -636,8 +658,8 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
           description: 'Pay for Order ' + orderInfo.orderId,
           image: 'https://storage.googleapis.com/fresh-flow/icon.png',
           currency: 'INR',
-          key: 'rzp_test_BrwXxB7w8pKsfS', //this payment id is for test
-          // key: 'rzp_live_gFWckrbme2wT4J', //this payment id is live
+          // key: 'rzp_test_BrwXxB7w8pKsfS', //this payment id is for test
+          key: 'rzp_live_gFWckrbme2wT4J', //this payment id is live
           amount: parseInt(orderInfo.totalAmount) * 100,
           name: $scope.userData.name,
           prefill: {

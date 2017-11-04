@@ -1,4 +1,4 @@
-<ion-view title="Review &amp; Checkout">
+<ion-view title="Review &amp; Checkout" class="bg-prdct">
   <ion-nav-bar class="bar-stable schedule-bar  nav-height">
     <ion-nav-buttons side="left">
       <button class="button button-clear ion-android-arrow-back sigupIconLeft" ui-sref="app.browse">
@@ -7,7 +7,7 @@
 
   </ion-nav-bar>
 
-  <ion-content class="bg-prdct  t52 " ng-init="remove=null" ng-class="{'hasfooter' : (cartData && cartData.length>0)}">
+  <ion-content class="  t52 " ng-init="remove=null" ng-class="{'hasfooterReview' : (cartData && cartData.length>0)}">
     <div class="prod-det">
       <div class="card " ng-repeat="cart in cartData" ng-if="cartData.length>0">
         <div class="item item-text-wrap pad0 disabled">
@@ -65,6 +65,7 @@
 
         </div>
   </ion-content>
+  <div class="btmtext">All prices are inclusive of delivery charges</div>
   <div class="bar bar-footer row review-foot" ng-if="cartData.length>0 ">
     <div class="col addmore" ui-sref="app.browse">
       <div>Add More</div>
