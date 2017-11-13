@@ -8,14 +8,14 @@
   </ion-nav-bar>
   <ion-content class="browse-backgrndcolor">
     <div class="list card requirecard" ng-if="product">
-      <fieldset class="item bbnone" ng-click="toggleCard()" ng-disabled="!product.planBased">
+      <fieldset class="item bbnone" ng-click="toggleCard()" ng-disabled="!product.planBased" ng-if="!product.onlyPlan">
         <div class="rq-prdctname">{{product.name}} {{product.unit}}</div>
         <div class="rq-rupee">
           <label for="" class="rq-rupee" ng-show="require">₹ <span>{{product.price}}</span></label>
           <i class="ion rq-arrows" ng-class="require ? 'ion-arrow-up-b' : 'ion-arrow-down-b'" ng-show="product.planBased"></i>
         </div>
       </fieldset>
-      <div ng-show="require" class="inputcard">
+      <div ng-show="require " class="inputcard">
         <div class="require-accordion inputarea">
           <div class="add-div text-center">
             <button class="ion ion-minus-circled jars-button" ng-click="getQuantity(-1);" ng-disabled="quantity==0"></button>
@@ -28,17 +28,23 @@
         </div>
         <div class="avgTxt" ng-show="require && product.returnable">Rs {{product.depositAmount}} Deposit Per {{product.unit}}</div>
       </div>
-      <div class="item" ng-show="product.planBased" ng-click="toggleCard();">
-        <div>
+      <div class="item" ng-show="product.planBased">
+        <div ng-if="!product.onlyPlan" ng-click="toggleCard();">
           <div class="rq-plan">Regular requirement? Buy a plan and save!</div>
           <div class="item-note">
             <i class="ion rq-arrows" ng-class="!require ? 'ion-arrow-up-b' : 'ion-arrow-down-b'"></i>
           </div>
         </div>
+        <div ng-if="product.onlyPlan">
+          <div class="rq-prdctname">{{product.name}} {{product.unit}}</div>
+          <div class="rq-rupee">
+            <label for="" class="rq-rupee">₹ <span>{{product.price}}</span></label>
+          </div>
+        </div>
       </div>
     </div>
     <flex-slider class="carousel " animation="slide" flex-slide="plan in product.plans track by $index" animation-loop="true"
-      item-margin="10" slideshow="false" item-width="150" maxItems="" ng-if="!require">
+      item-margin="10" slideshow="false" item-width="150" maxItems="" ng-if="!require ">
       <li class="" ng-click="highlightPlan($index ,plan);">
         <div class="plancard" ng-class="plan.selected ? 'borderplan' : ''">
           <i class="ion ion-checkmark-circled" ng-show="plan.selected"></i>

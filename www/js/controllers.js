@@ -295,12 +295,13 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 
 
     MyServices.apiCallWithData('Product/getOne', $scope.productData, function (data) {
-      $scope.require = false;
+      // $scope.require = false;
       if (data.value) {
         $scope.product = data.data;
         if ($.jStorage.get('offlineCart')) {
           $scope.populateQuantity();
         } else {
+          $scope.require = $scope.product.onlyPlan;
           $scope.toggleCard();
         }
       }
@@ -808,7 +809,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     };
 
   })
-  .controller('OrderDetailCtrl', function ($scope, $stateParams, MyServices) {
+  .controller('OrderDetailCtrl', function ($scope, $ionicPopup, $stateParams, MyServices) {
     var orderData = {};
     orderData._id = $stateParams.orderId;
     MyServices.apiCallWithData("order/getOneOrder", orderData, function (data) {
@@ -816,6 +817,34 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
         $scope.orderDetail = data.data.order;
       }
     });
+    $scope.cancelOrder = function () {
+
+      $ionicPopup.alert({
+        cssClass: 'removedpopup',
+        title: '<img src="img/warning.png">',
+        template: "<h4>Cancel Order</h4><label>Are you sure ?</label>",
+        buttons: [{
+          text: 'Yes',
+          onTap: function (e) {
+            MyServices.apiCallWithData('order/cancelOrder', orderData, function (data) {
+              if (data.value) {
+                $state.reload();
+              } else {
+                $ionicPopup.alert({
+                  cssClass: 'removedpopup',
+                  title: '<img src="img/warning.png">',
+                  template: "Error Occured while canceling order"
+                });
+              }
+            });
+          }
+        }, {
+          text: 'No',
+          type: 'button-positive',
+          onTap: function (e) {}
+        }]
+      });
+    }
 
 
   })

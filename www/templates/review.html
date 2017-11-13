@@ -65,7 +65,7 @@
 
         </div>
   </ion-content>
-  <div class="btmtext">All prices are inclusive of delivery charges</div>
+  <div class="btmtext" ng-if="cartData.length>0 ">All prices are inclusive of delivery charges</div>
   <div class="bar bar-footer row review-foot" ng-if="cartData.length>0 ">
     <div class="col addmore" ui-sref="app.browse">
       <div>Add More</div>

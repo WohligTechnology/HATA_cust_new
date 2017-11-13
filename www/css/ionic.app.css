@@ -10761,6 +10761,9 @@ body.keyboard-open.platform-ios .bar-footer {
   font-size: 16px;
   font-weight: 600; }
 
+.orderCancel {
+  top: 5px; }
+
 .chat-item.ng-enter {
   -webkit-animation: fadeInLeft 1s;
   animation: fadeInLeft 1s; }

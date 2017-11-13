@@ -4,6 +4,17 @@
       <button class="button button-clear ion-android-arrow-back sigupIconLeft" ng-click="goBackHandler()">
         </button>
     </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+      <div ng-if="orderDetail!=null">
+        <button class="button button-clear button-positive orderCancel" ng-if="orderDetail.orderStatus=='Cancelled'">
+  Cancelled
+</button>
+        <button class="button button-clear button-positive orderCancel" ng-click="cancelOrder()" ng-if="orderDetail.orderStatus!='Cancelled'">
+  Cancel Order
+</button>
+      </div>
+
+    </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content class="bg-prdct  t52">
     <div class="prod-det">
@@ -29,7 +40,7 @@
               </div>
             </div>
           </div>
-          <div class=" btmrow">
+          <div class=" btmrow" ng-if="orderDetail.orderStatus!='Cancelled'">
             <div class="btmorder" ng-if="p.plan == 'One Time'">Delivery Date: <span>{{p.deliveryDate | date:'dd/MM/yyyy'}}</span>
             </div>
             <div class="btmorder positive" ng-if="p.plan != 'One Time'" ui-sref="app.deliveryhistory({productId:p.product._id})">SEE DELIVERY HISTORY
