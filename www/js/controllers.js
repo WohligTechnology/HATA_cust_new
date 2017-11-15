@@ -809,7 +809,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     };
 
   })
-  .controller('OrderDetailCtrl', function ($scope, $ionicPopup, $stateParams, MyServices) {
+  .controller('OrderDetailCtrl', function ($scope, $state, $ionicPopup, $stateParams, MyServices) {
     var orderData = {};
     orderData._id = $stateParams.orderId;
     MyServices.apiCallWithData("order/getOneOrder", orderData, function (data) {
@@ -833,7 +833,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
                 $ionicPopup.alert({
                   cssClass: 'removedpopup',
                   title: '<img src="img/warning.png">',
-                  template: "Error Occured while canceling order"
+                  template: data.error
                 });
               }
             });
@@ -980,6 +980,9 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
       $scope.productPlan = data.data;
       $scope.products = data.data.userPlan.planBalance[0];
       $scope.products.deliverQuantity = null;
+      if (data.data.userPlan.estScheduleDate) {
+        $scope.estimatedDate = $scope.scheduleData.scheduleDeliveryDate = data.data.userPlan.estScheduleDate.estimatedDate;
+      }
     });
 
 
@@ -1090,7 +1093,9 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
             MyServices.apiCallWithoutData('Holiday/getOnlyHolidays', function (holidays) {
               if (data.value) {
                 $scope.holidays = holidays.data;
-                $scope.estimatedDate = $scope.scheduleData.scheduleDeliveryDate = data.data.estimatedDate;
+                if (!$scope.estimatedDate) {
+                  $scope.estimatedDate = $scope.scheduleData.scheduleDeliveryDate = data.data.estimatedDate;
+                }
                 $scope.generateArray($scope.pindays.days, $scope.estimatedDate);
               }
             })

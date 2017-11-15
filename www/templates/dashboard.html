@@ -28,8 +28,10 @@
 
                 <label class="date-text" for="" ng-if="!p.deliveryRequest">We'll be in your area on</label>
                 <label class="date-text" for="" ng-if="p.deliveryRequest">{{p.deliveryRequest.quantity}} {{p.deliveryRequest.productId.unit}}<span ng-if="p.deliveryRequest.quantity>1">s</span> will be delivered on</label>
-                <span class="cardDayspan" ng-if="!p.deliveryRequest">{{estimatedDate | date:'EEEE'}},</span>
-                <span class="cardDate" ng-if="!p.deliveryRequest"> {{estimatedDate | date :'MMMM dd.'}}</span>
+                <span class="cardDayspan" ng-if="p.estScheduleDate && !p.deliveryRequest">{{p.estScheduleDate.estimatedDate | date:'EEEE'}},</span>
+                <span class="cardDate" ng-if="p.estScheduleDate && !p.deliveryRequest"> {{p.estScheduleDate.estimatedDate | date :'MMMM dd.'}}</span>
+                <span class="cardDayspan" ng-if="!p.estScheduleDate && !p.deliveryRequest">{{estimatedDate | date:'EEEE'}},</span>
+                <span class="cardDate" ng-if="!p.estScheduleDate && !p.deliveryRequest"> {{estimatedDate | date :'MMMM dd.'}}</span>
                 <span class="cardDayspan" ng-if="p.deliveryRequest">{{p.deliveryRequest.scheduleDeliveryDate | date:'EEEE'}},</span>
                 <span class="cardDate" ng-if="p.deliveryRequest"> {{p.deliveryRequest.scheduleDeliveryDate | date :'MMMM dd.'}}</span>
 

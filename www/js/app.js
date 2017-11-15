@@ -54,7 +54,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
                 var versionPopupIos = $ionicPopup.alert({
                   cssClass: 'removedpopup',
                   title: '<img src="img/warning.png">',
-                  template: "Hi! We've got many new features for you on the new, improved version of the Freshflow App. Do upgrade it to now.",
+                  template: "Hi! We've got many new features for you on the new, improved version of the Freshflow App. Upgrade Today!",
                   buttons: [{
                       text: 'Update Now',
                       cssClass: 'leaveApp',
@@ -92,7 +92,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
                 var versionPopupAndroid = $ionicPopup.alert({
                   cssClass: 'removedpopup',
                   title: '<img src="img/warning.png">',
-                  template: "Hi! We've got many new features for you on the new, improved version of the Freshflow App. Do upgrade it to now.",
+                  template: "Hi! We've got many new features for you on the new, improved version of the Freshflow App. Upgrade Today!",
                   buttons: [{
                       text: 'Update Now',
                       cssClass: 'leaveApp',
@@ -144,7 +144,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
       //   var appPackage = package;
       // });
     }, false);
-
 
     $ionicPlatform.registerBackButtonAction(function (event) {
       if ($.jStorage.get('profile')) {
