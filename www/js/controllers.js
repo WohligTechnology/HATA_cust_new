@@ -1147,7 +1147,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
             $ionicPopup.alert({
               cssClass: 'removedpopup',
               title: '<img src="img/warning.png">',
-              template: "Error Occurred"
+              template: data.error
             });
           }
 
