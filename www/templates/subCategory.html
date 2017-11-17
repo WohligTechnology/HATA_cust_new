@@ -1,0 +1,35 @@
+<ion-view title="{{category.name}}">
+  <ion-nav-bar class="bar-stable schedule-bar  nav-height">
+    <ion-nav-buttons side="left">
+      <button class="button button-clear ion-android-arrow-back sigupIconLeft" ui-sref="app.browse">
+        </button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+      <div class="cartbtn" ui-sref="app.review">
+        <img src="img/9.png" alt="">
+      </div>
+      <span class="cartbadge">{{cartData.length || 0}}</span>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content class="has-header browse-backgrndcolor">
+    <div class="">
+
+
+      <div class="browse-grid" ng-if="allSubcategory.length>0">
+        <!--<label for="" class="browse-text">Our Products</label>-->
+        <div class="row" ng-repeat="subCategory in allSubcategory" ng-init="outerIndex=$index">
+          <div class="col-50 " ng-repeat="subcat in subCategory" ng-init="innerIndex=$index" ui-sref="app.browse-more({subCategory:subcat._id})">
+            <div class="browse-card1 card">
+              <div class="icondiv">
+                <img ng-src="{{subcat.image | uploadpath}}" alt="">
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </ion-content>
+</ion-view>

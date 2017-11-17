@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider'])
 
-  .run(function ($ionicPlatform, $state, $ionicPopup, $cordovaAppVersion, MyServices) {
+  .run(function ($ionicPlatform, $state, $ionicHistory, $rootScope, $ionicPopup, $cordovaAppVersion, MyServices) {
     $ionicPlatform.ready(function () {
       //for ios
 
@@ -35,6 +35,45 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
             });
         }
       }
+      if (window.plugins) {
+        if (window.plugins.OneSignal) {
+          var notificationOpenedCallback = function (jsonData) {
+            console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+          };
+
+          window.plugins.OneSignal
+            .startInit("1aea8525-9a6b-4900-91c0-b9dfda016e11")
+            .handleNotificationOpened(notificationOpenedCallback)
+            .endInit();
+
+          window.plugins.OneSignal.getIds(function (ids) {
+            console.log('getIds: ' + JSON.stringify(ids));
+            // $rootScope.$broadcast('proximityCatched', null);
+            $rootScope.deviceId = ids.userId;
+            if ($.jStorage.get('profile')) {
+              var userRequest = {
+                _id: $.jStorage.get('profile')._id
+              };
+              MyServices.apiCallWithData('user/getOne', userRequest, function (data) {
+                if (data.value) {
+                  var userData = data.data;
+                  _.forEach(userData.mobile, function (value) {
+                    if (value.mobileNo == $.jStorage.get('profile').mobile) {
+                      value.deviceId = ids.userId;
+                    }
+                  });
+                  MyServices.apiCallWithData('User/saveUserData', userData, function (userResponse) {
+                    if (userResponse.value) {
+                      console.log("got deviceId");
+                    }
+                  });
+                }
+              });
+            }
+
+          });
+        }
+      };
     });
     document.addEventListener("deviceready", function () {
 
@@ -145,6 +184,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
       // });
     }, false);
 
+
+
     $ionicPlatform.registerBackButtonAction(function (event) {
       if ($.jStorage.get('profile')) {
         if (($state.current.name == "app.browse" || $state.current.name == "app.dashboard") && $.jStorage.get('profile').pincode) {
@@ -209,9 +250,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
           }
         }
       })
+      .state('app.subCategory', {
+        cache: false,
+        url: '/subCategory/:category',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/subCategory.html',
+            controller: 'SubCategoryCtrl'
+          }
+        }
+      })
       .state('app.browse-more', {
         cache: false,
-        url: '/browse-more/:catId',
+        url: '/browse-more/:subCategory',
         views: {
           'menuContent': {
             templateUrl: 'templates/browse-more.html',

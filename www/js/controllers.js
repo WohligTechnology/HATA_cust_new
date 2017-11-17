@@ -115,7 +115,7 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
       });
     };
   })
-  .controller('SignupCtrl', function ($scope, $stateParams, $state, $ionicPopover, $ionicPlatform, $ionicPopup, MyServices) {
+  .controller('SignupCtrl', function ($scope, $stateParams, $state, $rootScope, $ionicPopover, $ionicPlatform, $ionicPopup, MyServices) {
     $ionicPopover.fromTemplateUrl('templates/modal/terms.html', {
       scope: $scope,
       cssClass: 'menupop',
@@ -147,65 +147,78 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     $scope.getUserData();
     $scope.saveUser = function () {
       $scope.changePincode = false;
-      _.forEach($scope.signupForm.mobile, function (value) {
-        if (value.accessLevel == 'Registered Mobile') {
-          value.mobileNo = $scope.signupForm.registerMobile;
-          value.name = $scope.signupForm.name;
-        }
-      });
-      $scope.signupForm.loginStatus = true;
-      MyServices.apiCallWithData('User/saveUserData', $scope.signupForm, function (data) {
-        if (data.value) {
-          $scope.signupForm = data.data;
-          var userInfo = {};
-          userInfo = $.jStorage.get('profile');
-          userInfo.pincode = data.data.pinCode;
-          if (!userInfo.name) {
-            userInfo.name = data.data.name;
-          }
-          $.jStorage.set('profile', userInfo);
-          if ($.jStorage.get('offlineCart')) {
-            $state.go('app.requirement', {
-              productId: $.jStorage.get('offlineCart').product._id
-            });
-          } else {
-            $state.go('app.browse');
-          }
 
-        } else {
-          if (data.error == 'noPincodeFound' || data.error == 'noClusterFound') {
-            $ionicPopup.alert({
-              cssClass: 'removedpopup',
-              title: '<img src="img/warning.png">',
-              template: "<h4>Sorry!</h4><label>We don't currently serve your address. We've saved your details, so you'll be one of the first to know when we start.</label>",
-              buttons: [{
-                  text: 'Leave app',
-                  cssClass: 'leaveApp',
-                  onTap: function (e) {
-                    ionic.Platform.exitApp();
-                    $ionicPlatform.registerBackButtonAction(function (event) {
-                      ionic.Platform.exitApp();
-                    });
-                  }
-                },
-                {
-                  text: 'Retry',
-                  type: 'button-positive',
-                  onTap: function (e) {
-                    $scope.changePincode = true;
-                  }
+      $scope.signupForm.loginStatus = true;
+      if (window.plugins) {
+        if (window.plugins.OneSignal) {
+          window.plugins.OneSignal.getIds(function (ids) {
+            $scope.signupForm.deviceId = ids.userId;
+            $rootScope.deviceId = ids.userId;
+            _.forEach($scope.signupForm.mobile, function (value) {
+              if (value.accessLevel == 'Registered Mobile') {
+                value.mobileNo = $scope.signupForm.registerMobile;
+                value.name = $scope.signupForm.name;
+              }
+              if (value.mobileNo == $.jStorage.get('profile').mobile) {
+                value.deviceId = ids.userId;
+              }
+            });
+            MyServices.apiCallWithData('User/saveUserData', $scope.signupForm, function (data) {
+              if (data.value) {
+                $scope.signupForm = data.data;
+                var userInfo = {};
+                userInfo = $.jStorage.get('profile');
+                userInfo.pincode = data.data.pinCode;
+                if (!userInfo.name) {
+                  userInfo.name = data.data.name;
                 }
-              ]
+                $.jStorage.set('profile', userInfo);
+                if ($.jStorage.get('offlineCart')) {
+                  $state.go('app.requirement', {
+                    productId: $.jStorage.get('offlineCart').product._id
+                  });
+                } else {
+                  $state.go('app.browse');
+                }
+
+              } else {
+                if (data.error == 'noPincodeFound' || data.error == 'noClusterFound') {
+                  $ionicPopup.alert({
+                    cssClass: 'removedpopup',
+                    title: '<img src="img/warning.png">',
+                    template: "<h4>Sorry!</h4><label>We don't currently serve your address. We've saved your details, so you'll be one of the first to know when we start.</label>",
+                    buttons: [{
+                        text: 'Leave app',
+                        cssClass: 'leaveApp',
+                        onTap: function (e) {
+                          ionic.Platform.exitApp();
+                          $ionicPlatform.registerBackButtonAction(function (event) {
+                            ionic.Platform.exitApp();
+                          });
+                        }
+                      },
+                      {
+                        text: 'Retry',
+                        type: 'button-positive',
+                        onTap: function (e) {
+                          $scope.changePincode = true;
+                        }
+                      }
+                    ]
+                  });
+                } else {
+                  $ionicPopup.alert({
+                    cssClass: 'removedpopup',
+                    title: '<img src="img/warning.png">',
+                    template: "Error Occured while saving information. Please try again or contact Support for further assistance!"
+                  });
+                }
+              }
             });
-          } else {
-            $ionicPopup.alert({
-              cssClass: 'removedpopup',
-              title: '<img src="img/warning.png">',
-              template: "Error Occured while saving information. Please try again or contact Support for further assistance!"
-            });
-          }
+
+          });
         }
-      });
+      }
     };
 
   })
@@ -244,10 +257,10 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
       }
     });
     // home slider end
-    MyServices.apiCallWithoutData('Subcategory/getAll', function (data) {
+    MyServices.apiCallWithoutData('category/getAll', function (data) {
       if (data.value) {
-        $scope.allSubcategory = data.data;
-        $scope.allSubcategory = _.chunk($scope.allSubcategory, 2);
+        $scope.allcategory = data.data;
+        $scope.allcategory = _.chunk($scope.allcategory, 2);
       }
     });
     if ($.jStorage.get('profile')) {
@@ -268,10 +281,45 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
 
 
   })
+  .controller('SubCategoryCtrl', function ($scope, $stateParams, MyServices) {
+
+    // home slider end
+    $scope.categoryData = {};
+    $scope.categoryData.category = $stateParams.category;
+    MyServices.apiCallWithData('Subcategory/getAllSubCategoryByCategory', $scope.categoryData, function (data) {
+      if (data.value) {
+        $scope.allSubcategory = data.data;
+        $scope.allSubcategory = _.chunk($scope.allSubcategory, 2);
+
+      }
+    });
+
+    $scope.categoryData = {};
+    $scope.categoryData._id = $stateParams.category;
+    MyServices.apiCallWithData('category/getOne', $scope.categoryData, function (data) {
+      if (data.value) {
+        $scope.category = data.data;
+      }
+    });
+    if ($.jStorage.get('profile')) {
+      $scope.userInfo = $.jStorage.get('profile');
+      var userData = {};
+      userData._id = $scope.userInfo._id;
+      userData.pincode = $scope.userInfo.pincode;
+      userData.warehouseId = $scope.userInfo.warehouseId;
+      MyServices.apiCallWithData("user/getCartForCustomer", userData, function (data) {
+        if (data.value) {
+          $scope.cartData = data.data.cart;
+        }
+      });
+    } else {
+      $scope.cartData = [];
+    }
+  })
   .controller('BrowseMoreCtrl', function ($scope, $stateParams, MyServices) {
 
     $scope.categoryData = {};
-    $scope.categoryData.category = $stateParams.catId;
+    $scope.categoryData.category = $stateParams.subCategory;
     MyServices.apiCallWithData('Product/getAllProductbyCategory', $scope.categoryData, function (data) {
       if (data.value) {
         $scope.products = data.data;
@@ -279,10 +327,10 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
     });
 
     $scope.categoryData = {};
-    $scope.categoryData._id = $stateParams.catId;
+    $scope.categoryData._id = $stateParams.subCategory;
     MyServices.apiCallWithData('Subcategory/getOne', $scope.categoryData, function (data) {
       if (data.value) {
-        $scope.category = data.data;
+        $scope.Subcategory = data.data;
       }
     });
   })

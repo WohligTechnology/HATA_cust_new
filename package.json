@@ -18,7 +18,8 @@
     "ionic-plugin-keyboard",
     "com.razorpay.cordova",
     "cordova-plugin-inappbrowser",
-    "cordova-plugin-app-version"
+    "cordova-plugin-app-version",
+    "onesignal-cordova-plugin"
   ],
   "cordovaPlatforms": [
     "android"
