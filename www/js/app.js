@@ -8,6 +8,32 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
 
   .run(function ($ionicPlatform, $state, $ionicHistory, $rootScope, $ionicPopup, $cordovaAppVersion, MyServices) {
     $ionicPlatform.ready(function () {
+      $rootScope.appclose = false;
+      $ionicPlatform.registerBackButtonAction(function (event) {
+        if ($rootScope.appclose) {
+          navigator.app.exitApp();
+        }
+        if ($.jStorage.get('profile')) {
+          if (($state.current.name == "app.browse" || $state.current.name == "app.dashboard") && $.jStorage.get('profile').pincode) {
+            navigator.app.exitApp();
+          } else {
+            if ($state.current.name == "signup") {
+              navigator.app.exitApp();
+            } else {
+              window.history.back();
+            }
+          }
+          if ($state.current.name == "app.thankyou" && $state.current.name == "app.confirm") {
+            //no back or exit on this
+          }
+        } else {
+          if ($state.current.name == "landing") {
+            navigator.app.exitApp();
+          } else {
+            window.history.back();
+          }
+        }
+      }, 402);
       //for ios
 
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -84,12 +110,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
         MyServices.apiCallWithoutData('AppVersion/getAppVersions', function (data) {
           if (data.value) {
             var versionData = data.data;
-            deregisterBackButton = $ionicPlatform.registerBackButtonAction(function (e) {
-              ionic.Platform.exitApp();
-            }, 401);
             if (ionic.Platform.isIOS()) {
               var iosVersion = versionData.iosVersion.split('.');
               if (parseInt(iosVersion[0]) > parseInt(appVersion[0]) || parseInt(iosVersion[1]) > parseInt(appVersion[1]) || parseInt(iosVersion[2]) > parseInt(appVersion[2])) {
+                if (versionData.iosCritical || parseInt(iosVersion[0]) > parseInt(appVersion[0])) {
+                  $rootScope.appclose = true;
+                }
                 var versionPopupIos = $ionicPopup.alert({
                   cssClass: 'removedpopup',
                   title: '<img src="img/warning.png">',
@@ -119,15 +145,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
                     }
                   ]
                 });
-                versionPopupIos.then(function (res) {
-                  deregisterBackButton();
-                })
+                versionPopupIos.then(function (res) {})
 
               }
             }
             if (ionic.Platform.isAndroid()) {
               var androidVersion = versionData.androidVersion.split('.');
               if (parseInt(androidVersion[0]) > parseInt(appVersion[0]) || parseInt(androidVersion[1]) > parseInt(appVersion[1]) || parseInt(androidVersion[2]) > parseInt(appVersion[2])) {
+                if (versionData.androidCritical || parseInt(androidVersion[0]) > parseInt(appVersion[0])) {
+                  $rootScope.appclose = true;
+                }
                 var versionPopupAndroid = $ionicPopup.alert({
                   cssClass: 'removedpopup',
                   title: '<img src="img/warning.png">',
@@ -150,17 +177,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
                       onTap: function (e) {
                         if (versionData.androidCritical || parseInt(androidVersion[0]) > parseInt(appVersion[0])) {
                           ionic.Platform.exitApp();
-                          $ionicPlatform.registerBackButtonAction(function (event) {
-                            ionic.Platform.exitApp();
-                          });
                         } else {}
                       }
                     }
                   ]
                 });
-                versionPopupAndroid.then(function (res) {
-                  deregisterBackButton();
-                })
+                versionPopupAndroid.then(function (res) {})
               }
             }
 
@@ -186,28 +208,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'angular-flexslider']
 
 
 
-    $ionicPlatform.registerBackButtonAction(function (event) {
-      if ($.jStorage.get('profile')) {
-        if (($state.current.name == "app.browse" || $state.current.name == "app.dashboard") && $.jStorage.get('profile').pincode) {
-          navigator.app.exitApp();
-        } else {
-          if ($state.current.name == "signup") {
-            navigator.app.exitApp();
-          } else {
-            window.history.back();
-          }
-        }
-        if ($state.current.name == "app.thankyou" && $state.current.name == "app.confirm") {
-          //no back or exit on this
-        }
-      } else {
-        if ($state.current.name == "landing") {
-          navigator.app.exitApp();
-        } else {
-          window.history.back();
-        }
-      }
-    }, 100);
+
 
   })
 
