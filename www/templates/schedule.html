@@ -30,7 +30,7 @@
 
     <div class="ionic_Calendar card">
       <div class="calendar_Date">
-        <label for="" class="schedule-head">Select a Date &amp; Time</label>
+        <label for="" class="schedule-head">Select Date</label>
         <div class="calflex">
           <flex-slider class=" " animation="slide" flex-slide="rowVal in getDateArray  track by $index" animation-loop="false" item-margin=""
             item-width="{{flexwidth}}" slideshow="false" maxItems="7">
@@ -51,7 +51,7 @@
           </flex-slider>
         </div>
       </div>
-      <div class=" time-row rel timeslot">
+      <!--<div class=" time-row rel timeslot">
         <div class="row no-pad ">
           <div class="col " ng-click="scheduleData.scheduledDeliveryTime = '8 AM to 1 PM' " ng-class="{'time-highlight' : scheduleData.scheduledDeliveryTime == '8 AM to 1 PM'}">
             8 AM to 1 PM
@@ -61,12 +61,27 @@
             1 PM to 6 PM
           </div>
         </div>
-      </div>
+      </div>-->
+
 
     </div>
+    <div class="timeSlotSel">
+      <ion-item ng-click="timeSelect()" ng-class="{'timeBorder':timeDrop}" class="text-center rel">
+        <div>
+          <span class="selTime" ng-if="scheduleData.scheduledDeliveryTime">{{scheduleData.scheduledDeliveryTime}}</span>
+          <span ng-if="!scheduleData.scheduledDeliveryTime">Select Time</span>
+        </div>
+        <div class="selTimeArrow">
+          <i class="ion rq-arrows" ng-class="timeDrop ? 'ion-arrow-up-b' : 'ion-arrow-down-b'"></i>
+        </div>
 
+      </ion-item>
+      <ion-item class="text-center timeArray" ng-repeat="time in timeSlotArray" ng-if="timeDrop" ng-click="scheduleData.scheduledDeliveryTime=time.name;timeSelect()"
+        ng-class="{'selTime':scheduleData.scheduledDeliveryTime==time.name}">{{time.name}}</ion-item>
+    </div>
 
-    <button class="button button-positive jarsch-button" ng-disabled="products.deliverQuantity == null" ng-click="createDelivery()">
+    <button class="button button-positive jarsch-button" ng-disabled="products.deliverQuantity == null || !scheduleData.scheduledDeliveryTime"
+      ng-click="createDelivery()">
       Schedule
     </button>
   </ion-content>

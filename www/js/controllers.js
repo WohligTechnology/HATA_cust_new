@@ -1019,7 +1019,17 @@ angular.module('starter.controllers', ['starter.services', 'ngCordova'])
   })
   .controller('ScheduleCtrl', function ($scope, $window, $stateParams, MyServices, $ionicPopup, $state, $filter) {
     $scope.scheduleData = {};
-    $scope.scheduleData.scheduledDeliveryTime = '8 AM to 1 PM';
+    // $scope.scheduleData.scheduledDeliveryTime = '8 AM to 1 PM';
+    $scope.timeDrop = false;
+    $scope.timeSelect = function () {
+      $scope.timeDrop = !$scope.timeDrop;
+    }
+    MyServices.apiCallWithoutData('deliveryTime/getAll', function (data) {
+      if (data.value) {
+        $scope.timeSlotArray = data.data;
+      }
+    });
+
     $scope.flexwidth = $window.innerWidth;
     var productData = {};
     productData.productId = $stateParams.productId;
