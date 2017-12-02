@@ -735,6 +735,13 @@ body.keyboard-open.platform-ios .bar-footer {
   }
 }
 
+.prodesc {
+  font-size: 14px;
+  color: #223c4d;
+  text-align: center;
+  margin: 10px;
+}
+
 .bbnone {
   border-bottom: 1px solid transparent;
   border: none;
@@ -1796,6 +1803,32 @@ body.keyboard-open.platform-ios .bar-footer {
 
 //dashboard.html end
 //schedule.html start
+.selTime {
+  color: $positive;
+}
+
+.selTimeArrow {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+
+.timeArray {
+  font-size: 14px;
+}
+
+.timeSlotSel {
+  margin: 10px;
+  .item {
+    border: none;
+    color: #223c4d;
+  }
+}
+
+.timeBorder {
+  border-bottom: 1px solid grey!important;
+}
+
 .ionic_Calendar {
   background: white;
   box-shadow: none;
